@@ -1,0 +1,100 @@
+:root{
+    --primary-background:rgb(255, 255, 255);
+    --secondary-background:#eeeeee;
+    --primary-text:rgb(7, 7, 7);
+    --secondary-text:rgb(255, 255, 255);
+    --logo:#3D05AD;
+    --gray:rgb(71, 71, 71);
+}
+header{
+    background-color: var(--secondary-background);
+}
+header .logo img{
+    width: 80px;
+}
+.admin-login-form button{
+    background-color: var(--secondary-background);
+}
+/* forgot password */
+.forgot-pass-verifier{
+    min-height: 80vh;
+}
+
+.forgot-pass-verifier button{
+    background-color: var(--secondary-background);
+}
+.forgot-pass-verifier .verify-wrapper{
+    min-height: 50vh;
+}
+.forgot-pass-verifier button:hover{
+    background-color: rgb(245, 245, 245);
+}
+.forgot-pass-verifier #otp-wraper{
+    display: none;
+}
+/* reset password  */
+.reset-pass .pass-box{
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+}
+.reset-pass .pass-box button{
+    background-color:var(--secondary-background)
+}
+#admin-newpass .error{
+    color: rgb(240, 2, 2);
+}
+.log-out{
+    font-size: 20px;
+}
+
+
+/* left-dashboard */
+.admin-side-bar{
+    width: 17vw;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    background-color:var(--secondary-background);
+}
+.admin-side-bar .nav-item{
+    transform-origin: left;
+}
+.admin-side-bar .nav-item:hover{
+    transform:scale(1.1);
+    
+}
+.side-bar-icon{
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+    color:var(--gray)
+}
+
+.dash-board li a{
+    font-size:20px;
+    color:var(--gray)
+}
+.sidebar-footer{
+    width:17vw;
+    height: 50px;
+    background-color: var(--gray);
+    color: var(--secondary-text);
+}
+.sidebar-footer .dropdown-menu{
+    background-color: var(--gray);
+    width: 17vw;
+    color: var(--secondary-text);
+}
+.sidebar-footer .dropdown-menu a:hover{
+    background-color: rgb(109, 109, 109)
+}
+.sidebar-footer button:focus{
+    border: none;
+}
+
+@media only screen and (max-width: 670px)  {
+    .forgot-img{
+        width: 70vw;
+    }
+    header .logo img{
+        width: 60px;
+    }
+}

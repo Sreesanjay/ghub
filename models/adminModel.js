@@ -30,7 +30,7 @@ next()
 adminSchema.statics.login=async function(email, password){
     let admin= await this.findOne({admin_email:email})
     if(admin){
-        let auth=bcrypt.compare(password,admin.admin_password)
+        let auth=await bcrypt.compare(password,admin.admin_password)
         if(auth){
             return admin;
         }

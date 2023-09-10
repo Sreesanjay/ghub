@@ -1,0 +1,13 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-header{
+    text-decoration: none;
+    color: var(--logo)
+}
+.txt-decoration-null{
+    text-decoration: none;
+}

@@ -8,9 +8,8 @@ module.exports.isAdminLogedIn=(req,res,next)=>{
                 res.redirect('/admin/admin-sign-in')
             }
             else{
-                console.log(decodedToken)
-                let user=await Admin.findById(decodedToken.id)
-                res.locals.user = user
+                let admin=await Admin.findById(decodedToken.id)
+                res.locals.adminData = admin
                 next();
             }
         })

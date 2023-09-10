@@ -42,6 +42,7 @@ app.engine('hbs', hbs.engine({
 app.use(nocache())
 app.use('/' , require('./routes/user'))
 app.use('/admin', require('./routes/admin'));
+app.use('/admin/category', require('./routes/adminCatRout'));
 app.use(errMiddleware.notFound)
 app.use(errMiddleware.errorHandler)
 

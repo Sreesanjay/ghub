@@ -166,7 +166,8 @@ const updatePassword=async(req,res)=>{
   
 }
 const signOut=async(req,res)=>{
-    req.cookies
+    res.cookie('adminToken','',{ maxAge:1})
+    res.redirect('/admin')
 }
 module.exports ={
     adminSignUp,

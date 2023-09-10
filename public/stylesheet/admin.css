@@ -50,6 +50,7 @@ header .logo img{
 /* left-dashboard */
 .admin-side-bar{
     width: 17vw;
+    height: fit-content;
     border-radius: 5px;
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.1);
     background-color:var(--secondary-background);
@@ -89,6 +90,16 @@ header .logo img{
 .sidebar-footer button:focus{
     border: none;
 }
+
+/*category*/
+div.dataTables_wrapper input[type="search"] {
+    width:250px !important;
+    height: 40px !important;
+  }
+  /*new category*/
+  .new-category textarea{
+    min-height: 150px !important;
+  }
 
 @media only screen and (max-width: 670px)  {
     .forgot-img{

@@ -6,6 +6,10 @@ const adminAuthCtrl=require('../controller/adminAuthCtrl')
 const adminCtrl=require('../controller/adminCtrl')
 //auth middleware
 const {isAdminLogedIn} =require('../middleware/authMiddleware');
+
+
+
+
 //admin signup
 router.post('/admin-sign-up',adminAuthCtrl.adminSignUp)
 

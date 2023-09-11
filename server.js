@@ -35,6 +35,10 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({ 
     layoutsDir: __dirname + '/views/layouts',
     extname: 'hbs',
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    },
     defaultLayout: 'layout',
     partialsDir:__dirname+'/views/partials/'
     }));
@@ -43,6 +47,7 @@ app.use(nocache())
 app.use('/' , require('./routes/user'))
 app.use('/admin', require('./routes/admin'));
 app.use('/admin/category', require('./routes/adminCatRout'));
+app.use('/admin/products', require('./routes/adminProductRout'));
 app.use(errMiddleware.notFound)
 app.use(errMiddleware.errorHandler)
 

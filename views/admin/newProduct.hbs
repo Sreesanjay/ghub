@@ -1,0 +1,94 @@
+<section class="new-product p-md-5">
+    <div class="header px-4 py-2">
+        <h3>New Product</h3>
+    </div>
+    <form method="post" class="row d-flex justify-content-center" id="new-prod-form">
+        <section class="left-secton col-md-6 p-3">
+            <div class="card p-md-5 p-2 me-md-5">
+                <h5 class="mb-4">Choose product images </h5>
+                <input type="file" class="mb-3" id="prod_img_1" />
+                <input type="file" class="mb-3" id="prod_img_2" />
+                <input type="file" class="mb-3" id="prod_img_3" />
+            </div>
+            <div class="form-floating my-3 me-md-5">
+
+                <textarea class="form-control text-area" id="discription" name="discription"
+                    style="min-height:150px !important;" required></textarea>
+
+                <label class="form-label" for="form4Example3">Discription</label>
+
+            </div>
+
+        </section>
+        <section class="right-section col-md-6  col-md-6 p-4">
+            <div class="form-group mb-4">
+                <input type="text" name="product_name" class="form-control">
+                <label for="">Product Name</label>
+            </div>
+            <div class="row mb-4">
+                <div class="form-group col-md-6">
+                    <input type="text" name="brand_name" class="form-control">
+                    <label for="">Brand Name</label>
+                </div>
+                <div class="form-group col-md-6 d-flex flex-column">
+                    <select class="form-control" name="category" >
+                       {{#each category}}
+                            <option value="{{this._id}}">{{this.cat_name}}</option>
+                       {{/each}}
+                    </select>
+                    <label for="">Category Name</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="form-group col-md-6">
+                    <input type="text" name="stock" class="form-control">
+                    <label for="">Stock</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" name="prod_price" class="form-control">
+                    <label for="">Actual Price</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="form-group col-md-6">
+                    <input type="text" name="sellig_price" class="form-control">
+                    <label for="">Selling Price</label>
+                </div>
+                <div class="form-group col-md-6">
+                </div>
+            </div>
+            <div class="add-spec mb-4">
+                <div class="header d-flex justify-content-between align-items-center">
+                    <h5>Add Specifications</h5>
+                    <button class="py-2 px-3 btn btn-outline-primary add-spec-btn" type="button"><i
+                            class="fa-solid fa-plus"></i></button>
+                </div>
+                <div id="spec-list" class="row">
+
+                </div>
+                <div class="mb-4 new-spec-input">
+                    <div class="err text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <input type="text" class="form-control attribute">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <input type="text" class="form-control value">
+                        </div>
+                        <div class="btn-grp col-md-2 d-flex">
+                            <button class="btn spec-add-btn" type="button"><i
+                                    class="fa-solid fa-check text-success"></i></button>
+                            <button class="btn speck-inp-dlt" type="button"><i
+                                    class="fa-regular fa-circle-xmark text-danger"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+        <button type="reset" class="new-prod-submit btn btn-danger py-3 " style="width:20vw;">Clear</button>
+        <button type="submit" class="new-prod-submit btn btn-primary py-3 ms-2" style="width:20vw;">submit</button>
+
+    </form>
+</section>

@@ -1,4 +1,4 @@
-<section class="category d-flex mt-2">
+<section class="products d-flex mt-2">
     <div class="admin-side-bar ms-4 mb-3">
         <div class="link-wraper my-2 px-4  py-4">
             <ul class="navbar-nav">
@@ -55,32 +55,38 @@
     </div>
     <div class="category-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">  
-          <h3 class="mb-4">Categories</h3>
-          <a href="/admin/category/new-category" class="btn btn-primary" style="height:40px;">New Category</a>
+          <h3 class="mb-4">Products</h3>
+          <a href="/admin/products/new-product" class="btn btn-primary" style="height:40px;">New Product</a>
         </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Discription</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Stock</th>
                     <th>Status</th>
-                    <th>Created at</th>
+                    <th>Actual Price</th>
+                    <th>Selling Price</th>
                     <th>Edit/Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {{#each categories}}
+                {{#each products}}
                 <tr>
-                    <td>{{this.cat_name}}</td>
-                    <td>{{this.discription}}</td>
+                    <td>{{this.product_name}}</td>
+                    <td>{{this.brand_name}}</td>
+                    <td>{{this.category.cat_name}}</td>
+                    <td>{{this.stock}}</td>
                     <td>
-                        {{#if this.cat_status}}
+                         {{#if this.product_status}}
                         <span>List</span>
                         {{else}}
                         <span>Unlist</span>
                         {{/if}}
                     </td>
-                    <td>{{this.createdAt}}</td>
+                    <td>{{this.prod_price}}</td>
+                    <td>{{this.sellig_price}}</td>
                     <td>
                         <a href="/admin/category/edit-category/{{this._id}}" class="ms-3"><i class="fa-solid fa-pen"></i></a>
                         <a  onclick="deleteCategory('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>

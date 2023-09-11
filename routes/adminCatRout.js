@@ -17,6 +17,8 @@ router.post('/new-category',isAdminLogedIn,adminCatCtrl.createCategory )
 //edit category
 router.get('/edit-category/:id',isAdminLogedIn,adminCatCtrl.editCategory )
 router.put('/edit-category/:id',isAdminLogedIn,adminCatCtrl.updateCategory)
+//delete category
+router.delete('/delete-category/:id',isAdminLogedIn,adminCatCtrl.deleteCategory )
 
 module.exports=router;
 

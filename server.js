@@ -5,9 +5,14 @@ const path = require('path');
 const flash=require('connect-flash')
 const hbs = require('express-handlebars');
 const nocache = require('nocache');
+var fileupload = require("express-fileupload");
 const session = require('express-session')
 const PORT = process.env.PORT || 4000;
 const cookieParser = require('cookie-parser')
+// var bodyParser = require('body-parser')
+
+// bodyParser.json([options])
+
 //db connectin
 const connect = require('./config/dbConnect')
 connect()
@@ -19,6 +24,8 @@ const errMiddleware = require('./middleware/errorMiddleware')
 app.use(express.json());
 app.use(express.urlencoded({ extended:true}))
 app.use(cookieParser());
+//file upload
+// app.use(fileupload());
 //connect flash
 app.use(flash())
 //session middleware
@@ -48,7 +55,7 @@ app.use('/' , require('./routes/user'))
 app.use('/admin', require('./routes/admin'));
 app.use('/admin/category', require('./routes/adminCatRout'));
 app.use('/admin/products', require('./routes/adminProductRout'));
-app.use(errMiddleware.notFound)
-app.use(errMiddleware.errorHandler)
+// app.use(errMiddleware.notFound)
+// app.use(errMiddleware.errorHandler)
 
 app.listen(PORT,()=>console.log(`listening on port ${PORT}`));

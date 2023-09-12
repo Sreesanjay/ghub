@@ -61,12 +61,13 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Brand</th>
                     <th>Category</th>
                     <th>Stock</th>
                     <th>Status</th>
-                    <th>Actual Price</th>
+                    {{!-- <th>Actual Price</th> --}}
                     <th>Selling Price</th>
                     <th>Edit/Delete</th>
                 </tr>
@@ -74,7 +75,8 @@
             <tbody>
                 {{#each products}}
                 <tr>
-                    <td>{{this.product_name}}</td>
+                    <td><img src="/Images/Products/{{this.prod_img_1.filename}}" alt="" style="width:50px;"></td>
+                    <td style="max-width:150px;">{{this.product_name}}</td>
                     <td>{{this.brand_name}}</td>
                     <td>{{this.category.cat_name}}</td>
                     <td>{{this.stock}}</td>
@@ -85,11 +87,11 @@
                         <span>Unlist</span>
                         {{/if}}
                     </td>
-                    <td>{{this.prod_price}}</td>
+                    {{!-- <td>{{this.prod_price}}</td> --}}
                     <td>{{this.sellig_price}}</td>
                     <td>
                         <a href="/admin/category/edit-category/{{this._id}}" class="ms-3"><i class="fa-solid fa-pen"></i></a>
-                        <a  onclick="deleteCategory('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>
+                        <a  onclick="deleteProduct('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
                 {{/each}}

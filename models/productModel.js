@@ -37,26 +37,10 @@ var prodSchema = new mongoose.Schema({
       required: true
     }
   },
-  prod_img_2: {
-    filename: {
-      type: String,
-      required: true
-    },
-    path: {
-      type: String,
-      required: true
-    }
-  },
-  prod_img_3: {
-    filename: {
-      type: String,
-      required: true
-    },
-    path: {
-      type: String,
-      required: true
-    }
-  },
+  prod_img_2: [{
+    filename: String,
+    path:String
+}],
   product_status: {
     type: Boolean,
     required: true,
@@ -71,7 +55,10 @@ var prodSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  specification:[mongoose.Schema.Types.Mixed]
+  specification:[{
+    spec:String,
+    val:String
+  }]
 
 }, { timestamps: true });
 

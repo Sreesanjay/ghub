@@ -20,54 +20,52 @@ const newProduct=async(req, res, next) => {
    
 }
 const storeProduct=async(req,res,next)=>{
-  
-  console.log("entered storeProduct ")
-  if (!req.files.prod_img_1||!req.files.prod_img_2||!req.files.prod_img_3) {
-    res.json({success:false,err:"Wrong file format"})
-  }else{
-    console.log(req.files)
-    try{
-      const img1=req.files.prod_img_1[0]
-      const img2=req.files.prod_img_2[0]
-      const img3=req.files.prod_img_3[0]
+  console.log(req.body.specification[0].spec)
+  // console.log("entered storeProduct ")
+  // if (!req.files.prod_img_1||!req.files.prod_img_2) {
+  //   res.json({success:false,err:"Wrong file format"})
+  // }else{
+  //   console.log(req.files)
+  //   try{
+  //     const img1=req.files.prod_img_1[0]
+  //     const img2=[];
+  //       req.files.prod_img_2.forEach((x)=>{
+  //         img2.push({
+  //           filename:x.filename,
+  //           path:x.path
+  //         })
+  //       })
 
-        let obj=({
-            product_name:req.body.product_name,
-            brand_name:req.body.brand_name,
-            category:req.body.category,
-            prod_price:req.body.prod_price,
-            sellig_price:req.body.sellig_price,
-            stock:req.body.stock,
-            specification:req.body.specification,
-            GST:req.body.GST,
-            prod_img_1:{
-              filename: img1.filename,
-              path: img1.path,
-            },
-            prod_img_2:{
-              filename: img2.filename,
-              path: img2.path,
-            },
-            prod_img_3:{
-              filename: img3.filename,
-              path: img3.path,
-            }
-            
-        })
-       let product=await Product.create(obj)
-        if(product){
-        req.flash('success','new product added successfully');
-        res.json({success:true})
-        }
-        else{
-            req.flash('error','Internal server error');
-            res.ststus(400).json({success:false,err:"failed to create new prodect",serverError:true})
-        }
-    }catch(e){
-        req.flash('error','Internal server error');
-        res.status(500).json({success:false,serverError:true})
-    }
-  }
+  //       let obj=({
+  //           product_name:req.body.product_name,
+  //           brand_name:req.body.brand_name,
+  //           category:req.body.category,
+  //           prod_price:req.body.prod_price,
+  //           sellig_price:req.body.sellig_price,
+  //           stock:req.body.stock,
+  //           specification:req.body.specification,
+  //           GST:req.body.GST,
+  //           prod_img_1:{
+  //             filename: img1.filename,
+  //             path: img1.path,
+  //           },
+  //           prod_img_2:img2
+       
+  //       })
+  //      let product=await Product.create(obj)
+  //       if(product){
+  //       req.flash('success','new product added successfully');
+  //       res.json({success:true})
+  //       }
+  //       else{
+  //           req.flash('error','Internal server error');
+  //           res.ststus(400).json({success:false,err:"failed to create new prodect",serverError:true})
+  //       }
+  //   }catch(e){
+  //       req.flash('error','Internal server error');
+  //       res.status(500).json({success:false,serverError:true})
+  //   }
+  // }
 }
 const getProducts=async (req, res, next)=>{
     try{

@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
       }
     },
   })
-let multipleUpload = upload.fields([{ name: 'prod_img_1',maxCount:1 }, { name: 'prod_img_2',maxCount:1 }, { name: 'prod_img_3' ,maxCount:1}])
+let multipleUpload = upload.fields([{ name: 'prod_img_1',maxCount:1 }, { name: 'prod_img_2',maxCount:3 }])
 router.get('/',isAdminLogedIn,adminProdCtrl.getProducts)
 //new category
 router.get('/new-product',isAdminLogedIn,adminProdCtrl.newProduct)

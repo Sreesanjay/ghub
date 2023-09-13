@@ -1,6 +1,5 @@
 $(document).ready(function () {
     let err = document.querySelector('.err')
-    let specArray = []
     let list = document.getElementById("spec-list");
 
     $('.add-spec-btn').click(function () {
@@ -12,18 +11,17 @@ $(document).ready(function () {
         let spec = $('.attribute').val()
         let val = $('.value').val()
         if (spec !== '' && val !== '') {
-            specArray.push({
-                spec, val
-            })
             let wrap = document.createElement('div');
-            let prop = document.createElement('p');
+            let prop = document.createElement('input');
             let dlt = document.createElement('button')
-            prop.innerText = spec + "  :  " + val;
+            prop.value = val;
+            prop.setAttribute('type', 'text')
+            prop.setAttribute('name', spec)
             dlt.innerHTML = '<i class="fa-regular fa-circle-xmark text-danger"></i>'
-            wrap.setAttribute('id', 'prop-' + (specArray.length - 1))
+            wrap.setAttribute('id', 'prop-' + val)
             wrap.setAttribute('class', 'd-flex align-items-center')
-            prop.setAttribute('class', 'm-0')
-            dlt.setAttribute('id', (specArray.length - 1))
+            prop.setAttribute('class', 'm-0 form-control')
+            dlt.setAttribute('id', val)
             dlt.setAttribute('class', 'btn spec-dlt-btn')
             dlt.setAttribute('type', 'button')
             wrap.appendChild(prop)
@@ -35,7 +33,6 @@ $(document).ready(function () {
             $('.new-spec-input').toggle()
             $('.spec-dlt-btn').click(function (e) {
                 $('#prop-' + (e.currentTarget.id)).remove()
-                specArray.splice(e.currentTarget.id, 1)
             })
 
         }
@@ -60,8 +57,6 @@ $(document).ready(function () {
         const form = document.getElementById('new-prod-form')
         try {
             const formData = new FormData(form)
-            const specArrayJson = JSON.stringify(specArray)
-            formData.append('specification', specArrayJson)
             body = Object.fromEntries(formData);
             let res = await fetch('/admin/products/new-product', {
                 method: 'POST',

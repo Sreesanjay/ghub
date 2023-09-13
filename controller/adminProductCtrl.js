@@ -20,7 +20,7 @@ const newProduct=async(req, res, next) => {
    
 }
 const storeProduct=async(req,res,next)=>{
-  console.log(req.body.specification[0].spec)
+  console.log(req.body)
   // console.log("entered storeProduct ")
   // if (!req.files.prod_img_1||!req.files.prod_img_2) {
   //   res.json({success:false,err:"Wrong file format"})

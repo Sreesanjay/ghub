@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended:true}))
 app.use(cookieParser());
 //file upload
-// app.use(fileupload());
+app.use(fileupload());
 //connect flash
 app.use(flash())
 //session middleware

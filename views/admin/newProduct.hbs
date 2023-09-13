@@ -1,4 +1,5 @@
 <section class="new-product p-md-5">
+    <a href="/admin/products" class="ms-4 txt-decoration-null"><i class="fa-solid fa-left-long"></i>Products</a>
     <div class="header px-4 py-2">
         <h3>New Product</h3>
     </div>
@@ -7,10 +8,13 @@
             <div class="card p-md-5 p-2 me-md-5">
                 <h5 class="mb-4">Choose product images </h5>
                 <div class="wrapper  d-flex flex-row">
-                <div class="left" style="width:fit-content">
-                <div class="err text-danger mb-2"></div>
-                <input type="file" class="mb-3" id="prod_img_1" name="prod_img_1" required/>
-                <input type="file" class="mb-3" id="prod_img_2" name="prod_img_2" multiple required/>
+                <div class="left" style="width:fit-content">   
+                <input type="file" class=" form-control" accept=".jpeg,.png,.jpg,.webp" id="prod_img_1" name="prod_img_1" required/>
+                <label for="prod_img_1" class="mb-3">Primary image</label>
+                <div class="warning text-warning">Choose only 3 images</div>
+                <div class="err text-danger"></div>
+                <input type="file" class=" form-control" accept=".jpeg,.png,.jpg,.webp" id="prod_img_2" name="prod_img_2" multiple required/>
+                  <label for="prod_img_1" class="mb-3"></label>
                 </div>
                 <div class="right bg-info" style="width:fit-content">
                     <div class="primary-img">

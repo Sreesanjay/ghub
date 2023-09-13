@@ -129,7 +129,18 @@ div.dataTables_wrapper input[type="search"] {
   .new-product .new-spec-input{
     display:none;
   }
-  
+  /*edit product*/
+  .edit-product .body{
+    width: 100%;
+  }
+  .edit-product .left-side , .right-side{
+    border: 1px solid red;
+  }
+  .edit-product .left-side{
+    height: fit-content;
+    position:sticky;
+    top:10px;
+  }
 
 
 @media only screen and (max-width: 670px)  {

@@ -9,6 +9,7 @@ module.exports.isAdminLogedIn=(req,res,next)=>{
             }
             else{
                 let admin=await Admin.findById(decodedToken.id)
+                delete admin.admin_password
                 res.locals.adminData = admin
                 next();
             }

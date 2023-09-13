@@ -10,6 +10,10 @@ var prodSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  discription:{
+    type: String,
+    required: true,
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
@@ -27,16 +31,10 @@ var prodSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  prod_img_1: {
-    filename: {
-      type: String,
-      required: true
-    },
-    path: {
-      type: String,
-      required: true
-    }
-  },
+  prod_img_1: [{
+    filename: String,
+    path:String
+}],
   prod_img_2: [{
     filename: String,
     path:String
@@ -58,7 +56,7 @@ var prodSchema = new mongoose.Schema({
   specification:[{
     spec:String,
     val:String
-  }]
+    }]
 
 }, { timestamps: true });
 

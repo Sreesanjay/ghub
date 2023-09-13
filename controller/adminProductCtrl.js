@@ -1,10 +1,14 @@
 const Product=require('../models/productModel')
 const Category=require('../models/categoryModel')
+const mongoose = require('mongoose'); 
+// const upload =require('../middleware/multer');
 const fs=require('fs')
-const path=require('path')
+
+
 
 const newProduct=async(req, res, next) => {
     try{
+      
       let category=await Category.find({cat_status:true,is_delete:false},{cat_name:1})
       if(category.length>0){
         res.render('admin/newProduct', {admin:true,category,error:req.flash('error')[0]})
@@ -19,53 +23,52 @@ const newProduct=async(req, res, next) => {
     }
    
 }
-const storeProduct=async(req,res,next)=>{
-  console.log(req.body)
-  // console.log("entered storeProduct ")
-  // if (!req.files.prod_img_1||!req.files.prod_img_2) {
-  //   res.json({success:false,err:"Wrong file format"})
-  // }else{
-  //   console.log(req.files)
-  //   try{
-  //     const img1=req.files.prod_img_1[0]
-  //     const img2=[];
-  //       req.files.prod_img_2.forEach((x)=>{
-  //         img2.push({
-  //           filename:x.filename,
-  //           path:x.path
-  //         })
-  //       })
 
-  //       let obj=({
-  //           product_name:req.body.product_name,
-  //           brand_name:req.body.brand_name,
-  //           category:req.body.category,
-  //           prod_price:req.body.prod_price,
-  //           sellig_price:req.body.sellig_price,
-  //           stock:req.body.stock,
-  //           specification:req.body.specification,
-  //           GST:req.body.GST,
-  //           prod_img_1:{
-  //             filename: img1.filename,
-  //             path: img1.path,
-  //           },
-  //           prod_img_2:img2
+
+const storeProduct=async(req,res,next)=>{
+  console.log("err")
+    try{
+      const specification = JSON.parse(req.body.specification);
+      const img2=[];
+       const img1=[{
+        filename:req.files.prod_img_1[0].filename,
+        path:req.files.prod_img_1[0].path
+       }] ;
        
-  //       })
-  //      let product=await Product.create(obj)
-  //       if(product){
-  //       req.flash('success','new product added successfully');
-  //       res.json({success:true})
-  //       }
-  //       else{
-  //           req.flash('error','Internal server error');
-  //           res.ststus(400).json({success:false,err:"failed to create new prodect",serverError:true})
-  //       }
-  //   }catch(e){
-  //       req.flash('error','Internal server error');
-  //       res.status(500).json({success:false,serverError:true})
-  //   }
-  // }
+
+        req.files.prod_img_2.forEach((x)=>{
+          img2.push({
+            filename:x.filename,
+            path:x.path
+          })
+        })
+
+        let obj=({
+            product_name:req.body.product_name,
+            brand_name:req.body.brand_name,
+            category:req.body.category,
+            prod_price:req.body.prod_price,
+            sellig_price:req.body.sellig_price,
+            stock:req.body.stock,
+            specification:specification,
+            GST:req.body.GST,
+            prod_img_1:img1,
+            prod_img_2:img2
+       
+        })
+       let product=await Product.create(obj)
+        if(product){
+        req.flash('success','new product added successfully');
+        res.json({success:true})
+        }
+        else{
+            req.flash('error','Internal server error');
+            res.ststus(400).json({success:false,err:"failed to create new prodect",serverError:true})
+        }
+    }catch(e){
+        req.flash('error','Internal server error');
+        res.status(500).json({success:false,serverError:true})   
+    }
 }
 const getProducts=async (req, res, next)=>{
     try{
@@ -107,12 +110,12 @@ const getProducts=async (req, res, next)=>{
         res.render('admin/product',{admin:true,products,success:req.flash('success')[0],error:req.flash('error')[0]})
 
     }catch(e){
-        
+     
     }
 }
 const deleteProduct=async(req, res) => {
-  console.log(req.params.id)
-  let productId = req.params.id;
+  let productId =req.params.id
+  console.log(productId)
   try{
   const updatedProduct = await Product.findByIdAndUpdate(
     productId,
@@ -131,11 +134,72 @@ const deleteProduct=async(req, res) => {
       res.status(500).json({err:"Internal server error"})
   }
 }
+const viewProduct=async(req,res)=>{
+  const productId=new mongoose.Types.ObjectId(req.params.id);
+  try{
+    let product=await Product.aggregate([
+      {
+        $match:{_id: productId}
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'category',
+        },
+      }
+    ])
+     
+     res.render('admin/viewProduct',{product,success:req.flash('success')[0],error:req.flash('error')[0]})
 
+ }catch(e){
+    req.flash('error',"internel server error")
+    res.redirect('/admin/products')
+ }
+}
+const getEditProduct=async(req, res, next)=>{
+  try{
+    const productId=new mongoose.Types.ObjectId(req.params.id);
+    let product=await Product.aggregate([
+      {
+        $match:{_id: productId}
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      {
+        $unwind:{path:"$category"}
+      }
+    ])
+    let obj=product[0].category._id;
+     let category=await Category.find({_id:{$nin:[obj]},is_delete:false,cat_status:true})
+    if(product){
+    res.render('admin/editProduct',{product:product[0],category,success:req.flash('success')[0],error:req.flash('error')[0]})
+    }else{
+      throw new Error() 
+    }
+  }catch(e){
+    console.log("err")
+    req.flash('error','internel server error')
+    res.redirect('/admin/products')
+  }
+}
+const editProduct=async(req,res)=>{
+  console.log(req.body)
+}
 
 module.exports={
     storeProduct,
     newProduct,
     getProducts,
-    deleteProduct
+    deleteProduct,
+    viewProduct,
+    getEditProduct,
+    editProduct
 }

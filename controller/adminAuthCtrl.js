@@ -42,6 +42,7 @@ const adminSignUp=async(req,res)=>{
 }
 //get req for admin page
 const adminLoginPage=async (req,res)=>{
+    console.log("request got")
     let token=req.cookies.adminToken;
     if(token){
         jwt.verify(token,process.env.SECRET_KEY,async(err,decodedToken)=>{
@@ -56,7 +57,7 @@ const adminLoginPage=async (req,res)=>{
         })
     }
     else{
-        res.render('admin/loginPage',{admin:true,success:req.flash('success')[0]})
+        res.render('admin/loginPage',{adminData:true,success:req.flash('success')[0],fullScreen:true})
     }
 }
 //post req for admin login
@@ -91,7 +92,7 @@ const adminlogin=async (req,res)=>{
     }
 }
 const forgotPassword=(req,res)=>{
-    res.render('admin/forgotPAssVerifier',{admin:true,error:req.flash('error')})
+    res.render('admin/forgotPAssVerifier',{adminData:true,fullScreen:true,error:req.flash('error')})
 }
 const getOtpForgotPass=async(req, res)=>{
     const admin_email = req.body.admin_email;
@@ -146,7 +147,7 @@ const verifyOtp=async(req,res)=>{
 
 }
 const resetPassword=async (req,res)=>{
-   res.render('admin/passReset',{admin:true})
+   res.render('admin/passReset',{adminData:true,fullScreen:true})
 }
 const updatePassword=async(req,res)=>{
     let admin=await Admin.findOne({admin_email:req.session.passResetMail});

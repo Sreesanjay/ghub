@@ -27,14 +27,10 @@
 </head>
 
 <body>
-  {{#if admin}}
+  {{#if adminData}}
   {{>admin-header}}
-  {{/if}}
-  {{#if user}}
-  {{>userHeader}}
-  {{/if}}
   {{#if success}}
-  <div class="alert alert-success m-0">
+  <div class="alert alert-success m-0" style="width:100vw;">
     <strong>Success!</strong> {{success}}
   </div>
   {{/if}}
@@ -43,8 +39,20 @@
     <strong>Failed!</strong> {{error}}
   </div>
   {{/if}}
-
-  {{{body}}}
+   {{#if fullScreen}} 
+   {{{body}}}
+   {{else}}
+   <div class="wrapper d-flex">
+   {{>sidebar}}
+    {{{body}}}
+   </div> 
+   {{/if}}
+  {{/if}}
+  {{#if user}}
+  {{>userHeader}}
+  {{/if}}
+   
+ 
   {{>footer}}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>

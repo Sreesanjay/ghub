@@ -1,7 +1,7 @@
 <section class="edit-product p-4" style="width:100%;">
     <form id="editForm" enctype="multipart/form-data">
     <a href="/admin/products" class="txt-decoration-null"><i class="fa-solid fa-left-long"></i>Products</a>
-    <section class="header d-flex justify-content-between">
+    <section class="header d-flex justify-content-between pe-4">
         <h3>Product Edit</h3>
         <input type="submit" class="btn btn-primary px-5" value="save">
     </section>
@@ -15,19 +15,19 @@
                     <div class="form-group row mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Actual Price</label>
                         <div class="col-sm-10 col-md-8">
-                            <input type="text" class="form-control" name="prod_price" id="inputtext3" value="{{product.prod_price}}" placeholder="text">
+                            <input type="text" class="form-control" name="prod_price" id="inputtext3" value="{{product.prod_price}}" required>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Selling Price</label>
                         <div class="col-sm-10 col-md-8">
-                            <input type="text" class="form-control" id="inputtext3" name="sellig_price" value="{{product.sellig_price}}" placeholder="text">
+                            <input type="text" class="form-control" id="inputtext3" name="sellig_price" value="{{product.sellig_price}}" placeholder="text" required>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">GST</label>
                         <div class="col-sm-10 col-md-8">
-                            <input type="text" class="form-control" id="inputtext3" placeholder="text" name="GST" value="{{product.GST}}">
+                            <input type="text" class="form-control" id="inputtext3" placeholder="text" name="GST" value="{{product.GST}}" required>
                         </div>
                     </div>
 
@@ -40,13 +40,13 @@
                         <p class="fw-bold">Visibility status</p>
                     </div>
                     <div class="form-group row">
-                        <select class="form-select" name="product_status" value="{{product.GST}}" aria-label="Default select example">
-                            {{#if product_status}}
+                        <select class="form-select" name="product_status" value="" aria-label="Default select example">
+                            {{#if product.product_status}}
                             <option value="true">List</option>
                             <option value="false">Unlist</option>
                             {{else}}
-                            <option value="true">List</option>
                             <option value="false">Unlist</option>
+                            <option value="true">List</option>
                             {{/if}}
                         </select>
                     </div>
@@ -59,7 +59,7 @@
                         <label for="inputtext3" class="col-sm-2 col-md-12 col-form-label mb-2">Primary Image</label>
                        {{#each product.prod_img_1}}<img src="/Images/Products/{{this.filename}}" id="img{{this.filename}}" alt="" style="width:70px;" class="col-md-3">
                         <div class="col-sm-10 col-md-9">
-                            <input type="file" class="form-control prod-img" id="{{this.filename}}" onchange="previewImg(event)" name="prod_img_1">
+                            <input type="file" accept=".jpeg,.png,.jpg,.webp" class="form-control prod-img" id="{{this.filename}}" onchange="previewImg(event,'{{this._id}}','prod_img_1')" name="prod_img_1">
                         </div>
                         {{/each}}
                     </div>
@@ -67,7 +67,7 @@
                         <label for="inputtext3" class="col-sm-2 col-md-12 col-form-label mb-2">secondary Images</label>
                        {{#each product.prod_img_2}}<img src="/Images/Products/{{this.filename}}" alt="" id="img{{this.filename}}" style="width:70px;" class="col-md-3 mb-2">
                         <div class="col-sm-10 col-md-9">
-                            <input type="file" class="form-control mb-2 prod-img" id="{{this.filename}}" onchange="previewImg(event)" name="prod_img_2">
+                            <input type="file" accept=".jpeg,.png,.jpg,.webp" class="form-control mb-2 prod-img" id="{{this.filename}}" onchange="previewImg(event,'{{this._id}}','prod_img_2')" name="prod_img_2">
                         </div>
                         {{/each}}
                     </div>
@@ -83,11 +83,11 @@
                     <div class="col-sm-10 col-md-12 mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Product Name</label>
                         <input type="text" class="form-control" name="product_name" value="{{product.product_name}}" id="inputtext3"
-                            placeholder="text">
+                            placeholder="text" required>
                     </div>
                     <div class="col-sm-10 col-md-12 mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Brand Name</label>
-                        <input type="text" class="form-control" id="inputtext3" value="{{product.brand_name}}" name="brand_name" placeholder="text" >
+                        <input type="text" class="form-control" id="inputtext3" value="{{product.brand_name}}" name="brand_name" placeholder="text" required>
                     </div>
                     <div class="col-sm-10 col-md-6 mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Category</label>
@@ -98,23 +98,35 @@
                     </div>
                     <div class="col-sm-10 col-md-6 mb-3">
                         <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Stock</label>
-                        <input type="text" class="form-control" id="inputtext3" placeholder="text" value="{{product.stock}}" name="{{product.stock}}">
+                        <input type="text" class="form-control" id="inputtext3" placeholder="text" value="{{product.stock}}" name="stock" required>
                     </div>
                 </div>
             </div>
+            <input type="hidden" value="{{product._id}}" id="userId">
             <div class="card">
                 <div class="form-group card-body row mb-3">
                     <div class="field-header">
-                        <p class="fw-bold">Basic Information</p>
+                        <p class="fw-bold">Specification</p>
                     </div>
                     {{#each product.specification}}
                         <div class="col-sm-12 col-md-6 mb-3">
-                            <input type="text" class="form-control" name="spec" value="{{this.spec}}" id="inputtext3" placeholder="text">
+                            <input type="text" class="form-control" name="spec" value="{{this.spec}}" id="inputtext3" placeholder="text" required>
                         </div>  
                         <div class="col-sm-12 col-md-6 mb-3">
-                            <input type="text" class="form-control" name="val" value="{{this.val}}" id="inputtext3" placeholder="text">
+                            <input type="text" class="form-control" name="val" value="{{this.val}}" id="inputtext3" placeholder="text" required>
                         </div>    
                     {{/each}}
+                </div>
+            </div>
+             <div class="card my-3">
+                <div class="card-body">
+                    <div class="field-header">
+                        <p class="fw-bold">Discription</p>
+                    </div>
+                    <div class="form-group row">
+                       <textarea name="discription" id="" cols="30" rows="10" class="form-control">{{product.discription}}</textarea required>
+                    </div>
+
                 </div>
             </div>
         </div>

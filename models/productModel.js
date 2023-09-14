@@ -33,11 +33,13 @@ var prodSchema = new mongoose.Schema({
   },
   prod_img_1: [{
     filename: String,
-    path:String
+    path:String,
+    originalname:String
 }],
   prod_img_2: [{
     filename: String,
-    path:String
+    path:String,
+    originalname:String
 }],
   product_status: {
     type: Boolean,

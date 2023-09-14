@@ -49,6 +49,6 @@ router.get('/view-product/:id',isAdminLogedIn,adminProdCtrl.viewProduct)
 //edit product
 router.get('/edit-product/:id',isAdminLogedIn,adminProdCtrl.getEditProduct)
 //edit product
-router.post('/edit-product',isAdminLogedIn,adminProdCtrl.editProduct)
+router.post('/edit-product/:id',isAdminLogedIn,multipleUpload,adminProdCtrl.editProduct)
 
 module.exports=router;

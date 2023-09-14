@@ -134,7 +134,7 @@ div.dataTables_wrapper input[type="search"] {
     width: 100%;
   }
   .edit-product .left-side , .right-side{
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
   .edit-product .left-side{
     height: fit-content;

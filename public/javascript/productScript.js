@@ -88,13 +88,46 @@ $(document).ready(function () {
             console.log(e)
         }
     });
-
-    previewImg=(e)=>{
-    console.log(e.target.value)
+    let changeProdImg=[]
+    previewImg=(e,img_id,path)=>{
+        let img={
+            id:img_id,
+            path
+        }
+    changeProdImg.push(img)
     let image=URL.createObjectURL(e.target.files[0]);
     let imgPreview=document.getElementById('img'+e.target.id)
     imgPreview.src=image;
+
     }
+
+    $('#editForm').on('submit', async function (e) {
+        console.log("submitted")
+        e.preventDefault();
+        const form=document.getElementById("editForm")
+        try {
+            console.log(changeProdImg[0])
+            const formData = new FormData(form)
+            const id=document.getElementById('userId').value
+            const imgArrayJson = JSON.stringify(changeProdImg)
+            formData.append('changeProdImg',imgArrayJson)
+            let res = await fetch(`/admin/products/edit-product/${id}`, {
+                method: 'POST',
+                body: formData,
+            })
+            let data = await res.json()
+            if (data.serverError) {
+                location.assign(`/admin/products/edit-product/${id}`)
+            }
+            else {
+                location.assign('/admin/products')
+            }
+    
+        } catch (e) {
+            console.log(e)
+        }
+        
+    })
   
 
 })
@@ -109,34 +142,16 @@ const deleteProduct = async (id) => {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             })
+            if(res.json().err){
+                throw new Error()
+            }
+            else{
             location.assign('/admin/products')
+            }
         } catch (e) {
-            
-            console.error(e.message)
+            location.assign('/admin/products')
         }
     }
 }
 
-$('#editForm').on('submit', async function (e) {
-    console.log("submitted")
-    e.preventDefault();
-    const form=document.getElementById("editForm")
-    try {
-        const formData = new FormData(form)
-        let res = await fetch('/admin/products/edit-product', {
-            method: 'POST',
-            body: formData,
-        })
-        let data = await res.json()
-        if (data.serverError) {
-            location.assign('/admin/products/new-product')
-        }
-        else {
-            location.assign('/admin/products')
-        }
 
-    } catch (e) {
-        console.log(e)
-    }
-    
-})

@@ -1,0 +1,112 @@
+.user-header{
+    position: relative;
+}
+.search,.link,.logo{
+    overflow: hidden;
+}
+.user-header .logo img{
+    width: 75px;
+}
+.user-header .logo h1{
+    color: var(--blue-clr)
+}
+.user-header input[type="search"]{
+    border: none !important;
+    width: 100%;
+}
+.user-header input[type="search"]:focus{
+    border: none !important;
+    outline: none !important;  
+}
+.user-header .search-box{
+    width: 400px !important;
+}
+.user-header .search-box i{
+    font-size:20px;
+}
+/* .user-header .link{
+    width: 100%;
+} */
+.user-header .navbar-nav{
+  width: 100%;
+}
+/* @media (max-width: 450px) {
+    
+    .user-header .navbar-nav{
+        width: 100%;
+        justify-content: space-around !important;
+    }
+  } */
+.user-header i{
+    color:var(--blue-clr);
+    font-size:25px;
+} 
+
+/* user home */
+.container-home{
+    position:relative;
+    background-color:var(--secondary-background);
+}
+.category-wraper{
+    background-color: var(--blue-clr);
+    border-radius:5px ;
+}
+
+
+.category-selector{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 60px;
+    overflow: hidden;
+}
+
+.showmore{
+    color: var(--secondary-text)!important;
+    position: absolute;
+    right: 20px;
+    width: 120px !important;
+}
+button.showless{
+    color: var(--secondary-text)!important;
+    position: absolute;
+    right: 20px;
+    width: 120px !important;
+    display: none;
+}
+
+/* profile card */
+#profile-crad{
+    position: absolute;
+    right: 70px;
+    top:100%;
+    z-index: 5!important;
+    display: none;
+}
+
+/*login*/
+.login-form .form-control{
+    width:300px !important;
+}
+.login-form label{
+  display:none !important;
+}
+.login-form label.error{
+  display:block !important;
+    color: red;
+}
+
+.user-signUp input[type="number"]::-webkit-inner-spin-button,
+.user-signUp input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.user-signUp input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+/*sign-up*/
+.signup-otpsection{
+    display: none;
+}

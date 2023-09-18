@@ -1,0 +1,84 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center user-header py-3 px-md--5">
+  <div class="logo">
+    <a href="/" class="txt-decoration-null">
+      <div class="logo ms-3 d-flex align-items-center">
+        <img src="https://drive.google.com/uc?id=1ve4rabj5ZgaVS1OkNsfX8OP_yOsLBDJl" alt="">
+        <h1 class="ms-2">GHub</h1>
+      </div>
+    </a>
+  </div>
+  <div class="search d-none d-md-block">
+    <div class="search-box form-control d-flex  justify-content-end">
+      <input type="search" placeholder="Searc Products Brands and More..">
+      <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </div>
+  <div class="link">
+    <ul class="navbar-nav d-flex flex-row">
+      <li class="me-3 me-sm-5">
+        <a class="nav-link " href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+      </li>
+      <li class="me-3 me-sm-5">
+        <a class="nav-link" href="#"><i class="fa-solid fa-heart"></i></a>
+      </li>
+      <li class="me-3 me-sm-5">
+        <a class="nav-link" onclick="toggleProfile()"><i class="fa-solid fa-user"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div class="card" id="profile-crad" style="width:250px;">
+    {{#if userData}}
+    <div class="list bg-light px-3 py-3 align-items-center">
+      <p class="m-0 ms-3 fw-bold">{{userData.user_name}}</p>
+      <p class="m-0 ms-3" style="font-size:12px;">{{userData.user_email}}</p>
+
+    </div>
+    {{/if}}
+    <div class="list d-flex px-3 py-3 align-items-center">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3">My Account</p>
+    </div>
+    <div class="list d-flex px-3 py-3 align-items-center">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3">Orders</p>
+    </div>
+    <div class="list d-flex px-3 py-3 align-items-center">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3">Alerts & Coupons</p>
+    </div>
+    <div class="list d-flex px-3 py-3 align-items-center">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3">Help</p>
+    </div>
+   {{#if userData}}
+    <div class="list d-flex px-3 py-3 align-items-center bg-light">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3"><a href="/user-logout" class="txt-decoration-null">Logout</a></p>
+    </div>
+    {{else}}
+    <div class="list d-flex px-3 py-3 align-items-center bg-light">
+      <i class="fa-solid fa-user"></i>
+      <p class="m-0 ms-3"><a href="/login" class="txt-decoration-null">Login/Sign Up</a></p>
+    </div>
+    {{/if}}
+  </div>
+</div>
+<div class="search-bar user-header px-3 py-2">
+    <div class="search d-block d-md-none">
+    <div class="search-box form-control d-flex justify-content-end" style="width:90vw !important">
+      <input type="search" placeholder="Searc Products Brands and More..">
+      <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </div>
+</div>
+  <section class="category-wraper row p-0 m-0">
+    <div class="category-selector col-md-12">
+      {{#each category}}
+      <a href="" class="mb-5 mt-3 txt-decoration-null text-white" style="width:200px;">{{this.cat_name}}</a>
+      {{/each}}
+    </div>
+    <button id="showmore" class="showmore btn mt-2" onclick="expandCat()">Show More <i
+        class="fa-solid fa-angle-down"></i></button>
+    <button id="showless" class="showless btn mt-2" onclick="reduceCat()">Show Less <i
+        class="fa-solid fa-chevron-up"></i></button>
+  </section>

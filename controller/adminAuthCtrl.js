@@ -77,7 +77,7 @@ const adminlogin=async (req,res)=>{
             })
         }
     }catch(err){
-       if(err.message=='Incorrect password!'){
+       if( err.message=='Incorrect password!'){
             res.json({
             success:false,
             pass: err.message

@@ -1,15 +1,8 @@
-:root{
-    --primary-background:rgb(255, 255, 255);
-    --secondary-background:#eeeeee;
-    --primary-text:rgb(7, 7, 7);
-    --secondary-text:rgb(255, 255, 255);
-    --logo:#3D05AD;
-    --gray:rgb(71, 71, 71);
-}
+
 header{
     background-color: var(--secondary-background);
 }
-header .logo img{
+.navbar .logo img{
     width: 80px;
 }
 .admin-login-form button{
@@ -132,9 +125,6 @@ div.dataTables_wrapper input[type="search"] {
   /*edit product*/
   .edit-product .body{
     width: 100%;
-  }
-  .edit-product .left-side , .right-side{
-    /* border: 1px solid red; */
   }
   .edit-product .left-side{
     height: fit-content;

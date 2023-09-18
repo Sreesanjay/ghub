@@ -1,20 +1,17 @@
-// const multer = require('multer');
-// const notFound = (req, res, next) => {
-//     const error = new Error(`Not Found - ${req.originalUrl}`);
-//     res.status(404);
-//     next(error);
-//   }
+const notFound = (req, res, next) => {
+    res.status(404);
+    res.render('404NotFound',{fullScreen:true})
+  }
 
-// const errorHandler =(err, req, res, next) => {
-//   if (err instanceof multer.MulterError) {
-//       // Multer error occurred during file upload
-//       return res.status(400).json({ message: 'Multer Error: '});
-//   }
-//   else{
-//   // Handle other errors here
-//   console.error(err);
-//   res.status(err.status || 500).json({ message: err.message || 'Server Error' });
-//   }
-// };
+const errorHandler =(err, req, res, next) => {
+  console.log(err.statusCode)
+  console.log(err.message)
+  err.statusCode = err.statusCode || 500
+  err.status = err.status || 'error'
+  res.status(err.statusCode).json({
+    error: err.status,
+    message: err.message || "Internal server error",
+  })
+};
 
-  // module.exports ={notFound, errorHandler}
+  module.exports ={notFound, errorHandler}

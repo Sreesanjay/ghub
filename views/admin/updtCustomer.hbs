@@ -1,0 +1,58 @@
+<div class="container py-5 w mb-5 new-category">
+
+    <h3 class="mb-3">Edit Customer</h3>
+    <form class="p-md-5 border rounded-3 bg-body-tertiary" id="edit-customer" action="" method="post">
+
+        <!-- Name and status input -->
+
+        <div class="row">
+            <div class="err text-danger"></div>
+            <input type="hidden" value="{{customer._id}}" name="id">
+            <div class="form-floating mb-3 col-md-6">
+
+                <input type="text" id="form4Example1" value="{{customer.user_name}}" class="form-control" name="user_namae" />
+
+                <label class="form-label ms-2" for="form4Example1">Customer Name</label>
+
+            </div>
+             <div class="form-floating mb-3 col-md-6">
+
+                <input type="text" id="form4Example1" value="{{customer.user_email}}" class="form-control" name="user_email" />
+
+                <label class="form-label ms-2" for="form4Example1">Customer Email</label>
+
+            </div>
+             <div class="form-floating mb-3 col-md-6">
+
+                <input type="text" id="form4Example1" value="{{customer.user_mobile}}" class="form-control" name="user_mobile" />
+
+                <label class="form-label ms-2" for="form4Example1">Customer Phone</label>
+
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+
+                <select name="user_status" id="" class="form-select" style="width:100%;height:100%;by">
+                        {{#if customer.user_status}}
+                        <option value="true">List</option> 
+                        <option value="false">Unlist</option> 
+                        {{else}}
+                        <option value="false">Unlist</option> 
+                        <option value="true">List</option> 
+                        {{/if}}
+                </select>
+
+                <label class="form-label ms-2" for="form4Example1">Category Status</label>
+
+            </div>
+        </div>
+
+
+
+        <!-- Submit button -->
+        <button type="reset" class="btn btn-lg btn-danger px-5">Clear</button>
+        <button type="submit" class="btn btn-lg btn-primary px-5">Save</button>
+
+    </form>
+
+
+</div>

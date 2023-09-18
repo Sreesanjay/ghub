@@ -1,7 +1,61 @@
 $(document).ready(function () {
+    //new category
+    $('#new-category').on('submit', (e)=>{
+        e.preventDefault()
+        const err=document.querySelector('.err')
+        err.textContent=''
+        Swal.fire({
+            title: 'Are you sure!',
+            text: "You want to create new Category?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+          }).then(async(result) => {
+            if (result.isConfirmed) {
+                const form=document.getElementById('new-category')
+                const formData=new FormData(form)
+                const body = Object.fromEntries(formData);
+                
+                fetch('/admin/category/new-category', {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: {'Content-Type': 'application/json'}
+                })
+                .then(response =>{return response.json()})
+                .then(data => {
+                    if(data.status==='success') {
+                        Swal.fire(
+                            'Created!',
+                            'New category created successfully!',
+                            'success'
+                          )
+                    }
+                    else{
+
+                        throw new Error(data.message)
+                    }
+                })
+                .catch(error => {
+                    if(error.message='Category name already exsists!'){
+                        err.textContent='Category name already exsists!'
+                    }
+                    else{
+                        Swal.fire(
+                            'Error!',
+                            error.message,
+                            'error'
+                          )
+                    }
+                    
+                });
+            }
+          })
+    })
+
 
     //admin edit category
-
     $('#edit-category').on('submit', (async function (e) {
         let err=document.querySelector('.err')
         err.textContent=''

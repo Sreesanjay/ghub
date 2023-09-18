@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<!-- Original Image -->
+<img id="myImage" src="original_image.jpg" alt="Original Image">
+
+<!-- Cropped Image -->
+<img id="croppedImage" alt="Cropped Image">
+
+<script>
+// Get the original image element
+var originalImage = document.getElementById("myImage");
+
+// Create a canvas element
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+
+// Set the canvas size to match the image size
+canvas.width = originalImage.width;
+canvas.height = originalImage.height;
+
+// Draw the image on the canvas
+ctx.drawImage(originalImage, 0, 0);
+
+// Define the cropping region (example: top-left corner starting at coordinates (100, 100) with width 200 and height 200)
+var cropX = 100;
+var cropY = 100;
+var cropWidth = 200;
+var cropHeight = 200;
+
+// Get the cropped image data from the canvas
+var croppedImageData = ctx.getImageData(cropX, cropY, cropWidth, cropHeight);
+
+// Create a new canvas for the cropped image
+var croppedCanvas = document.getElementById("croppedImage");
+var croppedCtx = croppedCanvas.getContext("2d");
+
+// Set the size of the cropped canvas to match the cropped image size
+croppedCanvas.width = cropWidth;
+croppedCanvas.height = cropHeight;
+
+// Draw the cropped image data onto the cropped canvas
+croppedCtx.putImageData(croppedImageData, 0, 0);
+</script>
+
+</body>
+</html>

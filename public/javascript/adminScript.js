@@ -19,12 +19,15 @@ const mailErr=document.querySelector('.mailErr')
         })
         let data = await res.json()
         if(data.pass){
+            console.log("password err")
             passErr.textContent=data.pass
         }
         if(data.email){
+            console.log("user error")
             mailErr.textContent=data.email
         }
         if(data.admin){
+            console.log("loge in")
             location.assign('/admin')
         }
     }catch(err){

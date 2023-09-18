@@ -31,12 +31,12 @@ var prodSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  prod_img_1: [{
+  primary_img: {
     filename: String,
     path:String,
     originalname:String
-}],
-  prod_img_2: [{
+},
+ secondary_img: [{
     filename: String,
     path:String,
     originalname:String

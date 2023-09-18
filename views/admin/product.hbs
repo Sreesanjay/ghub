@@ -1,3 +1,4 @@
+
 <section class="products d-flex mt-2" style="width: 100%;">
     <div class="category-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">  
@@ -21,7 +22,7 @@
             <tbody>
                 {{#each products}}
                 <tr>
-                    <td>{{#each this.prod_img_1}}<img src="/Images/Products/{{this.filename}}" alt="" style="width:50px;">{{/each}}</td>
+                    <td><img src="/Images/Products/{{this.primary_img.filename}}" alt="" style="width:50px;"></td>
                     <td style="max-width:150px;">{{this.product_name}}</td>
                     <td>{{this.brand_name}}</td>
                     <td>{{this.category.cat_name}}</td>

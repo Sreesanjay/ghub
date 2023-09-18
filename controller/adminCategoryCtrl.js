@@ -1,28 +1,23 @@
 const Admin=require('../models/adminModel')
 const Category=require('../models/categoryModel')
+const asyncHandler = require('express-async-handler')
 
 
 const newCategory=async (req, res, next) => {
-    const {_id,user_name,admin_email}=res.locals.adminData
-  
-    res.render('admin/newCategory',{admin:{user_name,admin_email,_id},success:req.flash('success')[0]})
+    res.render('admin/newCategory')
 }
-const createCategory=async(req,res)=>{
-    console.log("new category")
-    try{
+const createCategory=asyncHandler(async(req,res,next)=>{
         const category = await Category.create(req.body)
-        if(category){
-        req.flash('success','new category added successfully');
-        res.redirect('/admin/category')
+        if(!category){
+            res.status(200).json({status:'success'})
         }
         else{
-            req.flash('failed','failed to create new category');
-            res.redirect('/admin/category/new-category')
+           const error = new Error('Category name already exsists!')
+           error.statusCode = 409
+           error.status="fail"
+           throw error
         }
-    }catch(e){
-        res.status(500).json({err:"Internal server error",e})
-    }
-}
+})
 const getCategories=async(req,res)=>{
     try{
         let categories=await Category.find({is_delete:false})

@@ -1,0 +1,45 @@
+<div class="my-account p-3">
+    <h3 class="mb-3">My Profile</h3>
+    <div class="user-details card p-4 mb-3">
+        <div class="header d-flex justify-content-between">
+            <h5 class="mb-3">General Informations</h5>
+            <i class="fa-solid fa-pen-to-square text-danger" onclick="editUser()"></i>
+        </div>
+        <div class="form-group mb-3">
+            <div class="name-err text-danger"></div>
+            <label for="">Name</label>
+            <input type="text" class="form-control" id="user-name-box" value="{{user.user_name}}" readonly>
+        </div>
+        <div class="form-group mb-3">
+             <div class="mail-err text-danger"></div>
+            <label for="">Email</label>
+            <input type="text" class="form-control" id="email-box" value="{{user.user_email}}" readonly>
+        </div>
+        <div class="form-group mb-3">
+            <div class="mobile-err text-danger"></div>
+            <label for="">Phone Number</label>
+            <input type="number" class="form-control" id="mobile-box" value="{{user.user_mobile}}" readonly>
+        </div>
+        <button class="btn btn-outline-primary gen-info-submit-btn">Submit</button>
+    </div>
+
+    <div class="password-details card p-4">
+       <h5 class="reset-pass-btn mb-3">Reset Password<i class="fa-solid fa-angle-down ms-3 mb-4 down-btn"></i><i class="fa-solid fa-angle-up up-btn ms-3 mb-4"></i></h5>
+       <div class="old-pass form-group">
+        <div id="old-pass-err" class="text-danger"></div>
+        <label for="">Enter your old password</label>
+        <input type="password" class="form-control mb-3" id="old_pass">
+        <button class="btn btn-outline-primary old-pass-verify">Verify</button>
+       </div>
+
+       <div class="new-pass form-group" id="new-pass">
+        <div id="new-pass-err" class="text-danger"></div>
+        <label for="">Enter new password</label>
+        <input type="password" class="form-control mb-3" id="new_pass">
+        <div id="con-pass-err" class="text-danger"></div>
+        <label for="">Confirm password</label>
+        <input type="password" class="form-control mb-3" id="confirm_pass">
+        <button class="btn btn-outline-primary" onclick="changePass()">Submit</button>
+       </div>
+    </div>
+</div>

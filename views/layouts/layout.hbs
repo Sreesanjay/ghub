@@ -32,6 +32,21 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 
+
+
+<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+      integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css"
+      integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
 </head>
 
 <body>
@@ -68,7 +83,15 @@
     <strong>Failed!</strong> {{error}}
   </div>
   {{/if}}
+  {{#if account}}
+     <div class="wrapper d-md-flex p-md-3 px-md-4  ">
+   {{>userSidebar}}
+    {{{body}}}
+   </div> 
+  {{else}}
   {{{body}}}
+  {{/if}}
+
   {{/if}}
    
  
@@ -78,11 +101,14 @@
   {{!-- sweetalert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  
+
   <script src="/javascript/adminScript.js"></script>
   <script src="/javascript/categoryScript.js"></script>
   <script src="/javascript/productScript.js"></script>
   <script src="/javascript/userScript.js"></script>
   <script src="/javascript/adminCustSCript.js"></script>
+  <script src="/javascript/bannerScript.js"></script>
 
 
 

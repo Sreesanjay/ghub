@@ -1,49 +1,47 @@
 const mongoose = require('mongoose');
 const User=require('../models/userModel')
-const getCustomer=async(req, res, next)=>{
-    try{
-        const userList=await User.find()
-        res.render('admin/userList',{userList,success:req.flash('success')[0],error:req.flash('error')[0]})
-    }catch(err){
-        next(err)
-    }
-}
-const blockCustomer=async(req, res, next)=>{
-    try{
+const asyncHandler = require('express-async-handler')
+
+
+//GET request for getting customer list page
+const getCustomers=asyncHandler(async(req, res, next)=>{
+        let userList=await User.find()
+        userList = userList.map(user => {
+            return {
+              ...user.toObject(),
+              createdAt: new Date(user.createdAt).toLocaleDateString(), 
+            };
+          });
+        res.render('admin/userList',{userList})
+})
+
+//GET request for blocking customerr
+const blockCustomer=asyncHandler(async(req, res, next)=>{
         const customer=await User.findByIdAndUpdate({_id:req.params.id},{user_status:false})
         if(customer){
-            req.flash('success','blocked customer successfully')
             res.redirect('/admin/customers')
         }
         else{
-            req.flash('error','Failed to block User')
-            res.status(400)
-            res.redirect('/admin/customers')
+            const error = new Error('Failed to block customer')
+            error.statusCode=500;
+            throw error
         }
-    }catch(err) {
-        next(err)
-    }
-}
+})
 
 //unblock customer
-const unblockCustomer=async(req, res, next)=>{
-    try{
+const unblockCustomer=asyncHandler(async(req, res, next)=>{
         const customer=await User.findByIdAndUpdate({_id:req.params.id},{user_status:true})
         if(customer){
-            req.flash('success','unblocked customer successfully')
             res.redirect('/admin/customers')
         }
         else{
-            req.flash('error','Failed to unblock User')
-            res.status(400)
-            res.redirect('/admin/customers')
+            const error = new Error('Failed to block customer')
+            error.statusCode=500;
+            throw error
         }
-    }catch(err) {
-        next(err)
-    }
-}
+})
 module.exports={
-getCustomer,
+getCustomers,
 blockCustomer,
 unblockCustomer
 }

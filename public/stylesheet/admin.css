@@ -133,6 +133,19 @@ div.dataTables_wrapper input[type="search"] {
   }
 
 
+  /*banner style*/
+  .new-banner{
+    width: 100%;
+  }
+  .new-banner form{
+    width: 100%;
+  }
+  
+  .new-banner .form-control,.form-select{
+    width: 100% !important;
+  }
+
+
 @media only screen and (max-width: 670px)  {
     .forgot-img{
         width: 70vw;

@@ -1,0 +1,16 @@
+<input type="checkbox" id="check">
+
+<script>
+    $(document).ready(()=>{
+        $("#check").on("change",()=>{
+        let check =document.getElementById("check")
+        if(check.checked){
+            window.alert("checked")
+        }
+        else{
+            window.alert("unchecked")
+        }
+        })
+        
+    })
+</script>

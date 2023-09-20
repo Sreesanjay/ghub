@@ -1,48 +1,165 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload UI</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        #Upload_Window{
+    height:320px;
+    width: 450px;
+    background-color: white; 
+    margin:auto ;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 20px;
+    border-color:0.5px #fff;
+    box-shadow: 0px 0px 20px 0px #d7d6e4;
+    transition: all 1s ease;
+}
 
-<!-- Original Image -->
-<img id="myImage" src="original_image.jpg" alt="Original Image">
+.dragover{
+    background-color: #e5e8ef;
+    height: 290px;
+    margin: 15px;
+    outline:dashed #808285 2px;
+    border-radius: 20px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
 
-<!-- Cropped Image -->
-<img id="croppedImage" alt="Cropped Image">
+.drag{
+    background-color: #e5e8ef;
+    height: 260px;
+    margin: 30px;
+    outline:dashed #bdc0c8 2px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
 
-<script>
-// Get the original image element
-var originalImage = document.getElementById("myImage");
+.dragover > .drop_section{
+    padding-top:40px!important;
+}
 
-// Create a canvas element
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
 
-// Set the canvas size to match the image size
-canvas.width = originalImage.width;
-canvas.height = originalImage.height;
+#separator{
+    display: flex;
+    flex-direction: row;
+    color:#c3c3c3;
+}
 
-// Draw the image on the canvas
-ctx.drawImage(originalImage, 0, 0);
+#separator:before,
+#separator:after {
+    content: "";
+     flex: 1 1;
+     border-bottom: 1px solid #c3c3c3;
+     margin: auto;
+     margin-right:5px;
+     margin-left:5px;
+}
 
-// Define the cropping region (example: top-left corner starting at coordinates (100, 100) with width 200 and height 200)
-var cropX = 100;
-var cropY = 100;
-var cropWidth = 200;
-var cropHeight = 200;
+#Progess_Bar_Container{
+    display: none;
+    background-color: #f6f6f6!important;
+    box-shadow:0px 15px 20px 0px #d7d6e4;
+    border-radius: 0px 0px 15px 15px;
+    transition: all 1s ease;
+}
 
-// Get the cropped image data from the canvas
-var croppedImageData = ctx.getImageData(cropX, cropY, cropWidth, cropHeight);
+.progress.active .progress-bar {
+    transition: all 1s ease;
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+    </style>
+</head>
+<body style="background-color: #e5e8ef;">
+    <div id="Upload_Window" >
+        <div id="Upload_Container" class="px-4 drag">
+            <div class="drop_section text-center py-4 mx-2" >
+                <img src="https://raw.githubusercontent.com/probies/File-Upload-UI/main/assets/folder.png" alt="Folder" class="img-fluid" style="height: 48px;">
+                <div class="d-flex justify-content-center">
+                <p class="pt-3 font-weight-bold" style="max-width: 325px;">Drag your documents, photos or video here to start uploading.</p>
+                </div>
+                <p id="separator">OR</p>
+                <input id="upload" type="file" onchange="UploadFile(event.target.files[0])" style="display: none;">
+                <button id="select_files" class="btn btn-primary px-4 font-weight-bold" onclick="SelectFile()">Browse files</button>
+            </div>
+        </div>
+        <div id="Progess_Bar_Container" class="mx-5 py-4">
+            <div class="progress progress-striped active mx-3">
+                <div id="Progress" class="progress-bar progress-bar-success" style="width:1%">
+            </div>
+        </div>
+    </div>
+    </div>
 
-// Create a new canvas for the cropped image
-var croppedCanvas = document.getElementById("croppedImage");
-var croppedCtx = croppedCanvas.getContext("2d");
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-// Set the size of the cropped canvas to match the cropped image size
-croppedCanvas.width = cropWidth;
-croppedCanvas.height = cropHeight;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
 
-// Draw the cropped image data onto the cropped canvas
-croppedCtx.putImageData(croppedImageData, 0, 0);
-</script>
+        let UploadArea = document.getElementById('Upload_Window')
 
+        let UploadContainer = document.getElementById('Upload_Container')
+
+        UploadArea.addEventListener("dragover", (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        UploadArea.addEventListener("dragenter", (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            UploadContainer.classList.add("dragover");
+            UploadContainer.classList.remove("drag");
+            UploadArea.style.transform = "scale(1.2)";
+        });
+
+        UploadArea.addEventListener("dragleave", (e) => {
+            UploadContainer.classList.remove("dragover");
+            UploadContainer.classList.add("drag");
+            UploadArea.style.transform = "scale(1)";
+        });
+
+        UploadArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            UploadArea.style.transform = "perspective(700px) rotateX(15deg) scale(1)";
+            setTimeout(() => {
+                UploadArea.style.transform = "scale(1)";
+            }, 1000);
+            //console.log(e.dataTransfer.files);
+            //add file to input
+            UploadFile(e.dataTransfer.files[0]);
+        });
+
+        function SelectFile(){
+            document.getElementById("upload").click();
+        }
+
+        function UploadFile(event){
+            console.log(event);
+            document.getElementById("Progess_Bar_Container").style.display = "block";
+            $(".progress-bar").animate({
+                width: "100%"
+            }, 2500);
+            $(".progress-bar").animate({
+                width: "0%"
+            }, 0);
+            setTimeout(function(){
+                document.getElementById("Progess_Bar_Container").style.display = "none";
+                //document.querySelector(".progress-bar").style.width = "1%";
+                UploadContainer.classList.remove("dragover");
+                UploadContainer.classList.add("drag");
+            }, 2500);
+        }
+    </script>
 </body>
 </html>

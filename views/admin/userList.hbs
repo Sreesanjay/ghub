@@ -24,9 +24,9 @@
                     <td style="max-width:100px;">{{this.createdAt}}</td>
                     <td>
                        {{#if this.user_status}}
-                        <a href="/admin/customers/block-customer/{{this._id}}" onclick="return confirm('are you sure, you want to block')" class="ms-3 btn btn-danger">Block</a>
+                        <a onclick="blockUser(event,'{{this.user_name}}','{{this._id}}')" id="blockBtn" class="ms-3 btn btn-danger">Block</a>
                        {{else}}
-                        <a href="/admin/customers/unblock-customer/{{this._id}}" onclick="return confirm('are you sure, you want to unblock')" class="ms-3 btn btn-success">Unblock</a>
+                        <a href="/admin/customers/unblock-customer/{{this._id}}" onclick="unblockUser(event,'{{this.user_name}}')" id="unblockBtn" class="ms-3 btn btn-success">Unblock</a>
                        {{/if}}
                     </td>
                 </tr>

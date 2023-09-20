@@ -8,7 +8,7 @@ const adminCtrl=require('../controller/adminCtrl')
 //auth middleware
 const {isAdminLogedIn} =require('../middleware/authMiddleware');
 
-router.get('/',isAdminLogedIn,adminCustomerCtrl.getCustomer)
+router.get('/',isAdminLogedIn,adminCustomerCtrl.getCustomers)
 router.get('/block-customer/:id',isAdminLogedIn,adminCustomerCtrl.blockCustomer)
 router.get('/unblock-customer/:id',isAdminLogedIn,adminCustomerCtrl.unblockCustomer)
 module.exports=router;

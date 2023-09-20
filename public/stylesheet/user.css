@@ -110,3 +110,23 @@ button.showless{
 .signup-otpsection{
     display: none;
 }
+
+/*my account*/
+.my-account{
+    width: 100%;
+}
+.my-account .user-details{
+    width: 100%;
+}
+.my-account .old-pass{
+    display: none;
+}
+.my-account .new-pass{
+    display: none;
+}
+.my-account .up-btn {
+    display: none;
+}
+.my-account .gen-info-submit-btn{
+    display: none;
+}

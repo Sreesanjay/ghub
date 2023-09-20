@@ -5,18 +5,14 @@
   {{!-- carousel banner --}}
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
+      {{#each banner}}
+      <a href="{{this.reference}}">
       <div class="carousel-item active">
-        <img src="https://assets.sangeethamobiles.com/placeholder_banner/placeholderBanner_1693986600_352.jpg"
+        <img src="/Images/Banners/{{this.image.filename}}"
           class="d-block w-100" alt="...">
       </div>
-      <div class="carousel-item">
-        <img src="https://assets.sangeethamobiles.com/placeholder_banner/placeholderBanner_1694622842_230.jpg"
-          class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://assets.sangeethamobiles.com/placeholder_banner/placeholderBanner_1694500411_370.jpg"
-          class="d-block w-100" alt="...">
-      </div>
+      </a>
+      {{/each}}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>

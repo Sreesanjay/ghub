@@ -43,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
 app.engine('hbs', hbs.engine({
   layoutsDir: __dirname + '/views/layouts',
   extname: 'hbs',
@@ -59,10 +60,15 @@ app.use(nocache())
 
 //router handler
 app.use('/', require('./routes/user'))
+app.use('/account', require('./routes/userProfile'))
+
+
+//admin
 app.use('/admin', require('./routes/admin'));
 app.use('/admin/category', require('./routes/adminCatRout'));
 app.use('/admin/products', require('./routes/adminProductRout'));
 app.use('/admin/customers', require('./routes/adminCustomerRout'));
+app.use('/admin/banner-management',require('./routes/adminBannerRout'))
 
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)

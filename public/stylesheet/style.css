@@ -20,3 +20,24 @@
 .txt-decoration-null{
     text-decoration: none;
 }
+
+
+.menu{
+    background-color:var(--blue-clr);
+    color:var(--secondary-text)
+}
+.user-sidebar{
+    width:100vw;
+  }
+  .user-sidebar .link-wraper{
+    display: none;
+  }
+@media only screen and (min-width: 768px)  {
+  .user-sidebar{
+    width:350px;
+  }
+  .user-sidebar .link-wraper{
+    display: block !important;
+  }
+  
+}

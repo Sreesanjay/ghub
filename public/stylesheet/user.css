@@ -130,3 +130,49 @@ button.showless{
 .my-account .gen-info-submit-btn{
     display: none;
 }
+
+
+/*my address*/
+.my-address{
+    width: 100%;
+}
+
+.my-address .new-address-wrapper{
+    display: none;
+}
+.my-address .address-edit-card{
+    display: none;
+}
+.my-address #address-edit-card{
+    display: none;
+}
+
+/*view product*/
+.image-container{
+    width: 500px;
+    position: relative;
+}
+.add-to-wish-list-btn{
+    position: absolute;
+    right: 25px;
+    font-size: 25px;
+}
+.my-wishlist{
+    width: 100%;
+}
+.my-wishlist .prod-wrapper{
+    width: 100%;
+}
+.my-wishlist .prod-wrapper{
+    position:relative;
+}
+.my-wishlist .add-to-cart-btn{
+    position: absolute;
+    bottom: 20px;
+    right:20px;
+}
+.my-wishlist .dlt-wishlist{
+    position:absolute;
+    right: 20px;
+    font-size:20px;
+}

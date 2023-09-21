@@ -32,7 +32,18 @@ var userSchema = new mongoose.Schema({
         {
             product_id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Produts',
+                ref: 'Product',
+            },
+            count: {
+                type: Number,
+                default: 1
+            }
+        }
+    ],  cart: [
+        {
+            product_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product',
             },
             count: {
                 type: Number,
@@ -40,12 +51,12 @@ var userSchema = new mongoose.Schema({
             }
         }
     ],
-    wishlist: [{
-        product_id: {
+    wishlist: [
+        {product_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Produts',
-        },
-    }],
+            ref: 'Product',
+        }},
+    ],
     is_delete: {
         type: Boolean,
         required: true,

@@ -17,8 +17,16 @@
     text-decoration: none;
     color: var(--blue-clr)
 }
+.c-pointer{
+  cursor: pointer;
+}
 .txt-decoration-null{
     text-decoration: none;
+}
+
+/*jquerry validation*/
+label.error{
+  color:rgb(229, 8, 8);
 }
 
 

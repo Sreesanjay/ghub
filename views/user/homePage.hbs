@@ -44,8 +44,8 @@
         <div class="card p-3 px-4" style="height:500px;">
           <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
           <div class="card-header d-flex justify-content-center" style="height:270px;">
-          {{#each this.prod_img_1}}<img src="/Images/Products/{{this.filename}}"
-            class="card-img-top" alt="Laptop" style="height:250px; max-width:auto;"/>{{/each}}
+            <img src="/Images/Products/{{this.primary_img.filename}}"
+            class="card-img-top" alt="Laptop" style="height:250px; max-width:auto;"/>
             </div>
           <div class="card-body d-flex flex-column justify-content-between">
 

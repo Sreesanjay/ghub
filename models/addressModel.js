@@ -37,6 +37,10 @@ var addressSchema = new mongoose.Schema({
     alternate_phone:{
         type:String,
     },
+    address_type:{
+        type:String,
+        required: true
+    },
     landmark:{
         type:String
     }

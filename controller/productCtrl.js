@@ -6,7 +6,7 @@ const viewProduct=async(req,res,next) => {
     try{
         const product = await Product.findById(req.params.id)
         const category = await Category.find();
-        const rel_product =await Product.find({category:product.category,_id:{$nin:[product._id]}}).limit(4)
+        const rel_product =await Product.find({category:product.category,_id:{$nin:[product._id]},is_delete:false,product_status:true}).limit(4)
         res.render('user/viewProduct',{product,rel_product,category})
     }catch(err){
         next(err);

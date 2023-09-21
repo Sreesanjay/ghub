@@ -16,7 +16,11 @@ router.post('/user-sign-up',userAuthCtrl.registerUser)
 router.post('/user-log-in',userAuthCtrl.loginUser)
 router.get('/user-logout',userAuthCtrl.logoutUser)
 
-router.get('/view-product/:id',productCtrl.viewProduct)
+router.get('/view-product/:id',getUserData,productCtrl.viewProduct)
+
+//cart
+router.get('/my-cart',isUserLogedIn,userCtrl.getCart)
+router.get('/add-to-cart/:id',isUserLogedIn,userCtrl.addToCart)
 
 
 module.exports =router;

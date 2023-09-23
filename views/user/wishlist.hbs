@@ -23,7 +23,7 @@
                 <h6 class="text-decoration-line-through ms-4 mt-1">{{this.prod_price}}</h6>
                 </div>
             </div>
-            <button class="btn btn-primary add-to-cart-btn">Add to cart</button>
+            <button class="btn btn-primary add-to-cart-btn" onclick="addToCart(event,'{{this._id}}')">Add to cart</button>
         </div>
 
         {{/each}}

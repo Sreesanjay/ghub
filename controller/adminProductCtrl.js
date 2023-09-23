@@ -113,7 +113,7 @@ const deleteProduct =asyncHandler(async (req, res) => {
       { new: true } // Return the updated category
     );
     if (updatedProduct) {
-      res.json({ success:'ok' })
+      res.json({ status: 'success' })
     }
     else {
       const error = new Error("Can't delete product!");

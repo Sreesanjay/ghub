@@ -1,0 +1,46 @@
+<section class="category d-flex mt-2" style="width:100%;">
+    <div class="category-list p-4" style="width: 100%;">
+        <div class="header d-flex justify-content-between">  
+          <h3 class="mb-4">Coupons</h3>
+          <a href="/admin/coupon-management/new-coupon" class="btn btn-primary" style="height:40px;">New Coupon</a>
+        </div>
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Discription</th>
+                    <th>Discount</th>
+                    <th style="width:120px;">Starting date</th>
+                    <th style="width:80px;">exp. date</th>
+                    <th>Max use</th>
+                    <th>Used Count</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupons}}
+                <tr>
+                    <td>{{this.coupon_code}}</td>
+                    <td>{{this.discription}}</td>
+                    <td>{{this.discount}}</td>
+                    <td>{{this.start_date}}</td>
+                    <td>{{this.exp_date}}</td>
+                    <td>{{this.max_count}}</td>
+                    <td>{{this.used_count}}</td>
+                    <td>
+                        <a href="/admin/coupon-management/edit-coupon/{{this._id}}" class="ms-3"><i class="fa-solid fa-pen"></i></a>
+                        <a  onclick="deleteCoupon('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        new DataTable('#example');
+    })
+
+</script>

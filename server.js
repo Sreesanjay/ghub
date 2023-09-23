@@ -69,6 +69,7 @@ app.use('/admin/category', require('./routes/adminCatRout'));
 app.use('/admin/products', require('./routes/adminProductRout'));
 app.use('/admin/customers', require('./routes/adminCustomerRout'));
 app.use('/admin/banner-management',require('./routes/adminBannerRout'))
+app.use('/admin/coupon-management',require('./routes/adminCouponRout'))
 
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)

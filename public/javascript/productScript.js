@@ -406,7 +406,7 @@ const deleteProduct = async (id) => {
                     headers: { "Content-Type": "application/json" },
                });
                const data =await res.json()
-               if (data.status=='ok') {
+               if (data.status=='success') {
                     Swal.fire(
                          'Success!',
                          'Product deleted succsfully',

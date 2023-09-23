@@ -83,9 +83,13 @@
             <dt class="col-3">Brand</dt>
             <dd class="col-9">{{product.brand_name}}</dd>
           </div>
-          <p>
+          <div class="">
+          <p id="prod-disc" class="mb-0" style="height:100px;overflow:hidden;">
             {{product.discription}}
           </p>
+           <span id="show-more">...Show More</span>
+           <span id="show-less" style="display:none;">...Show Less</span>
+          </div>
           <div class="row pt-3">
             <h3 class="col-3 text-danger">₹{{product.prod_price}}</h3>
             <h4 class="col-9 mt-1 text-secondary"><strike>₹{{product.sellig_price}}</strike></h4>

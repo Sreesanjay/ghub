@@ -1,3 +1,10 @@
+.user-nav{
+    /* border-bottom:1px solid rgb(81, 81, 81); */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: rgb(241, 246, 250);
+}
 .user-header{
     position: relative;
 }
@@ -175,4 +182,12 @@ button.showless{
     position:absolute;
     right: 20px;
     font-size:20px;
+}
+
+.my-cart .price-details{
+    margin-top: 56px;
+}
+
+.my-cart .order-summary .item-list input:focus{
+    outline:none;
 }

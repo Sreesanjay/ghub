@@ -17,14 +17,4 @@ router.post('/user-log-in',userAuthCtrl.loginUser)
 router.get('/user-logout',userAuthCtrl.logoutUser)
 
 router.get('/view-product/:id',getUserData,productCtrl.viewProduct)
-
-//cart
-router.get('/my-cart',isUserLogedIn,userCtrl.getCart)
-router.get('/add-to-cart/:id',isUserLogedIn,userCtrl.addToCart)
-router.get('/my-cart/add-count/:id',isUserLogedIn,userCtrl.addCartCount)
-router.get('/my-cart/dec-count/:id',isUserLogedIn,userCtrl.decCartCount)
-router.delete('/my-cart/remove-item/:id',isUserLogedIn,userCtrl.removeCartItem)
-router.get('/my-cart/get-checkout',isUserLogedIn,userCtrl.getCheckout)
-
-
 module.exports =router;

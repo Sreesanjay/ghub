@@ -1,4 +1,4 @@
-<div class="checkout-page pt-5">
+<div class="checkout-page pt-5 px-3">
     <h3>Checkout</h3>
 
     <div class="new-address-wrapper p-3 ">
@@ -87,188 +87,185 @@
             </div>
         </form>
     </div>
-    <form action="">
-        <div class="checkout-container row py-3">
-            <h5>Select delivery address</h5>
-            <div class="left-section col-sm-8 mt-3">
-
-                <div class="address-section">
-
-
-                    <div class="new-address card mb-3">
-                        <div class="new-address-btn p-3" id="new-address-btn">
-                            <h5 align="center" class="m-0 c-pointer"><i class="fa-solid fa-plus"></i>Add New Address
-                            </h5>
-                        </div>
+    <div class="checkout-container row py-3">
+        <div class="left-section col-md-8 mt-3">
+            <h5 class="reselect-address">Select delivery address <i class="fa-solid fa-chevron-down down-arraow" style="display:none;"></i></h5>
+            {{!-- address section --}}
+            <div class="address-section">
+                <div class="new-address card mb-3">
+                    <div class="new-address-btn p-3" id="new-address-btn">
+                        <h5 align="center" class="m-0 c-pointer"><i class="fa-solid fa-plus"></i>Add New Address
+                        </h5>
                     </div>
-
-
-                    {{#each address}}
-                    <input type="radio" name="delivery_address" value="{{this._id}}">
-                    <div class="address-card{{this._id}} card p-3 mb-3">
-                        <div class="address-title d-flex justify-content-between">
-                            <div class="type bg-light px-2 border mb-3" style="width:fit-content;">{{this.address_type}}
-                            </div>
-                            <div class="right-option">
-                                <i class="fa-solid fa-pen-to-square edit-address-btn"
-                                    onclick="editAddress('{{this._id}}')"></i>
-                                <i class="fa-solid fa-trash text-danger ms-2"
-                                    onclick="deleteAddress('{{this._id}}')"></i>
-                            </div>
-                        </div>
-                        <div class="container d-flex">
-                            <h5 class="">{{this.user_name}}</h5>
-                            <p class=" ms-2">{{this.phone}}</p>
-                        </div>
-
-                        <div class="container d-flex">
-                            <p class="">{{this.area_street}}, Near to {{this.landmark}}, {{this.locality}},
-                                {{this.town}}, {{this.state}}, {{this.pincode}}</p><br>
-                        </div>
-                    </div>
-                    <div class="address-edit-card{{this._id}} card p-3 mb-3" id="address-edit-card">
-                        <form class="row" id="edit-address-form-{{this._id}}">
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Name</label>
-                                <input type="text" class="form-control" placeholder="eg.Amarnath"
-                                    value="{{this.user_name}}" name="user_name">
-                            </div>
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">10 digit Mobile Number</label>
-                                <input type="text" class="form-control" placeholder="eg.9562052835"
-                                    value="{{this.phone}}" name="phone">
-                            </div>
-
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Pincode</label>
-                                <input type="number" class="form-control" placeholder="eg.673506"
-                                    value="{{this.pincode}}" name="pincode">
-                            </div>
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Locality</label>
-                                <input type="text" class="form-control" placeholder="your near locality"
-                                    value="{{this.locality}}" name="locality">
-                            </div>
-
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Area/Street</label>
-                                <input type="text" class="form-control" placeholder="Enter your area or street name"
-                                    value="{{this.area_street}}" name="area_street">
-                            </div>
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Town</label>
-                                <input type="text" class="form-control" placeholder="Enter your town name"
-                                    value="{{this.town}}" name="town">
-                            </div>
-
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">State</label>
-                                <select name="state" id="" class="form-select">
-                                    <option value="{{this.state}}" selected>{{this.state}}</option>
-                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                    <option value="Assam">Assam</option>
-                                    <option value="Bihar">Bihar</option>
-                                    <option value="Chhattisgarh">Chhattisgarh</option>
-                                    <option value="Goa">Goa</option>
-                                    <option value="Gujarat">Gujarat</option>
-                                    <option value="Haryana">Haryana</option>
-                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                    <option value="Jharkhand">Jharkhand</option>
-                                    <option value="Karnataka">Karnataka</option>
-                                    <option value="Kerala">Kerala</option>
-                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                    <option value="Maharashtra">Maharashtra</option>
-                                    <option value="Manipur">Manipur</option>
-                                    <option value="Meghalaya">Meghalaya</option>
-                                    <option value="Mizoram">Mizoram</option>
-                                    <option value="Nagaland">Nagaland</option>
-                                    <option value="Odisha">Odisha</option>
-                                    <option value="Punjab">Punjab</option>
-                                    <option value="Rajasthan">Rajasthan</option>
-                                    <option value="Sikkim">Sikkim</option>
-                                    <option value="Tamil Nadu">Tamil Nadu</option>
-                                    <option value="Telangana">Telangana</option>
-                                    <option value="Tripura">Tripura</option>
-                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                    <option value="Uttarakhand">Uttarakhand</option>
-                                    <option value="West Bengal">West Bengal</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Alternate phone number</label>
-                                <input type="text" class="form-control" placeholder="eg.9562052835"
-                                    value="{{this.alternate_phone}}" name="alternate_phone">
-                            </div>
-
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Address type</label><br>
-                                <label for="" class="form-label">Home</label>
-                                <input type="radio" class="form-check-input home-type" value="Home" name="address_type"
-                                    id="home-type">
-                                <label for="" class="form-label ms-3">Work</label>
-                                <input type="radio" class="form-check-input work-type" value="Work" name="address_type"
-                                    id="work-type">
-                            </div>
-                            <input type="hidden" id="address-type{{this._id}}" value="{{this.address_type}}">
-                            <div class="form-group col-sm-6 mt-4">
-                                <label for="" class="form-label">Landmark</label>
-                                <input type="text" class="form-control" value="{{this.landmark}}"
-                                    placeholder="Enter your landmark" name="landmark">
-                            </div>
-                            <input type="hidden" id="address-id" value="{{this._id}}">
-                            <div class="btn-handler pt-5">
-                                <button class="btn btn-danger edit-address-cancel"
-                                    onclick="closeEditAddress('{{this._id}}')" type="button">Cancel</button>
-                                <button class="btn btn-primary" type="button" onclick="submitEdit('{{this._id}}')"
-                                    type="button">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                    {{/each}}
-
-                    <button class="btn btn-primary" type="button" onclick="">Continue</button>
                 </div>
+
+                <div class="address-err text-danger"></div>
+                {{#each address}}
+                <input type="radio" name="delivery_address" value="{{this._id}}">
+                <div class="address-card{{this._id}} card p-3 mb-3">
+                    <div class="address-title d-flex justify-content-between">
+                        <div class="type bg-light px-2 border mb-3" style="width:fit-content;">{{this.address_type}}
+                        </div>
+                        <div class="right-option">
+                            <i class="fa-solid fa-pen-to-square edit-address-btn"
+                                onclick="editAddress('{{this._id}}')"></i>
+                            <i class="fa-solid fa-trash text-danger ms-2" onclick="deleteAddress('{{this._id}}')"></i>
+                        </div>
+                    </div>
+                    <div class="container d-flex">
+                        <h5 class="">{{this.user_name}}</h5>
+                        <p class=" ms-2">{{this.phone}}</p>
+                    </div>
+
+                    <div class="container d-flex">
+                        <p class="">{{this.area_street}}, Near to {{this.landmark}}, {{this.locality}},
+                            {{this.town}}, {{this.state}}, {{this.pincode}}</p><br>
+                    </div>
+                </div>
+                <div class="address-edit-card{{this._id}} card p-3 mb-3" id="address-edit-card">
+                    <form class="row" id="edit-address-form-{{this._id}}">
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Name</label>
+                            <input type="text" class="form-control" placeholder="eg.Amarnath" value="{{this.user_name}}"
+                                name="user_name">
+                        </div>
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">10 digit Mobile Number</label>
+                            <input type="text" class="form-control" placeholder="eg.9562052835" value="{{this.phone}}"
+                                name="phone">
+                        </div>
+
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Pincode</label>
+                            <input type="number" class="form-control" placeholder="eg.673506" value="{{this.pincode}}"
+                                name="pincode">
+                        </div>
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Locality</label>
+                            <input type="text" class="form-control" placeholder="your near locality"
+                                value="{{this.locality}}" name="locality">
+                        </div>
+
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Area/Street</label>
+                            <input type="text" class="form-control" placeholder="Enter your area or street name"
+                                value="{{this.area_street}}" name="area_street">
+                        </div>
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Town</label>
+                            <input type="text" class="form-control" placeholder="Enter your town name"
+                                value="{{this.town}}" name="town">
+                        </div>
+
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">State</label>
+                            <select name="state" id="" class="form-select">
+                                <option value="{{this.state}}" selected>{{this.state}}</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Alternate phone number</label>
+                            <input type="text" class="form-control" placeholder="eg.9562052835"
+                                value="{{this.alternate_phone}}" name="alternate_phone">
+                        </div>
+
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Address type</label><br>
+                            <label for="" class="form-label">Home</label>
+                            <input type="radio" class="form-check-input home-type" value="Home" name="address_type"
+                                id="home-type">
+                            <label for="" class="form-label ms-3">Work</label>
+                            <input type="radio" class="form-check-input work-type" value="Work" name="address_type"
+                                id="work-type">
+                        </div>
+                        <input type="hidden" id="address-type{{this._id}}" value="{{this.address_type}}">
+                        <div class="form-group col-sm-6 mt-4">
+                            <label for="" class="form-label">Landmark</label>
+                            <input type="text" class="form-control" value="{{this.landmark}}"
+                                placeholder="Enter your landmark" name="landmark">
+                        </div>
+                        <input type="hidden" id="address-id" value="{{this._id}}">
+                        <div class="btn-handler pt-5">
+                            <button class="btn btn-danger edit-address-cancel"
+                                onclick="closeEditAddress('{{this._id}}')" type="button">Cancel</button>
+                            <button class="btn btn-primary" type="button" onclick="submitEdit('{{this._id}}')"
+                                type="button">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                {{/each}}
+
+                <button class="btn btn-primary address-select-btn" type="button">Continue</button>
             </div>
-            <div class="right-section col-sm-3">
-                <div class="card order-summary p-3 mt-3">
-                    <h6>Order Summary</h6>
-                    <hr>
-                    <div class="item-list row">
-                        {{#each cartList}}
-                        <p class="col-9">{{this.prod_detail.product_name}}</p>
-                        <input type="text" class="col-3 item-price" name="price" value="{{this.price}}"
-                            style="border: none;" readonly>
-                        {{/each}}
-                    </div>
-                    <hr>
-                    <p id="total-price" class="col-12">Total Price: $0.00</p>
+            {{!-- payment option --}}
+
+            <div class="payment-option p-3 card " style="display: none">
+                <h5>Payment Option</h5>
+                <div class="form-group mt-3">
+                    <input type="radio" value="COD" class="form-check-input" name="payment_option">
+                    <label for="">Cash on Delivery</label>
+
                 </div>
+                <div class="form-group">
+                    <input type="radio" class="form-check-input" value="ONLINE" name="payment_option">
+                    <label for="">Online Payment</label>
+
+                </div>
+                {{#if cpnId}}
+                <input type="hidden" id="cpn_id" value="{{cpnId}}">
+                {{/if}}
+                <button class="proceed-to-order btn btn-primary mt-3 mb-1">
+                    Order Now
+                </button>
+            </div>
+
+
+        </div>
+        <div class="right-section col-md-3">
+            <div class="card order-summary p-3 mt-5">
+                <h6>Order Summary</h6>
+                <hr>
+                <div class="item-list row">
+                    {{#each cartList}}
+                    <p class="col-9">{{this.prod_detail.product_name}}</p>
+                    <input type="text" class="col-3 item-price" name="price" value="{{this.price}}"
+                        style="border: none;" readonly>
+                    {{/each}}
+                </div>
+                <hr>
+                <p id="prodct-price" class="col-12">Product Price: {{cartList.prodTotal}}</p>
+                <p id="discount" class="col-12">Discount: {{cartList.discount}}</p>
+                <p id="total-price" class="col-12">Total: {{cartList.total}}</p>
+
             </div>
         </div>
-    </form>
+    </div>
 </div>
-<script>
-    // Get all elements with the "item-price" class
-    const itemPriceElements = document.querySelectorAll('.item-price');
-
-    // Function to calculate and update the total price
-    function updateTotalPrice() {
-        let totalPrice = 0;
-        itemPriceElements.forEach(itemPriceElement => {
-            const price = parseFloat(itemPriceElement.value);
-            if (!isNaN(price)) {
-                totalPrice += price;
-            }
-        });
-
-        // Update the total price element
-        const totalPriceElement = document.getElementById('total-price');
-        if (totalPriceElement) {
-            totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
-        }
-    }
-
-    // Call the function initially to calculate the total price
-    updateTotalPrice();
-</script>

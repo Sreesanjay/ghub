@@ -76,7 +76,7 @@ $(function () {
     //add to cart
     addToCart = (e, id) => {
         e.preventDefault();
-        fetch(`/add-to-cart/${id}`, {
+        fetch(`/my-cart/add-to-cart/${id}`, {
             method: 'GET'
         }).then((response) => {
             return response.json()
@@ -123,9 +123,23 @@ $(function () {
         }).then((response) => {
             return response.json()
         }).then((data) => {
-            console.log(data)
             if (data.status === 'success') {
-                location.reload()
+                let qty=document.getElementById(`prod-${prod}`)
+                qty.value = parseInt(qty.value)+1;
+                let price=document.getElementById(`price-${prod}`)
+                let total=parseInt(price.value)*parseInt(qty.value)
+                const dis=document.getElementById(`price${prod}`)
+                dis.value=total
+                let crtTotal=document.getElementById('cart_total')
+                crtTotal.value=parseInt(crtTotal.value)+parseInt(price.value)
+
+                let totalPrice=document.getElementById('total_price')
+                let cpDisc=document.getElementById('coupon-disc')
+                if(cpDisc.value){
+                    totalPrice.value=parseInt(crtTotal.value)-parseInt(cpDisc.value)
+                }else{
+                    totalPrice.value=parseInt(crtTotal.value)
+                }
             } else {
                 throw new Error(data.message)
             }
@@ -146,9 +160,27 @@ $(function () {
             return response.json()
         }).then((data) => {
             if (data.status === 'success') {
-                console.log('success')
-                location.reload()
-            } else {
+                let qty=document.getElementById(`prod-${prod}`)
+                qty.value = parseInt(qty.value)-1;
+                let price=document.getElementById(`price-${prod}`)
+                let total=parseInt(price.value)*parseInt(qty.value)
+                const dis=document.getElementById(`price${prod}`)
+                dis.value=total
+
+                let crtTotal=document.getElementById('cart_total')
+                crtTotal.value=parseInt(crtTotal.value)-parseInt(price.value)
+
+                let totalPrice=document.getElementById('total_price')
+                let cpDisc=document.getElementById('coupon-disc')
+                if(cpDisc.value){
+                    totalPrice.value=parseInt(crtTotal.value)-parseInt(cpDisc.value)
+                }else{
+                    totalPrice.value=parseInt(crtTotal.value)
+                }
+            }else if(data.status ==='failed'){
+                return false;
+            } 
+            else {
                 throw new Error(data.message)
             }
         }).catch((error) => {
@@ -204,6 +236,78 @@ $(function () {
             }
         })
     }
+
+    applyCpn=(e,cpn_id,disc)=>{
+        e.preventDefault()
+        let coupon_id= document.getElementById('coupon-id')
+        coupon_id.value=cpn_id
+        if($('.disc-grp').is(":visible")){
+        }else{
+            $('.disc-grp').toggle()
+        }
+        let crtTotal= document.getElementById('cart_total').value
+        let coupon_disc= document.getElementById('coupon-disc')
+        coupon_disc.value=parseInt((crtTotal*disc)/100)
+
+        let totalPrice=document.getElementById('total_price')
+        let cpDisc=document.getElementById('coupon-disc')
+        let link=document.querySelector('.checkout-link')
+        link.href=link.href+'?cpn='+cpn_id
+        console.log(link.href)
+        if(cpDisc.value){
+            totalPrice.value=parseInt(crtTotal)-parseInt(cpDisc.value)
+        }else{
+            totalPrice.value=parseInt(crtTotal.value)
+        }
+        $('.coupon-select-wrapper').toggle()
+        $('.apply-cpn'+cpn_id).toggle()
+        $('.remove-cpn'+cpn_id).toggle()
+
+    }
+    removeCpn=(e,cpn_id)=>{
+        e.preventDefault()
+        $('.coupon-select-wrapper').toggle()
+        $('.apply-cpn'+cpn_id).toggle()
+        $('.remove-cpn'+cpn_id).toggle()
+        document.getElementById('coupon-disc').value='';
+        document.getElementById('coupon-id').value=''
+        $('.disc-grp').toggle()
+    }
+
+    //open coupon
+    $('#check-coupon').on('click',(e)=>{
+        e.preventDefault()
+        $('.coupon-select-wrapper').toggle()
+    })
+    //close coupon
+    $('.close-cpn').on('click',()=>{
+        $('.coupon-select-wrapper').toggle()
+    })
+
+
+    //check out of stock
+    $('checkout-link').on('click',()=>{
+        
+    })
+    // //get checkout 
+    // $('.getCheckout').on('click',()=>{
+
+    //     let coupon_id= document.getElementById('coupon-id')
+    //     if(coupon_id.value){
+    //         const url='order/get-checkout/'+coupon_id.value
+    //     }else{
+    //         const url='order/get-checkout'
+    //     }
+    //     fetch(url,{
+    //         method:'GET'
+    //     }).then((response)=>{
+    //         return response.json()
+    //     }).then((data)=>{
+          
+    //     })
+    // })
+
+
 
     $('#show-more').on('click', () => {
         $('#prod-disc').css('height', 'max-content')

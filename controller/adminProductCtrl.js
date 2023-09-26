@@ -53,7 +53,7 @@ const storeProduct = asyncHandler(async (req, res, next) => {
           GST: req.body.GST,
           primary_img: img1,
           secondary_img: img2,
-          prod_color:req.body.prod_color
+          prod_color: req.body.prod_color,
      };
      const product = await Product.create(obj);
      if (product) {
@@ -188,10 +188,11 @@ const getEditProduct = asyncHandler(async (req, res, next) => {
 });
 
 const editProduct = asyncHandler(async (req, res) => {
+     console.log(req.body);
      const changeProdImg = JSON.parse(req.body.changeProdImg);
      const productId = req.params.id;
      delete req.body.changeProdImg;
-
+     delete req.body.primary_img;
      let specification = [];
      const spec = req.body.spec;
      const val = req.body.val;
@@ -212,8 +213,7 @@ const editProduct = asyncHandler(async (req, res) => {
           });
           req.body.specification = specification;
      }
-
-     if (req.files.primary_img) {
+     if (req.files?.primary_img) {
           const primary_img = {
                originalname: req.files.primary_img[0].originalname,
                filename: req.files.primary_img[0].filename,

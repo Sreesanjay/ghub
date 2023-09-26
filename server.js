@@ -61,6 +61,8 @@ app.use(nocache())
 //router handler
 app.use('/', require('./routes/user'))
 app.use('/account', require('./routes/userProfile'))
+app.use('/my-cart',require('./routes/userCartRout'))
+app.use('/order',require('./routes/orderRout'))
 
 
 //admin

@@ -437,7 +437,7 @@ $(document).ready(function () {
                     imgcount--;
                     if (
                          imgcount +
-                              document.getElementById("sec-img-length").value <
+                         document.getElementById("sec-img-length").value <
                          8
                     ) {
                          document.querySelector(".sec-img-err").innerText = "";
@@ -494,7 +494,7 @@ $(document).ready(function () {
           rules: {
                product_name: {
                     required: true,
-                    maxlength: 80,
+                    maxlength: 100,
                },
                brand_name: {
                     required: true,
@@ -542,31 +542,30 @@ $(document).ready(function () {
                          const form = document.getElementById("editForm");
                          try {
                               const formData = new FormData(form);
-                              const id =
-                                   document.getElementById("userId").value;
-                              const imgArrayJson =
-                                   JSON.stringify(changeProdImg);
+                              const id = document.getElementById("userId").value;
+                              const imgArrayJson = JSON.stringify(changeProdImg);
                               formData.append("changeProdImg", imgArrayJson);
-                              const base64String =
-                                   document.getElementById("result").value;
-                              const base64Data = base64String.split(",")[1];
-                              const binaryData = atob(base64Data);
-                              const uint8Array = new Uint8Array(
-                                   binaryData.length
-                              );
-                              for (let i = 0; i < binaryData.length; i++) {
-                                   uint8Array[i] = binaryData.charCodeAt(i);
+                              const base64String = document.getElementById("result").value;
+                              if (base64String != '') {
+                                   console.log("enter")
+                                   const base64Data = base64String.split(",")[1];
+                                   const binaryData = atob(base64Data);
+                                   const uint8Array = new Uint8Array(
+                                        binaryData.length
+                                   );
+                                   for (let i = 0; i < binaryData.length; i++) {
+                                        uint8Array[i] = binaryData.charCodeAt(i);
+                                   }
+                                   const blob = new Blob([uint8Array], {
+                                        type: "image/png",
+                                   });
+                                   const file = new File([blob], "image.png", {
+                                        type: "image/png",
+                                   });
+                                   console.log(file);
+                                   // formData.append('image',document.getElementById('result.value'))
+                                   formData.append("primary_img", file);
                               }
-                              const blob = new Blob([uint8Array], {
-                                   type: "image/png",
-                              });
-                              const file = new File([blob], "image.png", {
-                                   type: "image/png",
-                              });
-                              console.log(file);
-                              // formData.append('image',document.getElementById('result.value'))
-                              formData.append("primary_img", file);
-
                               let res = await fetch(
                                    `/admin/products/edit-product/${id}`,
                                    {

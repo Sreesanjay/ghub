@@ -1,6 +1,18 @@
 $(document).ready(function () {
     //new category
-    $('#new-category').on('submit', (e) => {
+    $('#new-category').validate({
+        rules: {
+            cat_name: {
+                  required: true,
+                  maxlength: 50,
+             },
+             discription: {
+                  required: true,
+                  maxlength: 200,
+             },
+             
+        },
+        submitHandler: function (form) {
         e.preventDefault()
         const err = document.querySelector('.err')
         err.textContent = ''
@@ -52,6 +64,7 @@ $(document).ready(function () {
                     });
             }
         })
+    }
     })
 
 

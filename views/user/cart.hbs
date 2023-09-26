@@ -4,6 +4,68 @@
             height: 100vh !important;
         }
     }
+
+    .group {
+        display: flex;
+        line-height: 28px;
+        align-items: center;
+        position: relative;
+        max-width: 500px;
+    }
+
+    .input {
+        width: 100%;
+        height: 40px;
+        line-height: 28px;
+        padding: 0 1rem;
+        padding-left: 2.5rem;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        outline: none;
+        background-color: #f3f3f4;
+        color: #0d0c22;
+        transition: .3s ease;
+    }
+
+    .input::placeholder {
+        color: #9e9ea7;
+    }
+
+    .input:focus,
+    input:hover {
+        outline: none;
+        border-color: rgba(234, 76, 137, 0.4);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+    }
+
+    .icon {
+        position: absolute;
+        left: 1rem;
+        fill: #9e9ea7;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .order-summary-inp {
+        border: none;
+    }
+
+    .order-summary-inp:focus {
+        border: none;
+        outline: none;
+    }
+
+    .cart-body {
+        position: relative;
+    }
+
+    .coupon-select-wrapper {
+        position: absolute;
+        top: 0;
+        right:0;
+       
+    }
 </style>
 <section class="my-cart" style="background-color: #eee;">
     <div class="container pb-5 pt-4 h-100">
@@ -11,7 +73,7 @@
         <div class="row d-flex justify-content-center mt-4 align-items-center h-100">
             <div class="col">
                 <div class="card">
-                    <div class="card-body p-4">
+                    <div class="card-body cart-body p-4">
 
                         <div class="row">
 
@@ -48,22 +110,29 @@
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0">₹{{this.prod_detail.sellig_price}}</h5>
                                                 </div>
-                                                <i class="fas fa-trash-alt text-muted" onclick="removeCart('{{this.cart.product_id}}')"></i>
+                                                <input type="hidden" value="{{this.prod_detail.stock}}" id="stock{{this.prod_detail._id}}">
+                                                <div class="out-of-stock-err text-danger"></div>
+                                                <i class="fas fa-trash-alt text-muted"
+                                                    onclick="removeCart('{{this.cart.product_id}}')"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center ms-2 pt-4">
                                         <div class="d-flex mb-4" style="max-width: 200px">
-                                            <button class="btn btn-primary px-3 me-2 blue-clr" onclick="decreaseQty('{{this.cart.product_id}}')">
+                                            <button class="btn btn-primary px-3 me-2 blue-clr"
+                                                onclick="decreaseQty('{{this.cart.product_id}}')">
                                                 <i class="fas fa-minus"></i>
                                             </button>
 
                                             <div class="form-outline">
-                                                <input id="form1" min="0" name="quantity" value="{{this.cart.count}}"
-                                                    type="number" class="form-control" />
+                                                <input id="prod-{{this.cart.product_id}}" min="0" name="quantity"
+                                                    value="{{this.cart.count}}" type="number" class="form-control" />
+                                                <input type="hidden" id="price-{{this.cart.product_id}}"
+                                                    value="{{this.prod_detail.sellig_price}}">
                                             </div>
 
-                                            <button class="btn btn-primary blue-clr px-3 ms-2" onclick="increaseQty('{{this.cart.product_id}}')">
+                                            <button class="btn btn-primary blue-clr px-3 ms-2"
+                                                onclick="increaseQty('{{this.cart.product_id}}')">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
@@ -79,8 +148,7 @@
                                         <h5 class="mb-3">Price Details</h5>
                                         <div class="card check-coupon p-3 mb-3">
                                             <h6 class="mb-3">Apply Coupon</h6>
-                                            <a href=""
-                                                class="d-flex align-items-center txt-decoration-null text-dark justify-content-around">
+                                            <a class="d-flex align-items-center txt-decoration-null text-dark justify-content-around" id="check-coupon">
                                                 <div class="check-left-sec d-flex align-items-center">
                                                     <img src="https://drive.google.com/uc?id=1ebkzjTBay3zCtBF1JxrPojYOLclODShJ"
                                                         alt="" width="50">
@@ -96,14 +164,27 @@
                                             <div class="item-list row">
                                                 {{#each cartList}}
                                                 <p class="col-9">{{this.prod_detail.product_name}}</p>
-                                                <input type="text" class="col-3 item-price" name="price"
+                                                <input type="text" class="col-3 item-price"
+                                                    id="price{{this.cart.product_id}}" name="price"
                                                     value="{{this.price}}" style="border: none;" readonly>
                                                 {{/each}}
                                             </div>
                                             <hr>
-                                            <p id="total-price" class="col-12">Total Price: $0.00</p>
+                                            <div class="frm-grp">
+                                                <label for="">Cart Total: ₹</label><input type="text"
+                                                    class="order-summary-inp" id="cart_total" readonly value="0.00">
+                                            </div>
+                                            <div class="disc-grp" style="display:none;">
+                                                <label for="">Coupon Discount: ₹</label><input type="text"
+                                                    class="order-summary-inp" id="coupon-disc" readonly>
+                                                <input type="hidden" id="coupon-id">
+                                            </div>
+                                            <div class="frm-grp">
+                                                <label for="">Total: ₹</label><input type="text"
+                                                    class="order-summary-inp" id="total_price" readonly>
+                                            </div>
                                             <hr>
-                                            <a class="btn btn-primary" href="/my-cart/get-checkout" >Go to Checkout</a>
+                                            <a class="btn btn-primary checkout-link" href="/order/get-checkout">Go to Checkout</a>
                                         </div>
 
                                     </div>
@@ -113,10 +194,45 @@
 
                         </div>
 
+                        <div class="coupon-select-wrapper shadow-lg card p-3 col-md-6" style="display: none;">
+                            <div class="d-flex justify-content-between">
+                                <h3>Offers</h3>
+                                <i class="fa-solid fa-xmark fs-4 close-cpn"></i>
+                            </div>
+                            <div class="group">
+                                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                                    <g>
+                                        <path
+                                            d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                                        </path>
+                                    </g>
+                                </svg>
+                                <input placeholder="Search" type="search" id="search-cpn" class="input">
+                                <button class="btn btn-primary ms-4 px-4 search-btn">Apply</button>
+                            </div>
+                            {{#each coupon}}
+                            <div class="card p-3 mt-3">
+                                <div class="d-flex justify-content-between">
+                                    <div class="card px-4 py-1 bg-warning mb-3" style="width:fit-content;">
+                                        {{this.coupon_code}}</div>
+                                    <a onclick="applyCpn(event,'{{this._id}}','{{this.discount}}')"
+                                        class="txt-decoration-null apply-cpn{{this._id}}">Apply</a>
+                                    <a onclick="removeCpn(event,'{{this._id}}')"
+                                        class="txt-decoration-null text-danger remove-cpn{{this._id}}" style="display:none;">Remove</a>
+                                </div>
+                                <p class="disc">You can save <span class="text-success">{{this.discount}}%</span></p>
+                                {{this.discription}}
+                                <p class=""><span class="fw-bold">Valid till :</span>{{this.exp_date}}</p>
+                            </div>
+                            {{/each}}
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -135,9 +251,11 @@
         });
 
         // Update the total price element
-        const totalPriceElement = document.getElementById('total-price');
+        const totalPriceElement = document.getElementById('cart_total');
         if (totalPriceElement) {
-            totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+            totalPriceElement.value = totalPrice.toFixed(2);
+            let total = document.getElementById('total_price')
+            total.value = totalPrice.toFixed(2)
         }
     }
 

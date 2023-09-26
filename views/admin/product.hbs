@@ -1,11 +1,12 @@
 
-<section class="products d-flex mt-2" style="width: 100%;">
-    <div class="category-list p-4" style="width: 100%;">
+<section class="products d-flex mt-2" style="width: 100%; overflow:hidden;">
+    <div class="category-list p-3" style="width: 100%;">
         <div class="header d-flex justify-content-between">  
           <h3 class="mb-4">Products</h3>
           <a href="/admin/products/new-product" class="btn btn-primary" style="height:40px;">New Product</a>
         </div>
-        <table id="example" class="table table-striped" style="width:100%">
+        <div class="table-container" >
+        <table id="example" class="table table-striped" style="width:100%; overflow:hidden;">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -16,7 +17,7 @@
                     <th>Status</th>
                     {{!-- <th>Actual Price</th> --}}
                     <th>Selling Price</th>
-                    <th>Edit/Delete</th>
+                    <th>Manage</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +38,6 @@
                     {{!-- <td>{{this.prod_price}}</td> --}}
                     <td>{{this.sellig_price}}</td>
                     <td>
-                        <a href="/admin/products/view-product/{{this._id}}" class="ms-3 text-secondary"><i class="fa-solid fa-eye"></i></a>
                         <a href="/admin/products/edit-product/{{this._id}}" class="ms-3"><i class="fa-solid fa-pen"></i></a>
                         <a  onclick="deleteProduct('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>
                     </td>
@@ -45,7 +45,7 @@
                 {{/each}}
             </tbody>
         </table>
-
+        <div class="table-container" >
     </div>
 </section>
 <script>

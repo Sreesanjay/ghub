@@ -144,21 +144,72 @@ button.showless{
     width: 100%;
 }
 
-.my-address .new-address-wrapper{
+ .new-address-wrapper{
     display: none;
 }
-.my-address .address-edit-card{
+ .address-edit-card{
     display: none;
 }
-.my-address #address-edit-card{
+ #address-edit-card{
     display: none;
 }
 
 /*view product*/
 .image-container{
     width: 500px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+#primary-img-view{
+width: fit-content;
+min-width:200px;
+position: absolute;
+left:50%;
+right: 50%; 
+top: 50%;
+transform: translate(-50%,-50%) ;
+pointer-events: none;
+}
+.secondary-img-container{
     position: relative;
 }
+.sec-img-wrapper{
+    width:45vw;
+    overflow-x:hidden;
+}
+.left-img-scroll,.right-img-scroll{
+    font-size: 25px;
+    color: var(--blue-clr);
+    z-index: 5;
+}
+
+.sec-img-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .sec-img-wrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+@media only screen and (max-width: 991px){
+    .sec-img-wrapper{
+        width:80vw;
+    }
+    .image-container{
+        width: 90vw;
+    }
+    
+}
+
+@media only screen and (max-width: 400px){
+    #primary-img-view{
+        width: 80vw;
+    }
+}
+
 .add-to-wish-list-btn{
     position: absolute;
     right: 25px;

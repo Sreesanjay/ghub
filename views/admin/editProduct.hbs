@@ -1,13 +1,42 @@
+<style>
+    #image {
+        display: block;
+        width: 500px;
+        height: 400px;
+        max-width: 100%;
+    }
+
+    .edit-product {
+        position: relative;
+    }
+
+    #preview-img {
+        display: none;
+    }
+
+    .crop-product {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        display: none;
+    }
+
+    #output {
+        margin: 0 5px;
+    }
+</style>
 <section class="edit-product p-4" style="width:100%;">
     <form id="editForm" enctype="multipart/form-data">
         <a href="/admin/products" class="txt-decoration-null"><i class="fa-solid fa-left-long"></i>Products</a>
         <section class="header d-flex justify-content-between pe-4">
             <h3>Product Edit</h3>
-            <input type="submit" class="btn btn-primary px-5" value="save">
+            <input type="submit" class="btn btn-primary px-5 edit-prod-submit" value="save">
         </section>
         <section class="body row py-3">
             <input type="hidden" value="{{product.secondary_img.length}}" id="sec-img-length">
-            <div class="left-side col-sm-5 ">
+            <div class="left-side col-md-5 ">
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="field-header">
@@ -64,10 +93,11 @@
                             <label for="inputtext3" class="col-sm-2 col-md-12 col-form-label mb-2">Primary Image</label>
                             <img src="/Images/Products/{{product.primary_img.filename}}"
                                 id="img{{product.primary_img.filename}}" alt="" style="width:70px;" class="col-md-3">
+                            <input type="hidden" name="primary_img" id="result">
                             <div class="col-sm-10 col-md-9">
-                                <input type="file" accept=".jpeg,.png,.jpg,.webp" class="form-control prod-img"
+                                <input type="file" accept=".jpeg,.png,.jpg,.webp" class="form-control prod-img primary-img-edit"
                                     id="{{product.primary_img.filename}}"
-                                    onchange="previewImg(event,'primary_img','primary_img')" name="primary_img">
+                                    onchange="previewImg(event,'primary_img','primary_img')">
                             </div>
                         </div>
                         <div class="secondary-img row">
@@ -90,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right-side col-sm-7 ">
+            <div class="right-side col-md-7 ">
                 <div class="card mb-3">
                     <div class="form-group card-body row mb-3">
                         <div class="field-header">
@@ -106,12 +136,18 @@
                             <input type="text" class="form-control" id="inputtext3" value="{{product.brand_name}}"
                                 name="brand_name" placeholder="text" required>
                         </div>
-                        <div class="col-sm-10 col-md-6 mb-3">
+                      
+                        <div class="col-sm-10 col-md-12 mb-3">
                             <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Category</label>
                             <select class="form-select" name="category" aria-label="Default select example">
                                 <option value="{{product.category._id}}" selected>{{product.category.cat_name}}</option>
                                 {{#each category}}<option value="{{this._id}}">{{this.cat_name}}</option>{{/each}}
                             </select>
+                        </div>
+                          <div class="col-sm-10 col-md-6 mb-3">
+                            <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Color</label>
+                            <input type="text" class="form-control" id="inputtext3" value="{{product.prod_color}}"
+                                name="prod_color" placeholder="text" required>
                         </div>
                         <div class="col-sm-10 col-md-6 mb-3">
                             <label for="inputtext3" class="col-sm-2 col-md-4 col-form-label">Stock</label>
@@ -156,6 +192,12 @@
         </div>
     </section>
     </form>
+     <div class="crop-product card shadow" id="crp-container">
+        <div>
+            <img src="" id="image" alt="" width="200" height="200px">
+            <button id="cropImageBtn" class="btn btn-primary mt-3">Crop Image</button>
+        </div>
+    </div>
 </section>
 
 <script>

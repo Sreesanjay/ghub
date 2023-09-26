@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    blockUser=(e,user,id)=>{
+    blockUser = (e, user, id) => {
         e.preventDefault();
-        const blockBtn=document.getElementById('blockBtn')
+        const blockBtn = document.getElementById('blockBtn')
         Swal.fire({
             title: 'Are you sure!',
             text: `You want to block ${user}`,
@@ -13,14 +13,14 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log(blockBtn.href)
-                location.href=`/admin/customers/block-customer/${id}`
+                location.href = `/admin/customers/block-customer/${id}`
             }
         })
     }
 
-    unblockUser=(e,user)=>{
+    unblockUser = (e, user) => {
         e.preventDefault();
-        const unblockBtn=document.getElementById('unblockBtn')
+        const unblockBtn = document.getElementById('unblockBtn')
         Swal.fire({
             title: 'Are you sure!',
             text: `You want unblock ${user}?`,
@@ -31,7 +31,7 @@ $(document).ready(function () {
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href=unblockBtn.href
+                location.href = unblockBtn.href
             }
         })
     }

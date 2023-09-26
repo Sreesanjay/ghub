@@ -1,39 +1,44 @@
-<section class="products d-flex mt-2" style="width: 100%;">
+<section class="products d-flex mt-2" style="width: 100%; overflow:hidden;">
     <div class="category-list p-4" style="width: 100%;">
-        <div class="header d-flex justify-content-between">  
-          <h3 class="mb-4">Customers</h3>
+        <div class="header d-flex justify-content-between">
+            <h3 class="mb-4">Customers</h3>
         </div>
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Status</th>
-                     <th>Created At</th>
-                    <th>Edit/Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each userList}}
-                <tr>
-                    <td>{{this.user_name}}</td>
-                    <td style="max-width:150px;">{{this.user_email}}</td>
-                    <td>{{this.user_mobile}}</td>
-                    <td>{{#if this.user_status}} <span class="text-success">Active</span> {{else}} <span class="text-danger">Block</span> {{/if}}</td>
-                    <td style="max-width:100px;">{{this.createdAt}}</td>
-                    <td>
-                       {{#if this.user_status}}
-                        <a onclick="blockUser(event,'{{this.user_name}}','{{this._id}}')" id="blockBtn" class="ms-3 btn btn-danger">Block</a>
-                       {{else}}
-                        <a href="/admin/customers/unblock-customer/{{this._id}}" onclick="unblockUser(event,'{{this.user_name}}')" id="unblockBtn" class="ms-3 btn btn-success">Unblock</a>
-                       {{/if}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-
+        <div class="table-container">
+            <table id="example" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each userList}}
+                    <tr>
+                        <td>{{this.user_name}}</td>
+                        <td>{{this.user_email}}</td>
+                        <td>{{this.user_mobile}}</td>
+                        <td>{{#if this.user_status}} <span class="text-success">Active</span> {{else}} <span
+                                class="text-danger">Block</span> {{/if}}</td>
+                        <td style="max-width:100px;">{{this.createdAt}}</td>
+                        <td>
+                            {{#if this.user_status}}
+                            <a onclick="blockUser(event,'{{this.user_name}}','{{this._id}}')" id="blockBtn"
+                                class="ms-3 btn btn-danger">Block</a>
+                            {{else}}
+                            <a href="/admin/customers/unblock-customer/{{this._id}}"
+                                onclick="unblockUser(event,'{{this.user_name}}')" id="unblockBtn"
+                                class="ms-3 btn btn-success">Unblock</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 <script>

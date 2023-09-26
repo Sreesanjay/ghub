@@ -339,16 +339,16 @@ $(document).ready(function () {
 
    //submit edit form
 
-   $('.gen-info-submit-btn').on('click',()=>{
-      const user_name=document.getElementById('user-name-box').value
-      const user_email=document.getElementById('email-box').value
-      const user_mobile=document.getElementById('mobile-box').value
-      const name_err=document.querySelector('.name-err')
-      const mail_err=document.querySelector('.mail-err')
-      const mobile_err=document.querySelector('.mobile-err')
-      name_err.textContent=''
-      mail_err.textContent=''
-      mobile_err.textContent=''
+   $('.gen-info-submit-btn').on('click', () => {
+      const user_name = document.getElementById('user-name-box').value
+      const user_email = document.getElementById('email-box').value
+      const user_mobile = document.getElementById('mobile-box').value
+      const name_err = document.querySelector('.name-err')
+      const mail_err = document.querySelector('.mail-err')
+      const mobile_err = document.querySelector('.mobile-err')
+      name_err.textContent = ''
+      mail_err.textContent = ''
+      mobile_err.textContent = ''
 
       Swal.fire({
          title: 'Are you sure!',
@@ -360,83 +360,83 @@ $(document).ready(function () {
          confirmButtonText: 'Yes'
       }).then(async (result) => {
          if (result.isConfirmed) {
-            if(user_name==''){
-               name_err.textContent='this field is required!'
+            if (user_name == '') {
+               name_err.textContent = 'this field is required!'
             }
-            else if(user_email==''){
-               mail_err.textContent='this field is required!'
+            else if (user_email == '') {
+               mail_err.textContent = 'this field is required!'
             }
-            else if(user_mobile==''){
-               mobile_err.textContent='this field is required!'
+            else if (user_mobile == '') {
+               mobile_err.textContent = 'this field is required!'
             }
-            else{
-               fetch('/get-signup-otp',{
+            else {
+               fetch('/get-signup-otp', {
                   method: 'POST',
-                  body:JSON.stringify({user_email}),
-                  headers: {'Content-Type': 'application/json'}
-               }).then((response)=>{
+                  body: JSON.stringify({ user_email }),
+                  headers: { 'Content-Type': 'application/json' }
+               }).then((response) => {
                   return response.json();
-               }).then((data)=>{
-                  if(data.status=='success'){
+               }).then((data) => {
+                  if (data.status == 'success') {
                      //----------------------------------------------------------------
                      Swal.fire({
                         title: 'Verify Email',
-                        text:`Please enter the OTP that has been sent to ${user_email}`,
+                        text: `Please enter the OTP that has been sent to ${user_email}`,
                         input: 'text',
                         inputAttributes: {
-                          autocapitalize: 'off'
+                           autocapitalize: 'off'
                         },
                         showCancelButton: true,
                         confirmButtonText: 'Verify',
                         showLoaderOnConfirm: true,
-                        preConfirm: async(otp) => {
-                          return fetch('/account/editProfile',{
-                           method: 'POST',
-                           body: JSON.stringify({
-                              user_name,
-                              user_email,
-                              user_mobile,
-                              otp
-                           }),
-                           headers:{'Content-Type': 'application/json'}
-                          }).then(response => {
+                        preConfirm: async (otp) => {
+                           return fetch('/account/editProfile', {
+                              method: 'POST',
+                              body: JSON.stringify({
+                                 user_name,
+                                 user_email,
+                                 user_mobile,
+                                 otp
+                              }),
+                              headers: { 'Content-Type': 'application/json' }
+                           }).then(response => {
                               return response.json()
-                            }).then((data) => {
+                           }).then((data) => {
                               console.log(data);
-                              if(data.message=='Invalid OTP'){
+                              if (data.message == 'Invalid OTP') {
                                  throw new Error(data.message)
                               }
                               return data
-                            }).then((result) => {
+                           }).then((result) => {
                               console.log(result)
-                              if (result.status=='success') {
+                              if (result.status == 'success') {
                                  Swal.fire(
                                     'Success!',
                                     'profile edited successfully!',
                                     'success'
                                  ).then(() => location.assign('/account'))
-                              }else{
+                              } else {
                                  Swal.fire(
                                     'Error!',
                                     result.message,
                                     'error'
                                  )
                               }
-                            }).catch(error => {
-                                 Swal.showValidationMessage(error.message)
-                            })
+                           }).catch(error => {
+                              Swal.showValidationMessage(error.message)
+                           })
                         },
                         allowOutsideClick: () => !Swal.isLoading()
-                      })
+                     })
                      //----------------------------------------------------------------
-                  }else{
+                  } else {
                      throw new Error(data.message)
                   }
-               }).catch((error)=>{
-                  if(error.message=='user already exsists'){
-                     mail_err.textContent=error.message
+               }).catch((error) => {
+                  if (error.message == 'user already exsists') {
+                     mail_err.textContent = error.message
                   }
-                  else{
+                  else {
                      Swal.fire(
                         'Error!',
                         error.message,
@@ -449,8 +449,8 @@ $(document).ready(function () {
 
          }
       })
-      
-      
+
+
    })
 
 

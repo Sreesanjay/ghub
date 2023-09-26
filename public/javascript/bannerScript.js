@@ -129,7 +129,7 @@ $(() => {
                 let body;
 
                 const base64String = document.getElementById('result').value
-                if (base64String!=='') {
+                if (base64String !== '') {
                     const base64Data = base64String.split(',')[1];
                     const binaryData = atob(base64Data);
                     const uint8Array = new Uint8Array(binaryData.length);
@@ -141,9 +141,9 @@ $(() => {
                     formData.append('image', file)
                 }
                 const id = document.getElementById('banner_id').value
-                fetch(`/admin/banner-management/edit-banner/${id}`,{
-                    method:'PUT',
-                    body:formData,
+                fetch(`/admin/banner-management/edit-banner/${id}`, {
+                    method: 'PUT',
+                    body: formData,
                 }).then((result) => {
                     return result.json()
                 }).then((data) => {
@@ -170,11 +170,11 @@ $(() => {
 
     //Delete banner
 
-    deleteBanner=(e,id)=>{
+    deleteBanner = (e, id) => {
         e.preventDefault();
         Swal.fire({
             title: 'Are you sure!',
-            text: `You want to edit this banner?`,
+            text: `You want to delete this banner?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -182,19 +182,19 @@ $(() => {
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/admin/banner-management/delete-banner/${id}`,{
+                fetch(`/admin/banner-management/delete-banner/${id}`, {
                     method: 'GET',
                 }).then((result) => {
                     return result.json();
                 }).then((data) => {
-                    if(data.status === 'success'){
+                    if (data.status === 'success') {
                         Swal.fire(
                             'Success!',
                             'banner deleted successfully!',
                             'success'
                         ).then(() => location.assign('/admin/banner-management'))
                     }
-                    else{
+                    else {
                         Swal.fire(
                             'Error!',
                             data.message,

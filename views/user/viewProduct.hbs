@@ -1,60 +1,31 @@
 <!-- content -->
 <style>
-  #img-preview {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
 
-  .image-container {
-    position: relative;
-    cursor: pointer;
-  }
-
-  #zoom-image {
-    width: 300px;
-    /* Adjust the initial image size */
-  }
-
-  .zoomed-image-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    /* Adjust the zoomed image size */
-    overflow: hidden;
-    display: none;
-    border: 1px solid #ccc;
-  }
-
-  #zoomed-image {
-    width: 100%;
-    height: auto;
-  }
 </style>
 <section class="py-5 product-view-top">
   <div class="container">
-    <div class="row gx-5">
-      <aside class="col-lg-6 d-flex flex-column align-items-center">
-        <div class="border rounded-4 mb-3 p-3 d-flex justify-content-center image-container">
-          <img src="/Images/Products/{{product.primary_img.filename}}" alt="">
-          <i class="fa-regular fa-heart add-to-wish-list-btn" onclick="addToWishlist(event ,'{{product._id}}')"></i>
+    <div class="row p-0 m-0">
+      <aside class="col-lg-6 d-flex flex-column align-items-center p-0">
+        <div class="border rounded-4 mb-3 image-container" id="image-container">
+          <img src="/Images/Products/{{product.primary_img.filename}}" alt="" id="primary-img-view">
+          <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
         </div>
-        <div class="d-flex justify-content-center mb-3">
-          {{#each product.secondary_img}}
-          <div class="card p-3 px-5 me-3">
-            <img width="50" height="" class="rounded-2" src="/Images/Products/{{this.filename}}" />
+        <div class="secondary-img-container d-flex align-items-center">
+          <i class="fa-solid fa-chevron-left left-img-scroll"></i>
+          <div class="d-flex justify-content-center mb-3 sec-img-wrapper">
+            {{#each product.secondary_img}}
+            <div class="card me-5 d-flex justify-content-center align-items-center" style="min-width:100px;">
+              <img style="max-height: 100px; max-width:min-content;" class="rounded-2"
+                src="/Images/Products/{{this.filename}}" id="{{this._id}}" onclick="setImgView('{{this._id}}')" />
+            </div>
+            {{/each}}
           </div>
-          {{/each}}
+          <i class="fa-solid fa-chevron-right right-img-scroll"></i>
         </div>
         <!-- thumbs-wrap.// -->
         <!-- gallery-wrap .end// -->
       </aside>
-      <main class="col-lg-6">
+      <main class="col-lg-6 p-0 ps-3">
         <div class="ps-lg-3">
           <h4 class="title text-dark">
             {{product.product_name}}
@@ -84,11 +55,11 @@
             <dd class="col-9">{{product.brand_name}}</dd>
           </div>
           <div class="">
-          <p id="prod-disc" class="mb-0" style="height:100px;overflow:hidden;">
-            {{product.discription}}
-          </p>
-           <span id="show-more">...Show More</span>
-           <span id="show-less" style="display:none;">...Show Less</span>
+            <p id="prod-disc" class="mb-0" style="height:100px;overflow:hidden;">
+              {{product.discription}}
+            </p>
+            <span id="show-more">...Show More</span>
+            <span id="show-less" style="display:none;">...Show Less</span>
           </div>
           <div class="row pt-3">
             <h3 class="col-3 text-danger">₹{{product.prod_price}}</h3>
@@ -98,14 +69,11 @@
           <hr />
 
           <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-          <a class="btn btn-primary shadow-0" onclick="addToCart(event,'{{product._id}}')"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
+          <a class="btn btn-primary shadow-0" onclick="addToCart(event,'{{product._id}}')"> <i
+              class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
         </div>
       </main>
     </div>
-  </div>
-
-  <div id="img-zoomer">
-
   </div>
 </section>
 <!-- content -->
@@ -164,5 +132,26 @@
     </div>
   </div>
 </section>
+
 <script>
+
+  let zoom_area = document.getElementById('image-container')
+  let zoom_img = document.getElementById('primary-img-view');
+  zoom_area.addEventListener('mousemove', (event) => {
+    clientX = event.clientX - zoom_area.offsetLeft
+    clientY = event.clientY - zoom_area.offsetTop
+
+    mWidth = zoom_area.offsetWidth
+    mHeight = zoom_area.offsetHeight
+
+    clientX = clientX / mWidth * 100
+    clientY = clientY / mHeight * 100
+
+    zoom_img.style.transform = 'translate(-' + clientX + '%,-' + clientY + '%) scale(2)'
+  })
+  zoom_area.addEventListener('mouseleave', () => {
+    console.log("zoom_out")
+
+    zoom_img.style.transform = 'translate(-50%,-50%) scale(1)'
+  })
 </script>

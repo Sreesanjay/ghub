@@ -1,41 +1,44 @@
 <section class="category d-flex mt-2">
     <div class="category-list p-4" style="width: 100%;">
-        <div class="header d-flex justify-content-between">  
-          <h3 class="mb-4">Categories</h3>
-          <a href="/admin/category/new-category" class="btn btn-primary" style="height:40px;">New Category</a>
+        <div class="header d-flex justify-content-between">
+            <h3 class="mb-4">Categories</h3>
+            <a href="/admin/category/new-category" class="btn btn-primary" style="height:40px;">New Category</a>
         </div>
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Discription</th>
-                    <th>Status</th>
-                    <th style="width:100px;">Created at</th>
-                    <th>Edit/Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each categories}}
-                <tr>
-                    <td>{{this.cat_name}}</td>
-                    <td>{{this.discription}}</td>
-                    <td>
-                        {{#if this.cat_status}}
-                        <span>List</span>
-                        {{else}}
-                        <span>Unlist</span>
-                        {{/if}}
-                    </td>
-                    <td>{{this.createdAt}}</td>
-                    <td>
-                        <a href="/admin/category/edit-category/{{this._id}}" class="ms-3"><i class="fa-solid fa-pen"></i></a>
-                        <a  onclick="deleteCategory('{{this._id}}')" class="text-danger ms-2"><i class="fa-solid fa-trash"></i></a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-
+        <div class="table-container">
+            <table id="example" class="table table-striped" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Discription</th>
+                        <th>Status</th>
+                        <th style="width:100px;">Created at</th>
+                        <th>Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each categories}}
+                    <tr>
+                        <td>{{this.cat_name}}</td>
+                        <td>{{this.discription}}</td>
+                        <td>
+                            {{#if this.cat_status}}
+                            <span>List</span>
+                            {{else}}
+                            <span>Unlist</span>
+                            {{/if}}
+                        </td>
+                        <td>{{this.createdAt}}</td>
+                        <td>
+                            <a href="/admin/category/edit-category/{{this._id}}" class="ms-3"><i
+                                    class="fa-solid fa-pen"></i></a>
+                            <a onclick="deleteCategory('{{this._id}}')" class="text-danger ms-2"><i
+                                    class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 <script>

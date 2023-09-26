@@ -1,41 +1,45 @@
-<section class="category d-flex mt-2" style="width:100%;">
-    <div class="category-list p-4" style="width: 100%;">
-        <div class="header d-flex justify-content-between">  
-          <h3 class="mb-4">Banner Management</h3>
-          <a href="/admin/banner-management/new-banner" class="btn btn-primary" style="height:40px;">New Banner</a>
+<section class="category d-flex mt-2" style="width:100%; overflow:hidden;">
+    <div class="category-list p-3" style="width: 100%;">
+        <div class="header d-flex justify-content-between">
+            <h3 class="mb-4">Banner Management</h3>
+            <a href="/admin/banner-management/new-banner" class="btn btn-primary" style="height:40px;">New Banner</a>
         </div>
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                   <th>Image</th>
-                   <th>Banner Type</th>
-                   <th>Start Date</th>
-                   <th>Exp. Date</th>
-                   <th>Reference</th>
-                   <th>Banner Status</th>
-                   <th>Edit/delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each allBanners}}
-                <tr>
-                    <td><img src="/Images/Banners/{{this.image.filename}}" alt="" width="100"></td>
-                    <td>{{this.banner_type}}</td>
-                    <td>{{this.starting_date}}</td>
-                    <td>{{this.exp_date}}</td>
-                    <td>{{this.reference}}</td>
-                    {{#if this.banner_status}}
-                    <td class="text-success">Active</td>
-                    {{else}}
-                    <td class="text-danger">Inactive</td>
-                    {{/if}}
-                    <td><a href="/admin/banner-management/edit-banner/{{this._id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a onclick="deleteBanner(event,'{{this._id}}')"><i class="fa-solid fa-trash ms-3 text-danger"></i></a></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-
+        <div class="table-container">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Banner Type</th>
+                        <th>Start Date</th>
+                        <th>Exp. Date</th>
+                        <th>Reference</th>
+                        <th>Banner Status</th>
+                        <th>Edit/delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each allBanners}}
+                    <tr>
+                        <td><img src="/Images/Banners/{{this.image.filename}}" alt="" width="100"></td>
+                        <td>{{this.banner_type}}</td>
+                        <td>{{this.starting_date}}</td>
+                        <td>{{this.exp_date}}</td>
+                        <td>{{this.reference}}</td>
+                        {{#if this.banner_status}}
+                        <td class="text-success">Active</td>
+                        {{else}}
+                        <td class="text-danger">Inactive</td>
+                        {{/if}}
+                        <td><a href="/admin/banner-management/edit-banner/{{this._id}}"><i
+                                    class="fa-solid fa-pen-to-square"></i></a>
+                            <a onclick="deleteBanner(event,'{{this._id}}')"><i
+                                    class="fa-solid fa-trash ms-3 text-danger"></i></a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 <script>

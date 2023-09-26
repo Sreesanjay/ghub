@@ -23,6 +23,9 @@ body{
     text-decoration: none;
     color: var(--blue-clr)
 }
+.uppercase-input {
+  text-transform: uppercase;
+}
 .c-pointer{
   cursor: pointer;
 }

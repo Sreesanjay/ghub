@@ -172,8 +172,8 @@ $(function () {
             confirmButtonText: 'Yes'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                fetch(`/my-cart/remove-item/${id}`,{
-                    method:'DELETE'
+                fetch(`/my-cart/remove-item/${id}`, {
+                    method: 'DELETE'
                 }).then((response) => {
                     return response.json()
                 }).then((data) => {
@@ -188,10 +188,10 @@ $(function () {
                             willClose: () => {
                                 clearInterval(timerInterval)
                             }
-                        }).then(()=>{
+                        }).then(() => {
                             location.reload()
                         })
-                    }else{
+                    } else {
                         throw new Error(data.message)
                     }
                 }).catch((error) => {
@@ -205,14 +205,30 @@ $(function () {
         })
     }
 
-    $('#show-more').on('click',() => {
-        $('#prod-disc').css('height','max-content')
+    $('#show-more').on('click', () => {
+        $('#prod-disc').css('height', 'max-content')
         $('#show-more').toggle();
         $('#show-less').toggle();
     })
-    $('#show-less').on('click',() => {
-        $('#prod-disc').css('height','100px')
+    $('#show-less').on('click', () => {
+        $('#prod-disc').css('height', '100px')
         $('#show-more').toggle();
         $('#show-less').toggle();
+    })
+
+   setImgView = (id) => {
+    let imagePath = $('#'+id).attr('src');
+    let primary_img_path = $('#primary-img-view').attr('src');
+    $('#'+id).attr('src',primary_img_path);
+    $('#primary-img-view').attr('src', imagePath);
+    }
+
+    $('.left-img-scroll').on('click', () => {
+        let left=document.querySelector('.sec-img-wrapper')
+        left.scrollBy(-200,0)
+    })
+    $('.right-img-scroll').on('click', () => {
+        let right=document.querySelector('.sec-img-wrapper')
+        right.scrollBy(200,0)
     })
 })

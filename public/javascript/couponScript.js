@@ -27,7 +27,7 @@ $(function () {
                             'coupon created succsfully',
                             'success'
                         ).then(() => location.assign('/admin/coupon-management'))
-                    }else{
+                    } else {
                         throw new Error(data.status)
                     }
                 }).catch((error) => {
@@ -35,7 +35,7 @@ $(function () {
                         'Failed!',
                         error.message,
                         'error'
-                      )
+                    )
                 })
             }
         })
@@ -54,52 +54,52 @@ $(function () {
                 required: true,
             },
         },
-       
+
         submitHandler: function (form) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You want to edit coupon?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                let form = document.getElementById('edit-coupon');
-                let formData = new FormData(form)
-                const obj = Object.fromEntries(formData);
-                let id=document.getElementById('cp-id').value
-                fetch(`/admin/coupon-management/edit-coupon/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(obj),
-                    headers: { "Content-Type": "application/json" }
-                }).then((response) => {
-                    return response.json()
-                }).then((data) => {
-                    if (data.status === 'success') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to edit coupon?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let form = document.getElementById('edit-coupon');
+                    let formData = new FormData(form)
+                    const obj = Object.fromEntries(formData);
+                    let id = document.getElementById('cp-id').value
+                    fetch(`/admin/coupon-management/edit-coupon/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(obj),
+                        headers: { "Content-Type": "application/json" }
+                    }).then((response) => {
+                        return response.json()
+                    }).then((data) => {
+                        if (data.status === 'success') {
+                            Swal.fire(
+                                'Success!',
+                                'Coupon edited succsfully',
+                                'success'
+                            ).then(() => location.assign('/admin/coupon-management'))
+                        } else {
+                            throw new Error(data.status)
+                        }
+                    }).catch((error) => {
                         Swal.fire(
-                            'Success!',
-                            'Coupon edited succsfully',
-                            'success'
-                        ).then(() => location.assign('/admin/coupon-management'))
-                    }else{
-                        throw new Error(data.status)
-                    }
-                }).catch((error) => {
-                    Swal.fire(
-                        'Failed!',
-                        error.message,
-                        'error'
-                      )
-                })
-            }
-        })
-    }
-})
+                            'Failed!',
+                            error.message,
+                            'error'
+                        )
+                    })
+                }
+            })
+        }
+    })
 
 
-    deleteCoupon=(id)=>{
+    deleteCoupon = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You want to create new coupon?",
@@ -110,26 +110,26 @@ $(function () {
             confirmButtonText: 'Yes'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                fetch(`/admin/coupon-management/delete-coupon/${id}`,{
-                    method:'DELETE'
-                }).then((res)=>{
+                fetch(`/admin/coupon-management/delete-coupon/${id}`, {
+                    method: 'DELETE'
+                }).then((res) => {
                     return res.json()
-                }).then((data)=>{
-                    if(data.status=='success'){
+                }).then((data) => {
+                    if (data.status == 'success') {
                         Swal.fire(
                             'Success!',
                             'coupon deleted succsfully',
                             'success'
                         ).then(() => location.reload())
-                    }else{
+                    } else {
                         throw new Error(data.message)
                     }
-                }).catch((error)=>{
+                }).catch((error) => {
                     Swal.fire(
                         'Failed!',
                         error.message,
                         'error'
-                      )
+                    )
                 })
             }
         })

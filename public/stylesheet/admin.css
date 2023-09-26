@@ -1,156 +1,187 @@
-
-header{
-    background-color: var(--secondary-background);
+header {
+     background-color: var(--secondary-background);
 }
-.navbar .logo img{
-    width: 80px;
+.navbar .logo img {
+     width: 80px;
 }
-.admin-login-form button{
-    background-color: var(--secondary-background);
+.admin-login-form button {
+     background-color: var(--secondary-background);
 }
 /* forgot password */
-.forgot-pass-verifier{
-    min-height: 80vh;
+.forgot-pass-verifier {
+     min-height: 80vh;
 }
 
-.forgot-pass-verifier button{
-    background-color: var(--secondary-background);
+.forgot-pass-verifier button {
+     background-color: var(--secondary-background);
 }
-.forgot-pass-verifier .verify-wrapper{
-    min-height: 50vh;
+.forgot-pass-verifier .verify-wrapper {
+     min-height: 50vh;
 }
-.forgot-pass-verifier button:hover{
-    background-color: rgb(245, 245, 245);
+.forgot-pass-verifier button:hover {
+     background-color: rgb(245, 245, 245);
 }
-.forgot-pass-verifier #otp-wraper{
-    display: none;
+.forgot-pass-verifier #otp-wraper {
+     display: none;
 }
 /* reset password  */
-.reset-pass .pass-box{
-    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+.reset-pass .pass-box {
+     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 }
-.reset-pass .pass-box button{
-    background-color:var(--secondary-background)
+.reset-pass .pass-box button {
+     background-color: var(--secondary-background);
 }
-#admin-newpass .error{
-    color: rgb(240, 2, 2);
+#admin-newpass .error {
+     color: rgb(240, 2, 2);
 }
-.log-out{
-    font-size: 20px;
+.log-out {
+     font-size: 20px;
 }
-
 
 /* left-dashboard */
-.admin-side-bar{
-    width: 17vw;
-    height: fit-content;
-    border-radius: 5px;
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.1);
-    background-color:var(--secondary-background);
-    position :sticky;
-    top: 10px;
+.admin-side-bar {
+     min-width: 20vw;
+     height: fit-content;
+     border-radius: 5px;
+     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+     background-color: var(--secondary-background);
+     position: sticky;
+     top: 10px;
+     z-index: 10;
 }
-.admin-side-bar .nav-item{
-    transform-origin: left;
+.admin-side-bar .nav-item {
+     transform-origin: left;
 }
-.admin-side-bar .nav-item:hover{
-    transform:scale(1.1);
-    
+.admin-side-bar .nav-item:hover {
+     transform: scale(1.1);
 }
-.side-bar-icon{
-    width: 25px;
-    height: 25px;
-    font-size: 25px;
-    color:var(--gray)
+.side-bar-icon {
+     width: 25px;
+     height: 25px;
+     font-size: 25px;
+     color: var(--gray);
 }
 
-.dash-board li a{
-    font-size:20px;
-    color:var(--gray)
+.dash-board li a {
+     font-size: 20px;
+     color: var(--gray);
 }
-.sidebar-footer{
-    width:17vw;
-    height: 50px;
-    background-color: var(--gray);
-    color: var(--secondary-text);
+.sidebar-footer {
+     width: 100%;
+     height: 50px;
+     background-color: var(--gray);
+     color: var(--secondary-text);
 }
-.sidebar-footer .dropdown-menu{
-    background-color: var(--gray);
-    width: 17vw;
-    color: var(--secondary-text);
+.sidebar-footer .dropdown-menu {
+     background-color: var(--gray);
+     width: 17vw;
+     color: var(--secondary-text);
 }
-.sidebar-footer .dropdown-menu a:hover{
-    background-color: rgb(109, 109, 109)
+.sidebar-footer .dropdown-menu a:hover {
+     background-color: rgb(109, 109, 109);
 }
-.sidebar-footer button:focus{
-    border: none;
+.sidebar-footer button:focus {
+     border: none;
 }
 
 /*category*/
 div.dataTables_wrapper input[type="search"] {
-    width:250px !important;
-    height: 40px !important;
-  }
-  /*new category*/
-  .new-category textarea{
-    min-height: 150px !important;
-  }
+     width: 250px !important;
+     height: 40px !important;
+}
+/*new category*/
+.new-category textarea {
+     min-height: 150px !important;
+}
 
-  /*products*/
+/*products*/
 /* file upload button */
 .new-product input[type="file"]::file-selector-button {
-    border-radius: 4px;
-    padding: 0 16px;
-    height: 40px;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.16);
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
-    margin-right: 16px;
-    transition: background-color 200ms;
-  }
-  
-  /* file upload button hover state */
-  .new-product input[type="file"]::file-selector-button:hover {
-    background-color: #f3f4f6;
-  }
-  
-  /* file upload button active state */
-  .new-product input[type="file"]::file-selector-button:active {
-    background-color: #e5e7eb;
-  }
-  .new-product .new-spec-input{
-    display:none;
-  }
-  /*edit product*/
-  .edit-product .body{
-    width: 100%;
-  }
-  .edit-product .left-side{
-    height: fit-content;
-    position:sticky;
-    top:10px;
-  }
+     border-radius: 4px;
+     padding: 0 16px;
+     height: 40px;
+     cursor: pointer;
+     background-color: white;
+     border: 1px solid rgba(0, 0, 0, 0.16);
+     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+     margin-right: 16px;
+     transition: background-color 200ms;
+}
 
+/* file upload button hover state */
+.new-product input[type="file"]::file-selector-button:hover {
+     background-color: #f3f4f6;
+}
 
-  /*banner style*/
-  .new-banner{
-    width: 100%;
-  }
-  .new-banner form{
-    width: 100%;
-  }
-  
-  .new-banner .form-control,.form-select{
-    width: 100% !important;
-  }
+/* file upload button active state */
+.new-product input[type="file"]::file-selector-button:active {
+     background-color: #e5e7eb;
+}
+.new-product .new-spec-input {
+     display: none;
+}
+/*edit product*/
+.edit-product .body {
+     width: 100%;
+}
+.edit-product .left-side {
+     height: fit-content;
+     position: sticky;
+     top: 10px;
+}
 
+/*banner style*/
+.new-banner {
+     width: 100%;
+}
+.new-banner form {
+     width: 100%;
+}
 
-@media only screen and (max-width: 670px)  {
-    .forgot-img{
-        width: 70vw;
-    }
-    header .logo img{
-        width: 60px;
-    }
+.new-banner .form-control,
+.form-select {
+     width: 100% !important;
+}
+
+.table-container {
+    overflow-x: scroll;
+}
+
+@media only screen and (max-width: 670px) {
+     .forgot-img {
+          width: 70vw;
+     }
+     header .logo img {
+          width: 60px;
+     }
+     .form-control{
+        width:auto;
+     }
+}
+
+@media only screen and (max-width: 768px) {
+     .admin-side-bar .sidebar-list {
+          display: none;
+     }
+     .admin-side-bar {
+          top: 0;
+     }
+     .category {
+          overflow: hidden;
+     }
+     .sidebar-btn{
+          display: block;
+     }
+     .edit-product .left-side{
+        position: relative;
+     }
+}
+@media only screen and (min-width: 769px) {
+     .admin-side-bar .sidebar-list {
+          display: block !important;
+     }
+     .sidebar-btn{
+          display: none !important;
+     }
+
 }

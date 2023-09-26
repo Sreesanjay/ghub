@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports= multer({
+module.exports = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     if (
@@ -28,5 +28,4 @@ module.exports= multer({
     }
   },
 }).fields([{ name: 'prod_img_1', maxCount: 1 }, { name: 'prod_img_2', maxCount: 3 }]);
- 
- 
+

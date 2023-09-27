@@ -101,8 +101,13 @@ const orderSchema = new mongoose.Schema({
           },
      },
      coupon: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Coupon',
+          coupon_id:{
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'Coupon',
+          },
+          discount:{
+               type:Number
+          }
       },
      paymentMethod: {
           type: String,

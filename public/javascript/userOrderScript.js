@@ -17,7 +17,7 @@ $(function(){
             $('.payment-option').toggle()
         }
     })
-
+ 
     //reselect address
     $('.reselect-address').on('click', ()=>{
         const isToggle=$('.address-section').is(":visible")

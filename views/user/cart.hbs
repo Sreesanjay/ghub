@@ -110,13 +110,16 @@
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0">₹{{this.prod_detail.sellig_price}}</h5>
                                                 </div>
-                                                <input type="hidden" value="{{this.prod_detail.stock}}" id="stock{{this.prod_detail._id}}">
+                                                <input type="hidden" value="{{this.prod_detail.stock}}" id="stock-{{this.prod_detail._id}}" name="stock">
                                                 <div class="out-of-stock-err text-danger"></div>
                                                 <i class="fas fa-trash-alt text-muted"
                                                     onclick="removeCart('{{this.cart.product_id}}')"></i>
                                             </div>
                                         </div>
                                     </div>
+                                    {{#if this.outOfStock}}
+                                        <h5 class="text-danger ms-2" id="out-of-stock-{{this.prod_detail._id}}">Out of Stock</h5>
+                                    {{/if}}
                                     <div class="d-flex flex-row align-items-center ms-2 pt-4">
                                         <div class="d-flex mb-4" style="max-width: 200px">
                                             <button class="btn btn-primary px-3 me-2 blue-clr"
@@ -184,7 +187,7 @@
                                                     class="order-summary-inp" id="total_price" readonly>
                                             </div>
                                             <hr>
-                                            <a class="btn btn-primary checkout-link" href="/order/get-checkout">Go to Checkout</a>
+                                            <a class="btn btn-primary checkout-link" onclick="getCheckout(event)" href="/order/get-checkout">Go to Checkout</a>
                                         </div>
 
                                     </div>

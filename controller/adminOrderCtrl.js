@@ -44,9 +44,42 @@ const getCheckout = asyncHandler(async (req, res, next) => {
 
 //proceed order
 const proceedOrder=asyncHandler(async(req,res)=>{
+    let order={}
     const user=await User.findById(res.locals.userData._id);
     let cart = user.cart;
+//     console.log(req.body)
+    order.user=user._id;
+    order.products=[]
+    for(let i=0; i<cart.length; i++){
+     let prod=await Product.findById(cart[i].product_id);
+     const products={
+          product:new mongoose.Types.ObjectId(cart[i].product_id),
+          quantity:cart[i].count,
+          price:prod.sellig_price*cart[i].count
+     }
+     order.products.push(products)
+
+    }
+    let totalAmount=order.products.reduce((acc,prod)=>{
+          acc=acc+prod.price;
+          return acc;
+    },0)
+    const address=await Address.findById(req.body.delivery_address)
+    order.delivery_address=address;
+    order.paymentMethod=req.body.payment_option;
+    if(req.body.coupon_id){
+          const coupon=await Coupon.findById(req.body.coupon_id)
+          let discount=Math.round(((totalAmount*coupon.discount)/100))
+          order.totalAmount=totalAmount-discount;
+          order.coupon={
+               coupon_id:new mongoose.Types.ObjectId(req.body.coupon_id),
+               discount:discount
+          }
+    }else{
+     order.totalAmount=totalAmount;
+    }
     
+    console.log(order)
 
 })
 

@@ -26,7 +26,11 @@ const getCart = asyncHandler(async (req, res, next) => {
      for (prod of cartList) {
           prod.price = prod.prod_detail.sellig_price * prod.cart.count;
      }
-
+     for(let i=0; i<cartList.length; i++){
+          if(cartList[i].cart.count>cartList[i].prod_detail.stock){
+               cartList[i].outOfStock = true;
+          }
+     }
      //get available coupon
      let coupon = await Coupon.find({
           is_delete: false,
@@ -47,7 +51,6 @@ const getCart = asyncHandler(async (req, res, next) => {
             exp_date: new Date(cpn.exp_date).toLocaleDateString(),
        };
      })
-     console.log(coupon)
 
      res.render("user/cart", { cartList , coupon});
 });

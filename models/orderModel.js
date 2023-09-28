@@ -27,6 +27,7 @@ const orderSchema = new mongoose.Schema({
                          "Payment pending",
                          "Confirmed",
                          "Shipped",
+                         "Out for delivery",
                          "Delivered",
                          "Cancelled",
                     ],

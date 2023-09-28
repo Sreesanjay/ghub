@@ -72,6 +72,7 @@ app.use('/admin/products', require('./routes/adminProductRout'));
 app.use('/admin/customers', require('./routes/adminCustomerRout'));
 app.use('/admin/banner-management',require('./routes/adminBannerRout'))
 app.use('/admin/coupon-management',require('./routes/adminCouponRout'))
+app.use('/admin/orders',require('./routes/adminOrderRout'))
 
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)

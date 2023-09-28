@@ -39,7 +39,9 @@ const getCart = asyncHandler(async (req, res, next) => {
           $expr: {
                $and: [
                     { $ne: ["$max_count", "$used_count"] },
-                    { $not: { $in: [user, "$user_list"] } },
+                    // {$in:["$user_list",[user]]}
+                         {$not:{ $in: [user, "$user_list"] }}
+                    
                ],
           },
      });

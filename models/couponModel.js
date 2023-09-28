@@ -35,11 +35,9 @@ var couponSchema = new mongoose.Schema(
                default: false,
           },
           user_list: [
-               {
-                    user_id: {
-                         type: mongoose.Schema.Types.ObjectId,
-                         ref: "User",
-                    },
+               {   
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
                },
           ],
      },

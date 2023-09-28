@@ -35,6 +35,7 @@ $(function(){
         let payment = document.getElementsByName('payment_option')
         let coupon= document.getElementById('cpn_id')
         let body={};
+        let paymentflag=0;
 
         address.forEach((add)=>{
             if(add.checked){
@@ -45,8 +46,14 @@ $(function(){
         payment.forEach(option=>{
             if(option.checked){
                 body.payment_option=option.value
+                paymentflag=1;
             }
         })
+        //validating payment option selected or not
+        if(paymentflag===0){
+            document.querySelector('.payment-err').innerText='Please choose payment option'
+            return false;
+        }
 
         if(coupon?.value){
             body.coupon_id=coupon.value
@@ -59,7 +66,54 @@ $(function(){
         }).then((response)=>{
             return response.json()
         }).then((data)=>{
+            if(data.status=='success'){
+                Swal.fire(
+                    "Success!",
+                    "Order Placed Successfully",
+                    "success"
+               ).then(() => {
+                    location.assign("/my-cart");
+               });
+            }else if(data.status==='paymentPending'){
+                console.log(data)
+                var options = {
+                    "key": data.key, 
+                    "amount": data.amount, 
+                    "currency":data.currency,
+                    "name":data.name, 
+                    "order_id": data.order_id, 
+                    "prefill":data.prefill,
+                    "theme": {
+                        "color": "#3399cc"
+                    },
+                    "handler": function (response){
+                        fetch('order/verify-payment',{
+                            method: 'POST',
+                            body: JSON.stringify(response),
+                            headers:'Content-Type: application/json'
+                        }).then((res) => {
+                            return res.json()
+                        }).then((data) => {
+                            if(data.status === 'success'){
+                                Swal.fire(
+                                    "Success!",
+                                    "Order Placed Successfully",
+                                    "success"
+                                ).then(() => {
+                                    location.assign("/my-cart");
+                                 });
+                         }
+                        })
+                    },
+                };
 
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+                rzp1.on('payment.failed', function (response){
+                    Swal.fire("Failed!",response.error.description, "error");
+            });
+
+            }
         })
 
 

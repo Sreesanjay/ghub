@@ -19,33 +19,27 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{{!-- font --}}
-<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  {{!-- font --}}
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
-{{!-- data table  --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  {{!-- data table --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 
-<script
-      src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
-      integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css"
-      integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+    integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css"
+    integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -62,16 +56,16 @@
     <strong>Failed!</strong> {{error}}
   </div>
   {{/if}}
-   {{#if fullScreen}} 
-   {{{body}}}
-   {{else}}
-   <div class="wrapper d-md-flex">
-   {{>sidebar}}
+  {{#if fullScreen}}
+  {{{body}}}
+  {{else}}
+  <div class="wrapper d-md-flex">
+    {{>sidebar}}
     {{{body}}}
-   </div> 
-   {{/if}}
+  </div>
+  {{/if}}
 
-   {{else}}
+  {{else}}
   {{>user-header}}
   {{#if success}}
   <div class="alert alert-success m-0" style="width:100vw;">
@@ -84,24 +78,26 @@
   </div>
   {{/if}}
   {{#if account}}
-     <div class="wrapper d-md-flex p-md-3 px-md-4  ">
-   {{>userSidebar}}
+  <div class="wrapper d-md-flex p-md-3 px-md-4  ">
+    {{>userSidebar}}
     {{{body}}}
-   </div> 
+  </div>
   {{else}}
   {{{body}}}
   {{/if}}
 
   {{/if}}
-   
- 
+
+
   {{>footer}}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
   {{!-- sweetalert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {{!-- razorpay --}}
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-  
+
 
   <script src="/javascript/adminScript.js"></script>
   <script src="/javascript/categoryScript.js"></script>

@@ -24,13 +24,13 @@ const orderSchema = new mongoose.Schema({
                status: {
                     type: String,
                     enum: [
-                         "Pending",
-                         "confirmed",
+                         "Payment pending",
+                         "Confirmed",
                          "Shipped",
                          "Delivered",
                          "Cancelled",
                     ],
-                    default: "Pending",
+                    default: "Payment pending",
                },
                confirmed_date:{
                 type:Date
@@ -47,13 +47,10 @@ const orderSchema = new mongoose.Schema({
 
           },
      ],
+
      orderDate: {
           type: Date,
           default: Date.now,
-     },
-     totalAmount: {
-          type: Number,
-          required: true,
      },
      delivery_address: {
           user_name: {
@@ -109,12 +106,13 @@ const orderSchema = new mongoose.Schema({
                type:Number
           }
       },
-     paymentMethod: {
+     payment_method: {
           type: String,
           enum: ['COD','ONLINE'],
           required: true,
      },
 });
+
 
 const Order = mongoose.model("Order", orderSchema);
 

@@ -115,8 +115,9 @@ const addCartCount = asyncHandler(async (req, res) => {
                     throw error;
                }
           }
-     }
+     }else{
      throw new Error();
+     }
 });
 
 const removeCartItem = asyncHandler(async (req, res, next) => {

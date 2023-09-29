@@ -1,0 +1,203 @@
+<div class="container py-5 w mb-5 order-details">
+
+    <h3 class="mb-3">Order Details</h3>
+
+    <div class="details-wrapper">
+        <div class="row mt-4">
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Order Id</label>
+                <input type="text" value="{{order._id}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Product Name</label>
+                <input type="text" value="{{order.prod_details.product_name}}" class="form-control context-menu"
+                    readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Customer Name</label>
+                <input type="text" value="{{order.user.user_name}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Customer Email</label>
+                <input type="text" value="{{order.user.user_email}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Quantity</label>
+                <input type="text" value="{{order.products.quantity}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Order Date</label>
+                <input type="text" value="{{order.orderDate}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="" class="d-flex justify-content-between"><span>Status</span><span
+                        class="text-danger change-status">Change Status?</span></label>
+                <input type="text" value="{{order.products.status}}" id="status-inp" class="form-control context-menu"
+                    readonly>
+                <input type="hidden" value="{{order.products.status}}" id="order-status"
+                    class="form-control context-menu" readonly>
+
+                <form id="edit-status" style="display: none;">
+                    <input type="hidden" name="order_id" value="{{order._id}}">
+                    <input type="hidden" name="product_id" value="{{order.prod_details._id}}">
+                    <select class="form-select" name="status" aria-label="Default select example" id="new-status">
+                        <option value="Payment pending">Payment pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Out for delivery">Out for delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <button id="save-btn" class="btn btn-primary mt-3">Save</button>
+                    </from>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Price</label>
+                <input type="text" value="{{order.products.price}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 col-sm-6 col-lg-4 mt-4">
+                <label for="">Payment Method</label>
+                <input type="text" value="{{order.payment_method}}" class="form-control context-menu" readonly>
+            </div>
+            <div class="form-group col-12 mt-4">
+                <label for="">Delivery Address</label>
+                <address class="row d-flex p-4">
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Name</label>
+                        <input type="text" value="{{order.delivery_address.user_name}}"
+                            class="form-control context-menu" readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Phone</label>
+                        <input type="text" value="{{order.delivery_address.phone}}" class="form-control context-menu"
+                            readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Pincode</label>
+                        <input type="text" value="{{order.delivery_address.pincode}}" class="form-control context-menu"
+                            readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Locality</label>
+                        <input type="text" value="{{order.delivery_address.locality}}" class="form-control context-menu"
+                            readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Area / Street</label>
+                        <input type="text" value="{{order.delivery_address.area_street}}"
+                            class="form-control context-menu" readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Town</label>
+                        <input type="text" value="{{order.delivery_address.state}}" class="form-control context-menu"
+                            readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Alternate Phoen</label>
+                        <input type="text" value="{{order.delivery_address.alternate_phone}}"
+                            class="form-control context-menu" readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Address type</label>
+                        <input type="text" value="{{order.delivery_address.address_type}}"
+                            class="form-control context-menu" readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Landmark</label>
+                        <input type="text" value="{{order.delivery_address.landmark}}" class="form-control context-menu"
+                            readonly>
+                    </div>
+                    <div class="form-group col-12 col-sm-6 mt-4">
+                        <label for="">Alternate Phoen</label>
+                        <input type="text" value="{{order.delivery_address.alternate_phone}}"
+                            class="form-control context-menu" readonly>
+                    </div>
+                </address>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.change-status').on('click', () => {
+            let inp = document.getElementById('status-inp');
+            $('#status-inp').slideToggle();
+            $('#edit-status').slideToggle();
+        })
+
+
+
+        $('#edit-status').on('submit', (e) => {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to add new product?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const OrderStatus = {
+                        PAYMENTPENDING: 'Payment pending',
+                        CONFIRMED: 'Confirmed',
+                        SHIPPED: 'Shipped',
+                        OUTFORDELIVERY: 'Out for delivery',
+                        DELIVERED: 'Delivered',
+                        CANCELED: 'Canceled',
+                    };
+                    const statusTransitions = {
+                        [OrderStatus.PAYMENTPENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELED],
+                        [OrderStatus.CONFIRMED]: [OrderStatus.SHIPPED, OrderStatus.CANCELED],
+                        [OrderStatus.SHIPPED]: [OrderStatus.OUTFORDELIVERY, OrderStatus.CANCELED],
+                        [OrderStatus.OUTFORDELIVERY]: [OrderStatus.DELIVERED, OrderStatus.CANCELED]
+                    };
+
+
+                    transitionOrderStatus = (currentStatus, newStatus) => {
+                        if (statusTransitions[currentStatus] && statusTransitions[currentStatus].includes(newStatus)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+
+
+                    const status = document.getElementById('order-status').value
+                    const form = document.getElementById('edit-status');
+                    const formData = new FormData(form)
+                    const body = Object.fromEntries(formData);
+                    const newStatus = body.status
+                    if (transitionOrderStatus(status, newStatus)) {
+
+                        fetch('/admin/orders/change-status', {
+                            method: 'PUT',
+                            body: JSON.stringify(body),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then((response) => {
+                            return response.json()
+                        }).then((data) => {
+                            if(data.status=='success'){
+                                 Swal.fire(
+                                        "Success!",
+                                        `Status changeed to ${body.status}`,
+                                        "success"
+                                   ).then(() =>
+                                        location.reload()
+                                   );
+                            }else{
+                                throw new Error(data.message)
+                            }
+                        }).catch((error) => {
+                            Swal.fire("Error!", error.message, "error");
+                        })
+                    } else {
+                        Swal.fire("Error!", `status cannot change to ${body.status}`, "error");
+                    }
+                }
+            })
+        })
+    })
+</script>

@@ -54,7 +54,14 @@ module.exports.isUserLogedIn = (req, res, next) => {
                }
           );
      } else {
-          res.redirect("/login");
+
+          if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept && req.headers.accept.includes('application/json') ) {
+               const error = new Error('Unauthorized! Please login to continue');
+               error.statusCode=401;
+               throw error;
+             } else {
+               res.redirect('/login');
+             }
      }
 };
 

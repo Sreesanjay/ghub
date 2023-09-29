@@ -29,6 +29,7 @@ body{
 .c-pointer{
   cursor: pointer;
 }
+.context-menu {cursor: context-menu;}
 .txt-decoration-null{
     text-decoration: none;
 }

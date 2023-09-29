@@ -76,11 +76,15 @@ $(function () {
     //add to cart
     addToCart = (e, id) => {
         e.preventDefault();
-        fetch(`/my-cart/add-to-cart/${id}`, {
-            method: 'GET'
+       
+        fetch(`/my-cart/add-to-cart/${id}`,{
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+              }
         }).then((response) => {
             return response.json()
         }).then((data) => {
+            console.log(data);
             if (data.status == 'success') {
                 let timerInterval
                 Swal.fire({
@@ -111,7 +115,12 @@ $(function () {
                 'Failed',
                 error.message,
                 'error'
-            )
+            ).then(() => {
+                if(error.message=='Unauthorized! Please login to continue'){
+                    location.assign('/login')
+                }
+            })
+
         })
     }
 

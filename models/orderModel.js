@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
                          "Shipped",
                          "Out for delivery",
                          "Delivered",
-                         "Cancelled",
+                         "Canceled",
                     ],
                     default: "Payment pending",
                },
@@ -38,6 +38,9 @@ const orderSchema = new mongoose.Schema({
                },
                shipped_date:{
                 type:Date
+               },
+               out_for_delivery_date:{
+                 type:Date
                },
                delivered_date:{
                 type:Date

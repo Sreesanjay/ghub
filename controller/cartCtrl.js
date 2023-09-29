@@ -58,6 +58,8 @@ const getCart = asyncHandler(async (req, res, next) => {
 });
 
 const addToCart = asyncHandler(async (req, res) => {
+     console.log("got-----------------")
+
      const user = res.locals.userData._id;
      const product = new mongoose.Types.ObjectId(req.params.id);
      const newCart = await User.updateOne(

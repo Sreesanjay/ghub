@@ -74,8 +74,6 @@ $(() => {
                 }
                 const blob = new Blob([uint8Array], { type: 'image/png' });
                 const file = new File([blob], 'image.png', { type: 'image/png' });
-                console.log(file)
-                // formData.append('image',document.getElementById('result.value'))
                 formData.append('image', file)
 
 

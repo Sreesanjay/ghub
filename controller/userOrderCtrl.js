@@ -97,6 +97,7 @@ const proceedOrder = asyncHandler(async (req, res) => {
                //changing the status of order to confirmed from Payment pending
                newOrder.products.forEach((product) => {
                     product.status = "Confirmed";
+                    product.confirmed_date=new Date()
                });
 
                let confirmedOrder = await newOrder.save();
@@ -188,6 +189,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
 
           order.products.forEach(async (product) => {
                product.status = "Confirmed";
+               product.confirmed_date=new Date()
                await Product.findByIdAndUpdate(product.product, {
                     $inc: { stock: -product.quantity },
                });

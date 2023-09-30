@@ -1,0 +1,38 @@
+<section class="sales d-flex mt-2" style="width: 100%; overflow:hidden;">
+    <div class="order-list p-4" style="width: 100%;">
+        <div class="header d-flex justify-content-between">
+            <h3 class="mb-4">Sales Report</h3>
+        </div>
+ <div class="table-container">
+            <table id="salesTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>OrderId</th>
+                        <th>ProductName</th>
+                        <th>CustomerEmail</th>
+                        <th>Quantity</th>
+                        <th>Payment Method</th>
+                        <th>Amount</th>
+                        <th>Discount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each sales}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.prod_details.product_name}}</td>
+                        <td>{{this.user.user_email}}</td>
+                        <td>{{this.products.quantity}}</td>
+                        <td>{{this.payment_method}}</td>
+                        <td>{{this.products.price}}</td>
+                        <td>{{this.products.discount}}</td>
+                        <td><a class="txt-decoration-null" href="/admin/sales-report/get-invoice?orderid={{this._id}}&product={{this.prod_details._id}}">Invoice</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>

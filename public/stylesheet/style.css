@@ -45,6 +45,8 @@ label.error{
     color:var(--secondary-text)
 }
 .user-sidebar{
+    position: sticky;
+    top: 50px;
     width:100vw;
   }
   .user-sidebar .link-wraper{

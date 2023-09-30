@@ -49,21 +49,9 @@ const getAllOrders=asyncHandler(async(req,res,next)=>{
 });
 //filter order
 const filterOrder=asyncHandler(async(req,res)=>{
-    let {from_date,to_date} = req.body
-    // from_date = new Date(from_date);
-    // from_date = from_date.toISOString();
-    // to_date = new Date(to_date);
-    // to_date = to_date.toISOString();
-    // console.log(from_date,":",to_date)
+    console.log(req.body)
+    let {from_date,to_date,status} = req.body
     let orders=await Order.aggregate([
-        // {
-        //     $match:{
-        //         order_date: {
-        //             $gte: req.body.from_date,
-        //             $lt: req.body.to_date
-        //           }
-        //     }
-        // },
         {
             $lookup:{
                 from:'users',
@@ -97,8 +85,23 @@ const filterOrder=asyncHandler(async(req,res)=>{
             order.coupon.details= await Coupon.findById(order.coupon.coupon_id)
         }
     }
-    console.log(orders[10])
-    res.render('admin/orderList',{orders})
+
+        if(req.body.from_date!=''){
+            from_date = new Date(from_date);
+            orders=orders.filter((order)=>order.orderDate>=from_date)
+        }  
+        if(req.body.to_date!=''){
+            to_date = new Date(to_date);
+            orders=orders.filter((order)=>order.orderDate<=to_date)
+        }
+        if(req.body.status!=''){
+            orders=orders.filter((order)=>order.products.status==status)
+        }
+        if(req.body.payment_method!=''){
+            orders=orders.filter((order)=>order.payment_method==req.body.payment_method)
+        }
+            res.render('admin/orderList',{orders})
+            
 })
 
 //get details of a single order
@@ -168,6 +171,15 @@ const ViewOrderDetails=asyncHandler(async(req,res,next)=>{
     }
 })
 
+
+function generateInvoiceNumber() {
+    const prefix = "order_";
+    const timestamp = Date.now(); // Get the current timestamp in milliseconds
+    const randomPart = Math.floor(Math.random() * 600); // Generate a random 4-digit number
+  
+    const invoiceNumber = `${prefix}${timestamp}${randomPart}`;
+    return invoiceNumber;
+  }
 const changeStatus=asyncHandler(async(req,res)=>{
     let order=await Order.findById(req.body.order_id)
     let product = order.products.find((item) => item.product == req.body.product_id);
@@ -180,7 +192,30 @@ const changeStatus=asyncHandler(async(req,res)=>{
     }else if(req.body.status=='Out for delivery'){
         product.out_for_delivery_date = new Date()
     }else if(req.body.status=='Delivered'){
+        let total=0;
+        for(let prod of order.products){
+          console.log(prod.price)
+          total=total+prod.price
+        }
+        console.log(total)
+        if(order.coupon?.discount){
+            total=total-order.coupon.discount
+        }
+        console.log(total)
         product.delivered_date = new Date()
+        if(order.payment_method=='COD'){
+            const invoiceNumber=generateInvoiceNumber()
+            const payment={
+                payment_id:invoiceNumber,
+                amount:total,
+                currency:'INR',
+                status:'success',
+                order_id:order._id,
+                created_at:new Date(),
+                payment_method:'COD'
+            }
+            await Payment.create(payment)
+        }
     }else if(req.body.status=='Canceled'){
         product.cancelled_date=new Date()
     }

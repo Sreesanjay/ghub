@@ -7,6 +7,11 @@ const Product = require("../models/productModel");
 const bcrypt = require("bcrypt");
 const asyncHandler = require("express-async-handler");
 
+const Order = require("../models/orderModel");
+const Coupon = require("../models/couponModel");
+const Payment = require("../models/paymentModel");
+const { getAllOrders } = require("./adminOrderCtrl");
+
 const getMyAccount = asyncHandler(async (req, res) => {
      const user = await User.findById(res.locals.userData._id);
      const category = await Category.aggregate([
@@ -176,6 +181,41 @@ const deleteWish = asyncHandler(async (req, res, next) => {
      }
 });
 
+
+//get my orders
+const getMyOrders=asyncHandler(async(req,res)=>{
+     let orders=await Order.aggregate([
+          {
+               $match:{user: new mongoose.Types.ObjectId(res.locals.userData._id)}
+          },
+          {
+              $unwind:{
+                  path:'$user'
+              }
+          },
+          {
+              $unwind:{path:'$products'}
+          },
+          {
+              $lookup:{
+                  from:'products',
+                  localField:'products.product',
+                  foreignField:'_id',
+                  as:'prod_details'
+              }
+          },
+          {
+              $unwind:{path:'$prod_details'}
+          },
+      ])
+      for(let order of orders){
+          if(order.coupon){
+              order.coupon.details= await Coupon.findById(order.coupon.coupon_id)
+          }
+      }
+      res.render('user/myOrder',{orders,account:true})
+})
+
 module.exports = {
      getMyAccount,
      verifyOldPass,
@@ -188,4 +228,5 @@ module.exports = {
      addToWishlist,
      getWishlist,
      deleteWish,
+     getMyOrders
 };

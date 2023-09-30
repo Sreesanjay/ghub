@@ -46,7 +46,7 @@
                         <option value="Shipped">Shipped</option>
                         <option value="Out for delivery">Out for delivery</option>
                         <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value="Canceled">Canceled</option>
                     </select>
                     <button id="save-btn" class="btn btn-primary mt-3">Save</button>
                     </from>
@@ -157,6 +157,7 @@
 
 
                     transitionOrderStatus = (currentStatus, newStatus) => {
+                        console.log(currentStatus, newStatus)
                         if (statusTransitions[currentStatus] && statusTransitions[currentStatus].includes(newStatus)) {
                             return true;
                         } else {

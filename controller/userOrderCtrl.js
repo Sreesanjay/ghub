@@ -88,6 +88,9 @@ const proceedOrder = asyncHandler(async (req, res) => {
           coupon.user_list.push(user._id)
           coupon.used_count++;
           coupon.save()
+          for(let prod of order.products){
+               prod.discount=discount/order.products.length;
+          }
      }
 
      let newOrder = await Order.create(order);

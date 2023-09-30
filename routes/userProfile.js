@@ -21,6 +21,9 @@ router.get('/add-to-wishlist/:id',isUserLogedIn,userProfileCtrl.addToWishlist)
 router.get('/my-wishlist',isUserLogedIn,userProfileCtrl.getWishlist)
 router.get('/delete-wish/:id',isUserLogedIn,userProfileCtrl.deleteWish)
 
+//my orders
+router.get('/my-orders',isUserLogedIn,userProfileCtrl.getMyOrders)
+
 
 
 

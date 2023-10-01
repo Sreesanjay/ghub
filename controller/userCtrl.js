@@ -43,7 +43,24 @@ const getHomePage = asyncHandler(async (req, res) => {
                     $expr: { $ne: [{ $size: "$products" }, 0] },
                },
           },
+          {
+               $unwind: {
+                    path: '$products'
+               }
+          },
+          {
+               $sort: {
+                    'products.createdAt': 1
+               }
+          },
+          {
+               $group: {
+                    _id: '$cat_name',
+                    products: { $push: '$products' }
+               }
+          }
      ]);
+     console.log(category[0])
      res.render("user/homePage", {
           brands,
           category,
@@ -60,5 +77,5 @@ const filterProducts = async (req, res) => {
 module.exports = {
      getHomePage,
      filterProducts,
-     
+
 };

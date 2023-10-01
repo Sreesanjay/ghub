@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 
-<div class="container">
+<div class="container" id="invoice">
 <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -29,9 +29,9 @@
                            <h2 class="mb-1 text-muted">GHub.com</h2>
                         </div>
                         <div class="text-muted">
-                            <p class="mb-1">3184 Spruce Drive Pittsburgh, PA 15201</p>
-                            <p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> xyz@987.com</p>
-                            <p><i class="uil uil-phone me-1"></i> 012-345-6789</p>
+                            <p class="mb-1">Sold by: Ghub Electronics</p>
+                            <p class="mb-1"><i class="uil uil-envelope-alt me-1"></i> ghub.com</p>
+                            <p><i class="uil uil-phone me-1"></i>+91 8590755727</p>
                         </div>
                     </div>
 
@@ -41,10 +41,10 @@
                         <div class="col-sm-6">
                             <div class="text-muted">
                                 <h5 class="font-size-16 mb-3">Billed To:</h5>
-                                <h5 class="font-size-15 mb-2">Preston Miller</h5>
-                                <p class="mb-1">4068 Post Avenue Newfolden, MN 56738</p>
-                                <p class="mb-1">PrestonMiller@armyspy.com</p>
-                                <p>001-234-5678</p>
+                                <h5 class="font-size-15 mb-2">{{order.user.user_name}}</h5>
+                                <p class="mb-1">{{order.delivery_address.area_street}}, Near to {{order.delivery_address.landmark}}, {{order.delivery_address.locality}}, {{order.delivery_address.town}}, {{order.delivery_address.state}}, {{order.delivery_address.pincode}}</p>
+                                <p class="mb-1">{{order.user.user_email}}</p>
+                                <p>{{order.user.user_mobile}}</p>
                             </div>
                         </div>
                         <!-- end col -->
@@ -52,15 +52,15 @@
                             <div class="text-muted text-sm-end">
                                 <div>
                                     <h5 class="font-size-15 mb-1">Invoice No:</h5>
-                                    <p>#DZ0112</p>
+                                    <p>{{order.payment_details.payment_id}}</p>
                                 </div>
                                 <div class="mt-4">
                                     <h5 class="font-size-15 mb-1">Invoice Date:</h5>
-                                    <p>12 Oct, 2020</p>
+                                    <p>{{toDate order.payment_details.created_at}}</p>
                                 </div>
                                 <div class="mt-4">
-                                    <h5 class="font-size-15 mb-1">Order No:</h5>
-                                    <p>#1123456</p>
+                                    <h5 class="font-size-15 mb-1">Order Id:</h5>
+                                    <p>{{order._id}}</p>
                                 </div>
                             </div>
                         </div>
@@ -87,54 +87,33 @@
                                         <th scope="row">01</th>
                                         <td>
                                             <div>
-                                                <h5 class="text-truncate font-size-14 mb-1">Black Strap A012</h5>
-                                                <p class="text-muted mb-0">Watch, Black</p>
+                                                <h5 class="text-truncate font-size-14 mb-1">{{order.prod_details.product_name}}</h5>
+                                                <p class="text-muted mb-0">{{order.category.cat_name}},{{order.prod_details.prod_color}}</p>
                                             </div>
                                         </td>
-                                        <td>$ 245.50</td>
-                                        <td>1</td>
-                                        <td class="text-end">$ 245.50</td>
+                                        <td>₹{{devide order.products.price order.products.quantity}}</td>
+                                        <td>{{order.products.quantity}}</td>
+                                        <td class="text-end">₹{{order.products.price}}</td>
                                     </tr>
-                                    <!-- end tr -->
-                                    <tr>
-                                        <th scope="row">02</th>
-                                        <td>
-                                            <div>
-                                                <h5 class="text-truncate font-size-14 mb-1">Stainless Steel S010</h5>
-                                                <p class="text-muted mb-0">Watch, Gold</p>
-                                            </div>
-                                        </td>
-                                        <td>$ 245.50</td>
-                                        <td>2</td>
-                                        <td class="text-end">$491.00</td>
-                                    </tr>
-                                    <!-- end tr -->
                                     <tr>
                                         <th scope="row" colspan="4" class="text-end">Sub Total</th>
-                                        <td class="text-end">$732.50</td>
+                                        <td class="text-end">₹{{order.products.price}}</td>
                                     </tr>
                                     <!-- end tr -->
                                     <tr>
                                         <th scope="row" colspan="4" class="border-0 text-end">
                                             Discount :</th>
-                                        <td class="border-0 text-end">- $25.50</td>
+                                        <td class="border-0 text-end">- ₹{{order.products.discount}}</td>
                                     </tr>
                                     <!-- end tr -->
                                     <tr>
                                         <th scope="row" colspan="4" class="border-0 text-end">
                                             Shipping Charge :</th>
-                                        <td class="border-0 text-end">$20.00</td>
+                                        <td class="border-0 text-end">₹0</td>
                                     </tr>
-                                    <!-- end tr -->
-                                    <tr>
-                                        <th scope="row" colspan="4" class="border-0 text-end">
-                                            Tax</th>
-                                        <td class="border-0 text-end">$12.00</td>
-                                    </tr>
-                                    <!-- end tr -->
                                     <tr>
                                         <th scope="row" colspan="4" class="border-0 text-end">Total</th>
-                                        <td class="border-0 text-end"><h4 class="m-0 fw-semibold">$739.00</h4></td>
+                                        <td class="border-0 text-end"><h4 class="m-0 fw-semibold">₹{{subtract order.products.price order.products.discount}}</h4></td>
                                     </tr>
                                     <!-- end tr -->
                                 </tbody><!-- end tbody -->
@@ -142,8 +121,7 @@
                         </div><!-- end table responsive -->
                         <div class="d-print-none mt-4">
                             <div class="float-end">
-                                <a href="javascript:window.print()" class="btn btn-success me-1"><i class="fa fa-print"></i></a>
-                                <a href="#" class="btn btn-primary w-md">Send</a>
+                                <a href="/order/print-invoice?orderid={{order._id}}&product={{order.prod_details._id}}" class="btn btn-success me-1" onclick="printInvoice(event,'{{order._id}}','{{order.prod_details._id}}')"><i class="fa fa-print"></i></a>
                             </div>
                         </div>
                     </div>
@@ -152,3 +130,10 @@
         </div><!-- end col -->
     </div>
 </div>
+
+<script>
+   $(function(){
+      
+    
+   })
+</script>

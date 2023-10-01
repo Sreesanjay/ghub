@@ -2,16 +2,48 @@
     <div class="order-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">
             <h3 class="mb-4">Sales Report</h3>
+            <button class="btn" id="exportToButton"><i class="fa fa-print text-success fs-3"></i></button>
         </div>
- <div class="table-container">
+        <button id="filter-toggler" class=" btn btn-outline-primary mb-3">Filter <i
+                class="fa-solid fa-filter text-primary"></i></button>
+        <form class="mb-3 card p-3" id="filter-from" action="/admin/sales-report/filter-sales" method="post"
+            style="display:none;">
+            <div class="filter-wraper mb-4 d-flex flex-row justify-content-around flex-wrap">
+                <div class="order-date-filter m-2">
+                    <h6 class="fw-bold">Sales date</h6>
+                    From: <input type="date" class="form-control" name="from_date" style="max-width: 100%;">
+                    To: <input type="date" class="form-control" name="to_date" style="max-width: 100%;">
+                </div>
+
+                <div class="order-status-filter m-2">
+                    <h6 class="fw-bold">Payment method</h6>
+                    Select a payment method
+                    <select class="form-select" name="payment_method" aria-label="Default select example"
+                        id="new-status">
+                        <option value="">All</option>
+                        <option value="COD">COD</option>
+                        <option value="ONLINE">Online</option>
+                    </select>
+                </div>
+                
+                <div class="order-price-filter m-2">
+                    <h6 class="fw-bold">Amount</h6>
+                    From: <input type="number" class="form-control" name="from_amt" style="max-width: 100%;" min="1">
+                    To: <input type="number" class="form-control" name="to_amt" style="max-width: 100%;" min="1">
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary ms-auto" style="width: 100px;">Filter</button>
+        </form>
+        <div class="table-container table-responsive">
             <table id="salesTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>OrderId</th>
                         <th>ProductName</th>
+                        <th>OrderDate</th>
                         <th>CustomerEmail</th>
                         <th>Quantity</th>
-                        <th>Payment Method</th>
+                        <th>PaymentMethod</th>
                         <th>Amount</th>
                         <th>Discount</th>
                         <th></th>
@@ -20,14 +52,16 @@
                 <tbody>
                     {{#each sales}}
                     <tr>
-                        <td>{{this._id}}</td>
                         <td>{{this.prod_details.product_name}}</td>
+                        <td>{{toDate this.orderDate}}</td>
                         <td>{{this.user.user_email}}</td>
                         <td>{{this.products.quantity}}</td>
-                        <td>{{this.payment_method}}</td>
+                        <td>{{this.payment_details.payment_method}}</td>
                         <td>{{this.products.price}}</td>
                         <td>{{this.products.discount}}</td>
-                        <td><a class="txt-decoration-null" href="/admin/sales-report/get-invoice?orderid={{this._id}}&product={{this.prod_details._id}}">Invoice</a></td>
+                        <td><a class="txt-decoration-null"
+                                href="/admin/sales-report/get-invoice?orderid={{this._id}}&product={{this.prod_details._id}}">Invoice</a>
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>
@@ -36,3 +70,81 @@
 
     </div>
 </section>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+<script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        new DataTable('#salesTable', {
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+        $('#filter-toggler').on('click', () => {
+            $('#filter-from').slideToggle()
+        })
+
+    })
+
+</script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#exportToButton").click(function () {
+    const dataSource = shield.DataSource.create({
+        data: "#salesTable",
+        schema: {
+            type: "table",
+            fields: {
+                ProductName: { type: String },
+                OrderDate: { type: String },
+                CustomerEmail: { type: String },
+                Quantity: { type: String },
+                PaymentMethod: { type: String },
+                Amount: { type: Number },
+                Discount: {type: Number}
+            }
+        }
+    });
+
+    dataSource.read().then(function (data) {
+        const pdf = new shield.exp.PDFDocument({
+            author: "Devnote",
+            title: "Sales Report", // Add the title here
+            created: new Date()
+        });
+        pdf.addPage("a4", "portrait");
+        pdf.drawText("Sales Report", {
+            x: 50, // X-coordinate position
+            y: 50, // Y-coordinate position
+            fontSize: 16, // Font size
+            color: "#000000" // Text color (black in this example)
+        });
+        pdf.table(
+            50,
+            50,
+            data,
+            [
+                { field: "ProductName", title: "Product Name", width: 150 },
+                { field: "OrderDate", title: "Order Date", width: 100 },
+                { field: "CustomerEmail", title: "Customer email", width: 100 },
+                { field: "Quantity", title: "Quantity", width: 50 },
+                { field: "PaymentMethod", title: "Payment Method", width: 50 },
+                { field: "Amount", title: "Amount", width: 50 },
+                { field: "Discount", title: "Discount", width: 50 },
+            ],
+            {
+                margins: {
+                    top: 50,
+                    left: 50
+                }
+            }
+        );
+
+        pdf.saveAs({
+            fileName: "sales_report.pdf"
+        });
+    });
+});
+
+    });
+</script>

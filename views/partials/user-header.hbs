@@ -1,76 +1,78 @@
 <div class="user-nav">
-<div class="d-flex flex-wrap justify-content-between align-items-center user-header py-md-2 px-md--5">
-  <div class="logo">
-    <a href="/" class="txt-decoration-null">
-      <div class="logo ms-3 d-flex align-items-center">
-        <img src="https://drive.google.com/uc?id=1ve4rabj5ZgaVS1OkNsfX8OP_yOsLBDJl" alt="">
-        <h1 class="ms-2">GHub</h1>
+  <div class="d-flex flex-wrap justify-content-between align-items-center user-header py-md-2 px-md--5">
+    <div class="logo">
+      <a href="/" class="txt-decoration-null">
+        <div class="logo ms-3 d-flex align-items-center">
+          <img src="https://drive.google.com/uc?id=1ve4rabj5ZgaVS1OkNsfX8OP_yOsLBDJl" alt="">
+          <h1 class="ms-2">GHub</h1>
+        </div>
+      </a>
+    </div>
+    <div class="search d-none d-md-block">
+      <div class="search-box form-control d-flex  justify-content-end">
+        <input type="search" placeholder="Searc Products Brands and More..">
+        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
-    </a>
-  </div>
-  <div class="search d-none d-md-block">
-    <div class="search-box form-control d-flex  justify-content-end">
-      <input type="search" placeholder="Searc Products Brands and More..">
-      <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
-  </div>
-  <div class="link">
-    <ul class="navbar-nav d-flex flex-row">
-      <li class="me-3 me-sm-5">
-        <a class="nav-link " href="/my-cart"><i class="fa-solid fa-cart-shopping"> </i><span class="cart-count bg-danger px-2 rounded-circle text-white">{{userData.cart.length}}</span></a>
-      </li>
-      <li class="me-3 me-sm-5">
-        <a class="nav-link" href="/account/my-wishlist"><i class="fa-solid fa-heart"></i></a>
-      </li>
-      <li class="me-3 me-sm-5">
-        <a class="nav-link" onclick="toggleProfile()"><i class="fa-solid fa-user"></i></a>
-      </li>
-    </ul>
-  </div>
-  <div class="card" id="profile-crad" style="width:250px;">
-    {{#if userData}}
-    <div class="list bg-light px-3 py-3 align-items-center">
-      <p class="m-0 ms-3 fw-bold">{{userData.user_name}}</p>
-      <p class="m-0 ms-3" style="font-size:12px;">{{userData.user_email}}</p>
+    <div class="link">
+      <ul class="navbar-nav d-flex flex-row">
+        <li class="me-3 me-sm-5">
+          <a class="nav-link " href="/my-cart"><i class="fa-solid fa-cart-shopping"> </i><span
+              class="cart-count bg-danger px-2 rounded-circle text-white">{{userData.cart.length}}</span></a>
+        </li>
+        <li class="me-3 me-sm-5">
+          <a class="nav-link" href="/account/my-wishlist"><i class="fa-solid fa-heart"></i></a>
+        </li>
+        <li class="me-3 me-sm-5">
+          <a class="nav-link" onclick="toggleProfile()"><i class="fa-solid fa-user"></i></a>
+        </li>
+      </ul>
+    </div>
+    <div class="card" id="profile-crad" style="width:250px;">
+      {{#if userData}}
+      <div class="list bg-light px-3 py-3 align-items-center">
+        <p class="m-0 ms-3 fw-bold">{{userData.user_name}}</p>
+        <p class="m-0 ms-3" style="font-size:12px;">{{userData.user_email}}</p>
 
+      </div>
+      {{/if}}
+      <a href="/account" class="txt-decoration-null">
+        <div class="list d-flex px-3 py-3 align-items-center">
+          <i class="fa-solid fa-user"></i>
+          <p class="m-0 ms-3">My Account</p>
+        </div>
+      </a>
+      <div class="list d-flex px-3 py-3 align-items-center">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-3">Orders</p>
+      </div>
+      <div class="list d-flex px-3 py-3 align-items-center">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-3">Alerts & Coupons</p>
+      </div>
+      <div class="list d-flex px-3 py-3 align-items-center">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-3">Help</p>
+      </div>
+      {{#if userData}}
+      <div class="list d-flex px-3 py-3 align-items-center bg-light">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-3"><a href="/user-logout" class="txt-decoration-null">Logout</a></p>
+      </div>
+      {{else}}
+      <div class="list d-flex px-3 py-3 align-items-center bg-light">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-3"><a href="/login" class="txt-decoration-null">Login/Sign Up</a></p>
+      </div>
+      {{/if}}
     </div>
-    {{/if}}
-   <a href="/account" class="txt-decoration-null"><div class="list d-flex px-3 py-3 align-items-center">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3">My Account</p>
-    </div></a> 
-    <div class="list d-flex px-3 py-3 align-items-center">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3">Orders</p>
-    </div>
-    <div class="list d-flex px-3 py-3 align-items-center">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3">Alerts & Coupons</p>
-    </div>
-    <div class="list d-flex px-3 py-3 align-items-center">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3">Help</p>
-    </div>
-   {{#if userData}}
-    <div class="list d-flex px-3 py-3 align-items-center bg-light">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3"><a href="/user-logout" class="txt-decoration-null">Logout</a></p>
-    </div>
-    {{else}}
-    <div class="list d-flex px-3 py-3 align-items-center bg-light">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-3"><a href="/login" class="txt-decoration-null">Login/Sign Up</a></p>
-    </div>
-    {{/if}}
   </div>
-</div>
-<div class="search-bar user-header px-3 d-md-none py-2">
+  <div class="search-bar user-header px-3 d-md-none py-2">
     <div class="search d-block d-md-none">
-    <div class="search-box form-control d-flex justify-content-end" style="width:90vw !important">
-      <input type="search" placeholder="Searc Products Brands and More..">
-      <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <div class="search-box form-control d-flex justify-content-end" style="width:90vw !important">
+        <input type="search" placeholder="Searc Products Brands and More..">
+        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
     </div>
   </div>
 </div>
-</div>
-  

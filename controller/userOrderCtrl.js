@@ -8,6 +8,9 @@ const Order = require("../models/orderModel");
 const Payment = require("../models/paymentModel");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const pdf = require("pdf-creator-node");
+const fs = require("fs");
+const path = require('path');
 
 //creating instance of razorpay
 let instance = new Razorpay({
@@ -54,6 +57,17 @@ const getCheckout = asyncHandler(async (req, res, next) => {
      res.render("user/checkout", { address, cartList, cpnId: req.query.cpn });
 });
 
+
+function generateInvoiceNumber() {
+     const prefix = "order_";
+     const timestamp = Date.now(); // Get the current timestamp in milliseconds
+     const randomPart = Math.floor(Math.random() * 600); // Generate a random 4-digit number
+   
+     const invoiceNumber = `${prefix}${timestamp}${randomPart}`;
+     return invoiceNumber;
+   }
+
+
 //proceed order
 const proceedOrder = asyncHandler(async (req, res) => {
      let order = {};
@@ -88,8 +102,8 @@ const proceedOrder = asyncHandler(async (req, res) => {
           coupon.user_list.push(user._id)
           coupon.used_count++;
           coupon.save()
-          for(let prod of order.products){
-               prod.discount=discount/order.products.length;
+          for (let prod of order.products) {
+               prod.discount = discount / order.products.length;
           }
      }
 
@@ -100,7 +114,7 @@ const proceedOrder = asyncHandler(async (req, res) => {
                //changing the status of order to confirmed from Payment pending
                newOrder.products.forEach((product) => {
                     product.status = "Confirmed";
-                    product.confirmed_date=new Date()
+                    product.confirmed_date = new Date()
                });
 
                let confirmedOrder = await newOrder.save();
@@ -114,7 +128,31 @@ const proceedOrder = asyncHandler(async (req, res) => {
                     await User.findByIdAndUpdate(confirmedOrder.user, {
                          $set: { cart: [] },
                     });
+
+
+
+                    let total = 0;
+                    for (let prod of confirmedOrder.products) {
+                         console.log(prod.price)
+                         total = total + prod.price
+                    }
+                    console.log(total)
+                    if (confirmedOrder.coupon?.discount) {
+                         total = total - confirmedOrder.coupon.discount
+                    }
+                    const invoiceNumber = generateInvoiceNumber()
+                    const payment = {
+                         payment_id: invoiceNumber,
+                         amount: total,
+                         currency: 'INR',
+                         status: 'created',
+                         order_id: confirmedOrder._id,
+                         created_at: new Date(),
+                         payment_method: 'COD'
+                    }
+                    await Payment.create(payment)
                }
+
                res.status(200).json({ status: "success" });
 
           } else {
@@ -127,7 +165,7 @@ const proceedOrder = asyncHandler(async (req, res) => {
                }
 
                var options = {
-                    amount: total*100,
+                    amount: total * 100,
                     currency: "INR",
                     receipt: newOrder._id.toString(),
                };
@@ -141,11 +179,11 @@ const proceedOrder = asyncHandler(async (req, res) => {
                               const date = new Date(
                                    payment_details.created_at * 1000
                               ); // Convert from seconds to milliseconds
-                              
-                              const formattedDate=date.toISOString();
+
+                              const formattedDate = date.toISOString();
                               let payment = new Payment({
                                    payment_id: payment_details.id,
-                                   amount: parseInt(payment_details.amount)/100,
+                                   amount: parseInt(payment_details.amount) / 100,
                                    currency: payment_details.currency,
                                    order_id: newOrder._id,
                                    status: payment_details.status,
@@ -192,7 +230,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
 
           order.products.forEach(async (product) => {
                product.status = "Confirmed";
-               product.confirmed_date=new Date()
+               product.confirmed_date = new Date()
                await Product.findByIdAndUpdate(product.product, {
                     $inc: { stock: -product.quantity },
                });
@@ -203,15 +241,15 @@ const verifyPayment = asyncHandler(async (req, res) => {
                $set: { cart: [] },
           });
 
-           const payment_details=await instance.payments.fetch(req.body.razorpay_payment_id)
-           if (payment_details) {
-               if(payment_details.error){
+          const payment_details = await instance.payments.fetch(req.body.razorpay_payment_id)
+          if (payment_details) {
+               if (payment_details.error) {
                     throw new Error(error.message)
-               }else{
+               } else {
                     console.log(payment_details)
                     payment.payment_method = payment_details.method;
                }
-             };
+          };
           //change payment status to success
           payment.status = 'success';
           await payment.save();
@@ -223,8 +261,112 @@ const verifyPayment = asyncHandler(async (req, res) => {
      }
 });
 
+
+
+
+const printInvoice=asyncHandler(async(req, res, next)=>{
+     let orders=await Order.aggregate([
+         {
+             $match:{
+                 _id: new mongoose.Types.ObjectId(req.query.orderid)
+             }
+         },
+         {
+             $lookup:{
+                 from:'users',
+                 localField:'user',
+                 foreignField:'_id',
+                 as:'user'
+             }
+         },
+         {
+             $unwind:{
+                 path:'$user'
+             }
+         },
+         {
+             $unwind:{path:'$products'}
+         },
+         {
+             $lookup:{
+                 from:'products',
+                 localField:'products.product',
+                 foreignField:'_id',
+                 as:'prod_details'
+             }
+         },
+         {
+             $lookup:{
+                 from:'payments',
+                 localField:'_id',
+                 foreignField:'order_id',            
+                 as:'payment_details'    
+             }
+         },
+         {
+             $lookup:{
+                 from:'categories',
+                 localField:'prod_details.category',
+                 foreignField:'_id',
+                 as:'category'
+             }
+         },
+         {
+             $unwind:{path:'$category'}
+         },
+         {
+             $unwind:{path:'$payment_details'}
+         },
+         {
+             $unwind:{path:'$prod_details'}
+         },
+         {
+             $match:{
+                 'prod_details._id': new mongoose.Types.ObjectId(req.query.product)
+             }
+         }
+         
+     ])
+ 
+ 
+     //pdf download
+     
+     const html = fs.readFileSync('./views/pdf/invoice.hbs', "utf8");
+     const options = {
+         format: "A4",
+         orientation: "landscape",
+         border: "10mm",
+         header: {
+           height: "5mm",
+           contents: '<div style="text-align: center;">INVOICE</div>'
+         },
+       };
+       const document = {
+         html: html,
+         data: {
+           order:orders[0],
+         },
+         path: "./invoice.pdf",
+         type: "",
+       };
+     
+       pdf.create(document, options).then((data) => {
+           const pdfStream = fs.createReadStream("invoice.pdf");
+           res.setHeader("Content-Type", "application/pdf");
+           res.setHeader("Content-Disposition", `attachment; filename=invoice.pdf`);
+           pdfStream.pipe(res);
+           console.log("PDF sent as a download");
+         }).catch((error) => {
+           console.error(error);
+           res.status(500).send("Error generating the PDF");
+         });
+ 
+     
+ })
+
 module.exports = {
      getCheckout,
      proceedOrder,
      verifyPayment,
+     printInvoice
 };

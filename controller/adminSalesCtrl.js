@@ -4,9 +4,11 @@ const asyncHandler = require("express-async-handler");
 const Address = require("../models/addressModel");
 const Coupon = require("../models/couponModel");
 const Category = require("../models/categoryModel");
-const User = require("../models/userModel");
 const Order = require("../models/orderModel");
 const Payment = require("../models/paymentModel");
+const pdf = require("pdf-creator-node");
+const fs = require("fs");
+const path = require('path');
 
 const getSalesreport=asyncHandler(async(req,res) => {
     let orders=await Order.aggregate([
@@ -21,6 +23,27 @@ const getSalesreport=asyncHandler(async(req,res) => {
         {
             $unwind:{
                 path:'$user'
+            }
+        },
+        {
+            $lookup:{
+                from:'payments',
+                localField:'_id',
+                foreignField:'order_id',
+                as:'payment_details',
+                pipeline: [
+                    {
+                        $project:{
+                            _id:0,
+                            payment_method:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $unwind:{
+                path:'$payment_details'
             }
         },
         {
@@ -46,6 +69,7 @@ const getSalesreport=asyncHandler(async(req,res) => {
         order.prod_details.category=await Category.findById(order.prod_details.category)
     }
     let sales=orders.filter((order)=>order.products.status==='Delivered') 
+    console.log(sales[0].payment_details)
     res.render('admin/salesReport',{sales})
 
 
@@ -93,6 +117,17 @@ const getInvoice=asyncHandler(async(req,res)=>{
             }
         },
         {
+            $lookup:{
+                from:'categories',
+                localField:'prod_details.category',
+                foreignField:'_id',
+                as:'category'
+            }
+        },
+        {
+            $unwind:{path:'$category'}
+        },
+        {
             $unwind:{path:'$payment_details'}
         },
         {
@@ -111,17 +146,79 @@ const getInvoice=asyncHandler(async(req,res)=>{
                 order.coupon.details= await Coupon.findById(order.coupon.coupon_id)
             }
         }
-        const dateObject = new Date(orders[0]);
-        orders[0].orderDate=dateObject.toLocaleDateString()
-
-        console.log(orders[0])
         res.render('admin/invoice',{order:orders[0]})
     }else{
         throw new Error()
     }
 })
 
+
+
+const filterSales=asyncHandler(async(req, res, next)=>{
+    let {from_date,to_date,status} = req.body
+
+    let orders=await Order.aggregate([
+        {
+            $lookup:{
+                from:'users',
+                localField:'user',
+                foreignField:'_id',
+                as:'user'
+            }
+        },
+        {
+            $unwind:{
+                path:'$user'
+            }
+        },
+        {
+            $unwind:{path:'$products'}
+        },
+        {
+            $lookup:{
+                from:'products',
+                localField:'products.product',
+                foreignField:'_id',
+                as:'prod_details'
+            }
+        },
+        {
+            $unwind:{path:'$prod_details'}
+        },
+
+    ])
+    for(let order of orders){
+        if(order.coupon){
+            order.coupon.details= await Coupon.findById(order.coupon.coupon_id)
+        }
+        order.prod_details.category=await Category.findById(order.prod_details.category)
+    }
+    let sales=orders.filter((order)=>order.products.status==='Delivered') 
+
+    if(req.body.from_date!=''){
+        from_date = new Date(from_date);
+        sales=sales.filter((order)=>order.orderDate>=from_date)
+    }  
+    if(req.body.to_date!=''){
+        to_date = new Date(to_date);
+        sales=sales.filter((order)=>order.orderDate<=to_date)
+    }
+    if(req.body.payment_method!=''){
+        sales=sales.filter((order)=>order.payment_method==req.body.payment_method)
+    }
+    if(req.body.from_amt!=''){
+        sales=sales.filter((order)=>order.products.price>=parseInt(req.body.from_amt))
+    }
+    if(req.body.to_amt!=''){
+        sales=sales.filter((order)=>order.products.price<=parseInt(req.body.to_amt))
+    }
+
+    res.render('admin/salesReport',{sales})
+
+})
+
 module.exports={
     getSalesreport,
-    getInvoice
+    getInvoice,
+    filterSales
 }

@@ -73,12 +73,16 @@ handlebars.registerHelper('subtract', function (num1, num2) {
   return num1 - num2;
 });
 
+handlebars.registerHelper('devide', function (num1, num2) {
+  return num1 / num2;
+});
+
 handlebars.registerHelper('toDate', function (date) {
   date = new Date(date)
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // Months are zero-based, so add 1
   const day = date.getDate();
-  return `${year} ${month} ${day}`
+  return `${year}-${month}-${day}`
 });
 
 handlebars.registerHelper('isEqual', function (str1, str2, options) {

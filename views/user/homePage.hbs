@@ -1,13 +1,14 @@
+<div class="bg-light pt-3"></div>
+
 <div class="container-home p-0 px-3 m-0">
   {{!-- carousel banner --}}
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       {{#each banner}}
       <a href="{{this.reference}}">
-      <div class="carousel-item active">
-        <img src="/Images/Banners/{{this.image.filename}}"
-          class="d-block w-100" alt="...">
-      </div>
+        <div class="carousel-item active">
+          <img src="/Images/Banners/{{this.image.filename}}" class="d-block w-100" alt="...">
+        </div>
       </a>
       {{/each}}
     </div>
@@ -20,56 +21,54 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  <section class="brand-list p-0 m-0 pb-4 mt-2 row gx-5 gy-5 px-5 d-flex justify-content-center" style="background-color:rgb(255, 255, 255);">
-    <h2 class="mb-3 fw-bold">Top Brands</h2>
+  <section class="brand-list p-0 m-0 pb-4 mt-2 row gx-5 gy-5 px-5 d-flex justify-content-center"
+    style="background-color:rgb(255, 255, 255);">
+    {{!-- <h3 class="mb-3 fw-bold">Top Brands</h3> --}}
     {{#each brands}}
-    <div class="card col-md-3 p-0 py-3 me-3 d-flex justify-content-center" style="width:220px; background-color:#fec815;">
+    <div class="card col-md-3 p-0 py-3 me-3 d-flex justify-content-center"
+      style="width:220px; background-color:#3D05AD;">
       <a href="/products/filter/?brand_name={{this._id}}" class="txt-decoration-null">
-        <h3 align="center" style="text-transform: uppercase;color:#191919">{{this._id}}</h3>
+        <h3 align="center" style="text-transform: uppercase;color:#ffffff">{{this._id}}</h3>
       </a>
     </div>
     {{/each}}
   </section>
-  <section class="mt-2 px-4" style="background-color:rgb(255, 255, 255);">
-  {{#each category}}
-  <h2 class="px-5 pt-4 fw-bold">Latest {{this.cat_name}}</h2>
-  <section style="background-color: #ffffff;" class="my-4">
-  <div class="container py-5">
-    <div class="row">
-  {{#each this.products}}
-        <div class="col-md-3 col-lg-3 mb-4 mb-lg-0">
-        <div class="card p-3 px-4" style="height:fit-content; min-height:470px;">
-          <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
-          <div class="card-header d-flex justify-content-center" style="height:270px;">
-            <img src="/Images/Products/{{this.primary_img.filename}}"
-            class="card-img-top" alt="Laptop" style="height:250px; max-width:auto;"/>
-            </div>
-          <div class="card-body d-flex flex-column justify-content-between">
+  <section class="mt-2" >
+    {{#each category}}
+    <div class="" style="background-color:rgb(255, 255, 255);">
+    <h3 class="px-5 pt-4 fw-bold">Latest {{this.this._id}}</h3>
+    <section style="background-color: #ffffff;" class="my-4">
+      <div class="container py-5">
+        <div class="row">
+          {{#each this.products}}
+          <div class="col-md-3 col-lg-3 mb-4 mb-lg-0 mt-4">
+            <div class="card p-1" style="height:fit-content; min-height:440px;">
+              <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
+                <div class="card-header d-flex justify-content-center" style="height:270px;">
+                  <img src="/Images/Products/{{this.primary_img.filename}}" class="card-img-top" alt="Laptop"
+                    style="height:250px; max-width:auto;" />
+                </div>
+                <div class="card-body d-flex flex-column justify-content-between">
 
-            <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">{{this.product_name}}</h5>
+                  <div class="d-flex justify-content-between mb-3 ">
+                    <h5 class="mb-0" data-formatter="shortingText">{{this.product_name}}</h5>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0 text-danger">₹{{this.sellig_price}}</h5>
+                    <h6 class="mb-0"><strike>₹{{this.prod_price}}</strike></h6>
+                    <h5 class="text-warning mb-0">5 <i class="fa fa-star"></i></h5>
+                  </div>
+                </div>
+              </a>
             </div>
-             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h5 class="mb-0 text-danger">₹{{this.sellig_price}}</h5>
-               <h6 class="mb-0"><strike>₹{{this.prod_price}}</strike></h6>
-                <h5 class="text-warning mb-0">5 <i class="fa fa-star"></i></h5>
-            </div>
-
-             {{!-- <div class="d-flex justify-content-between align-items-center mb-0">
-              <a href="" class="btn btn-secondary"><i class="fa-solid fa-cart-shopping"></i>Add to cart</a>
-              <a href="" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></a>
-            </div> --}}
-
           </div>
-          </a>
+
+
+          {{/each}}
         </div>
       </div>
-    
-
-  {{/each}}
-  </div>
-  </div>
-</section>
-  {{/each}}
-</section>
+    </section>
+    </div>
+    {{/each}}
+  </section>
 </div>

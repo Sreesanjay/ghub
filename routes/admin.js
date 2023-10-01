@@ -28,4 +28,7 @@ router.post('/forgot-password/reset-password',adminAuthCtrl.updatePassword)
 router.get('/sign-out',adminAuthCtrl.signOut)
 
 
+
+
+
 module.exports = router;

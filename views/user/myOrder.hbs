@@ -13,7 +13,7 @@
 
             <div class="img-container row">
                 <img src="/Images/Products/{{this.prod_details.primary_img.filename}}" alt="" class="col-12 col-md-2"
-                    style="height: 100px;height:auto;">
+                    style="height: 100px;width:auto;">
                 <div class="prod-details col-12 col-md-5 mt-3 mt-md-0">
                     <h5 class="prod-name">{{this.prod_details.product_name}}</h5>
                     <h6 class="">{{this.prod_details.brand_name}}</h6>
@@ -54,6 +54,12 @@
 
             <div class="view-order p-3 track-{{this._id}}{{this.prod_details._id}}" style="display:none;">
                 <hr>
+                {{#isEqual this.products.status "Delivered"}}
+                <div class="float-end">
+                    <a href="/order/print-invoice?orderid={{this._id}}&product={{this.prod_details._id}}"
+                        class="btn btn-success me-1"><i class="fa fa-print"></i></a>
+                </div>
+                {{/isEqual}}
                 <div class="delivery-address">
                     <h6 class="fw-bold"> Delivery Address</h6>
                     <p class="fw-bold">{{this.delivery_address.user_name}}</p>

@@ -27,7 +27,11 @@
                         <option value="Cancelled">Cancelled</option>
                     </select>
              </div>
-
+             <div class="order-price-filter m-2">
+                    <h6 class="fw-bold">Amount</h6>
+                    From: <input type="number" class="form-control" name="from_amt" style="max-width: 100%;" min="1">
+                    To: <input type="number" class="form-control" name="to_amt" style="max-width: 100%;" min="1">
+             </div>
               <div class="order-status-filter m-2">
                 <h6 class="fw-bold">Payment method</h6>
                 Select a payment method
@@ -44,8 +48,8 @@
             <table id="exportToTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>OrderId</th>
                         <th>ProductName</th>
+                        <th>OrderDate</th>
                         <th>CustomerEmail</th>
                         <th>Quantity</th>
                         <th>Status</th>
@@ -56,8 +60,8 @@
                 <tbody>
                     {{#each orders}}
                     <tr>
-                        <td>{{this._id}}</td>
                         <td>{{this.prod_details.product_name}}</td>
+                        <td>{{toDate orderDate}}</td>
                         <td>{{this.user.user_email}}</td>
                         <td>{{this.products.quantity}}</td>
                         <td>{{this.products.status}}</td>
@@ -91,13 +95,13 @@
 <script type="text/javascript">
     jQuery(function ($) {
         $("#exportToButton").click(function () {
-            var dataSource = shield.DataSource.create({
+            const dataSource = shield.DataSource.create({
                 data: "#exportToTable",
                 schema: {
                     type: "table",
                     fields: {
-                        OrderId: { type: String },
                         ProductName: { type: String },
+                        OrderDate: { type: String },
                         CustomerEmail: { type: String },
                         Quantity: { type: String },
                         Status: { type: String },
@@ -107,8 +111,8 @@
             });
 
             dataSource.read().then(function (data) {
-                var pdf = new shield.exp.PDFDocument({
-                    author: "Devnote",
+                const pdf = new shield.exp.PDFDocument({
+                    author: "Ghub",
                     created: new Date()
                 });
 
@@ -119,8 +123,8 @@
                     50,
                     data,
                     [
-                        { field: "OrderId", title: "Order Id", width: 100 },
                         { field: "ProductName", title: "Product Name", width: 150 },
+                        { field: "OrderDate", title: "Order Date", width: 80 },
                         { field: "CustomerEmail", title: "Customer email", width: 100 },
                         { field: "Quantity", title: "Quantity", width: 50 },
                         { field: "Status", title: "Status", width: 50 },
@@ -136,7 +140,7 @@
                 );
 
                 pdf.saveAs({
-                    fileName: "exportToPdf"
+                    fileName: "order list"
                 });
             });
         });

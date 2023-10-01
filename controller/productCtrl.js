@@ -12,6 +12,10 @@ const viewProduct = async (req, res, next) => {
                is_delete: false,
                product_status: true,
           }).limit(4);
+          if (product.product_status == false || product.is_delete == true) {
+               req.flash('error', 'Product cannot find!')
+               res.redirect('/')
+          }
           res.render("user/viewProduct", { product, rel_product, category });
      } catch (err) {
           next(err);

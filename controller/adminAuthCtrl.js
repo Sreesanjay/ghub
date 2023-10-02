@@ -3,12 +3,18 @@ const OTP = require("../models/otpModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../config/nodeMailer");
+
+
+
+//jwt token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
      return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
 };
+
+//generating otp
 const otpgenerateOtp = () => {
-     const otpLength = 6; // You can change this length as needed
+     const otpLength = 6;
      let otp = "";
      for (let i = 0; i < otpLength; i++) {
           const randomDigit = Math.floor(Math.random() * 10);
@@ -39,6 +45,8 @@ const adminSignUp = async (req, res) => {
           });
      }
 };
+
+
 //get req for admin page
 const adminLoginPage = async (req, res) => {
      let token = req.cookies.adminToken;
@@ -62,6 +70,8 @@ const adminLoginPage = async (req, res) => {
           });
      }
 };
+
+
 //post req for admin login
 const adminlogin = async (req, res) => {
      const { admin_email, admin_password } = req.body;
@@ -94,6 +104,9 @@ const adminlogin = async (req, res) => {
           }
      }
 };
+
+
+//render forgot verify mail page forgot password
 const forgotPassword = (req, res) => {
      res.render("admin/forgotPAssVerifier", {
           adminData: true,
@@ -101,6 +114,9 @@ const forgotPassword = (req, res) => {
           error: req.flash("error"),
      });
 };
+
+
+//request for otp for forgot password
 const getOtpForgotPass = async (req, res) => {
      const admin_email = req.body.admin_email;
      let admin = await Admin.findOne({ admin_email: admin_email });
@@ -138,6 +154,9 @@ const getOtpForgotPass = async (req, res) => {
           });
      }
 };
+
+
+//verify otp for forgot password
 const verifyOtp = async (req, res) => {
      const { admin_email, admin_otp } = req.body;
      const otp = await OTP.findOne({ email: admin_email });
@@ -156,10 +175,14 @@ const verifyOtp = async (req, res) => {
      }
 };
 
+
+//render reset password page for forgot password
 const resetPassword = async (req, res) => {
      res.render("admin/passReset", { adminData: true, fullScreen: true });
 };
 
+
+//create new password for admin
 const updatePassword = async (req, res) => {
      let admin = await Admin.findOne({
           admin_email: req.session.passResetMail,
@@ -175,10 +198,15 @@ const updatePassword = async (req, res) => {
           res.redirect("/admin/forgot-password");
      }
 };
+
+
+//request for signout
 const signOut = async (req, res) => {
      res.cookie("adminToken", "", { maxAge: 1 });
      res.redirect("/admin");
 };
+
+
 module.exports = {
      adminSignUp,
      adminLoginPage,

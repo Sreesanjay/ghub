@@ -1,6 +1,7 @@
 const Product = require("../models/productModel");
 const Category = require("../models/categoryModel");
 const mongoose = require("mongoose");
+const path = require("path");
 const fs = require("fs");
 const asyncHandler = require("express-async-handler");
 
@@ -50,7 +51,7 @@ const storeProduct = asyncHandler(async (req, res, next) => {
           sellig_price: req.body.sellig_price,
           stock: req.body.stock,
           specification: specification,
-          prod_highlight:req.body.prod_highlight,
+          prod_highlight: req.body.prod_highlight,
           GST: req.body.GST,
           primary_img: img1,
           secondary_img: img2,
@@ -97,7 +98,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
                     primary_img: 1,
                     stock: 1,
                     product_status: 1,
-                    prod_highlight:1,
+                    prod_highlight: 1,
                     GST: 1,
                     createdAt: 1,
                     "category.cat_name": 1,
@@ -190,7 +191,6 @@ const getEditProduct = asyncHandler(async (req, res, next) => {
 });
 
 const editProduct = asyncHandler(async (req, res) => {
-     console.log(req.body);
      const changeProdImg = JSON.parse(req.body.changeProdImg);
      const productId = req.params.id;
      delete req.body.changeProdImg;
@@ -222,10 +222,32 @@ const editProduct = asyncHandler(async (req, res) => {
                path: req.files.primary_img[0].path,
           };
           req.body.primary_img = primary_img;
+          let prod = await Product.findById(productId);
+          const outerFolderPath = path.resolve(__dirname, '..');
+          const file = outerFolderPath + '/public/Images/Products/' + prod.primary_img.filename;
+          try {
+               fs.unlinkSync(file)
+          } catch (err) {
+               console.error(err)
+          }
      }
      await Product.findByIdAndUpdate(productId, req.body);
 
      if (changeProdImg.length > 0) {
+          let prod = await Product.findByIdAndUpdate(productId);
+          for (let p of prod.secondary_img) {
+               for (let cp of changeProdImg) {
+                    if (p._id.toString() === cp) {
+                         const outerFolderPath = path.resolve(__dirname, '..');
+                         const file = outerFolderPath + '/public/Images/Products/' + p.filename;
+                         try {
+                              fs.unlinkSync(file)
+                         } catch (err) {
+                              console.error(err)
+                         }
+                    }
+               }
+          }
           await Product.findByIdAndUpdate(productId, {
                $pull: {
                     secondary_img: {

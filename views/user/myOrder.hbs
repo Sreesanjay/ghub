@@ -154,6 +154,11 @@
                                             {{/if}}
                                             {{/isEqual}}
                                         </div>
+                                        {{#if this.products.out_for_delivery_date}}
+                                        {{else}}
+                                        <a onclick="cancelOrder(event,'{{this._id}}','{{this.prod_details._id}}')"
+                                            class="btn btn-outline-danger mt-2">Cancel order</a>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -200,6 +205,35 @@
             $('.track-' + cls).slideToggle()
             $('.up-' + cls).toggle()
             $('.down-' + cls).toggle()
+        }
+        /*cancel order*/
+        cancelOrder = (e, order, product) => {
+            e.preventDefault()
+            Swal.fire({
+                title: 'Are you sure',
+                text: "You want to cancel the order?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    fetch(`/order/cancel-order?order=${order}&product=${product}`).then((response) => {
+                        return response.json()
+                    }).then((data) => {
+                        if (data.status == 'success') {
+                            Swal.fire(
+                                "Success!",
+                                "Order Cancelled Successfully",
+                                "success"
+                            ).then(() => {
+                                location.assign("/account/my-orders");
+                            });
+                        }
+                    })
+                }
+            })
         }
     })
 </script>

@@ -219,8 +219,6 @@ const ViewOrderDetails = asyncHandler(async (req, res, next) => {
     }
 })
 
-
-
 const changeStatus = asyncHandler(async (req, res) => {
     let order = await Order.findById(req.body.order_id)
     let product = order.products.find((item) => item.product == req.body.product_id);
@@ -243,6 +241,17 @@ const changeStatus = asyncHandler(async (req, res) => {
 
     } else if (req.body.status == 'Canceled') {
         product.cancelled_date = new Date()
+        if (order.payment_method === 'ONLINE') {
+            let user = await User.findById(res.locals.userData._id)
+            if (user) {
+                if (product.discount) {
+                    user.user_wallet = user.user_wallet + (product.price - product.discount)
+                } else {
+                    user.user_wallet = user.user_wallet + product.price
+                }
+                await user.save()
+            }
+        }
     }
     const savedOrder = await order.save()
     if (savedOrder) {

@@ -1,6 +1,8 @@
 const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 
+
+//render all coupons
 const getCouponManagement = asyncHandler(async (req, res) => {
      let coupons = await Coupon.find({ is_delete: false });
      coupons = coupons.map((coupon) => {
@@ -13,15 +15,21 @@ const getCouponManagement = asyncHandler(async (req, res) => {
      res.render("admin/coupons", { coupons });
 });
 
+
+//render new coupons
 const getnewCoupon = asyncHandler(async (req, res) => {
      res.render("admin/newCoupon");
 });
 
+
+//save new coupons
 const saveCoupon = asyncHandler(async (req, res) => {
      await Coupon.create(req.body);
      res.status(200).json({ status: "success" });
 });
 
+
+//delete coupons
 const deleteCoupon = asyncHandler(async (req, res) => {
      await Coupon.findByIdAndUpdate(req.params.id, {
           $set: { is_delete: true },
@@ -29,6 +37,8 @@ const deleteCoupon = asyncHandler(async (req, res) => {
      res.status(200).json({ status: "success" });
 });
 
+
+//render edit coupon
 const getEditCoupon = asyncHandler(async (req, res) => {
      let coupon = await Coupon.findById(req.params.id);
      coupon = coupon.toObject();
@@ -47,6 +57,8 @@ const getEditCoupon = asyncHandler(async (req, res) => {
      res.render("admin/editCoupon", { coupon });
 });
 
+
+//save edited coupon
 const updateCoupon = asyncHandler(async (req, res) => {
      const newCpn = await Coupon.findByIdAndUpdate(req.params.id, req.body, {
           new: true,

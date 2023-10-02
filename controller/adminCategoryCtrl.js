@@ -1,6 +1,9 @@
 const Admin = require("../models/adminModel");
 const Category = require("../models/categoryModel");
 const asyncHandler = require("express-async-handler");
+
+
+
 // function for string comparison
 function similarity(s1, s2) {
      let longer = s1;
@@ -47,12 +50,15 @@ function editDistance(s1, s2) {
      return costs[s2.length];
 }
 
-//GET requst for new category page
+
+
+//render new category page
 const newCategory = async (req, res, next) => {
      res.render("admin/newCategory");
 };
 
-// POST requst for Storing new category
+
+//create new category
 const createCategory = asyncHandler(async (req, res, next) => {
      let categoryName = req.body.cat_name;
      let largestMatch = 0;
@@ -81,7 +87,8 @@ const createCategory = asyncHandler(async (req, res, next) => {
      }
 });
 
-//GET request fot getting all categories
+
+//render all categories
 const getCategories = asyncHandler(async (req, res) => {
      let categories = await Category.find({ is_delete: false });
      categories = categories.map((category) => {
@@ -93,7 +100,8 @@ const getCategories = asyncHandler(async (req, res) => {
      res.render("admin/category", { categories });
 });
 
-//GET request for edit category page
+
+//render edit category page
 const editCategory = asyncHandler(async (req, res) => {
      const category = await Category.findById(req.params.id);
      if (category) {
@@ -103,7 +111,8 @@ const editCategory = asyncHandler(async (req, res) => {
      }
 });
 
-// PUT request for updating category
+
+// save edit category
 const updateCategory = asyncHandler(async (req, res) => {
      const categoryId = req.params.id;
      const updateData = req.body;
@@ -129,7 +138,7 @@ const updateCategory = asyncHandler(async (req, res) => {
           error.statusCode = 409;
           error.status = "fail";
           throw error;
-      } else {
+     } else {
           const updatedCategory = await Category.findByIdAndUpdate(
                categoryId,
                updateData,
@@ -143,7 +152,8 @@ const updateCategory = asyncHandler(async (req, res) => {
      }
 });
 
-//DELETE request for delete category
+
+//delete category
 const deleteCategory = asyncHandler(async (req, res) => {
      const categoryId = req.params.id;
      const updatedCategory = await Category.findByIdAndUpdate(

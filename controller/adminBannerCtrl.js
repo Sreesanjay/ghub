@@ -3,6 +3,9 @@ const asyncHandler = require("express-async-handler");
 const Category = require("../models/categoryModel");
 const mongoose = require("mongoose");
 
+
+
+//render all banners
 const getAllBanners = asyncHandler(async (req, res, next) => {
      let allBanners = await Banner.find();
      allBanners = allBanners.map((banner) => {
@@ -20,13 +23,16 @@ const getAllBanners = asyncHandler(async (req, res, next) => {
      });
 });
 
+
+//render new banner 
 const newBanner = asyncHandler(async (req, res, next) => {
      const category = await Category.find({}, { cat_name: 1 });
 
      res.render("admin/newBanner", { category });
 });
 
-//POST requst for banner upload
+
+//save new banner
 const saveBanner = asyncHandler(async (req, res, next) => {
      req.body.image = {
           filename: req.file.filename,
@@ -38,7 +44,8 @@ const saveBanner = asyncHandler(async (req, res, next) => {
      res.status(200).json({ status: "success" });
 });
 
-//GET request for banner edit page
+
+//render banner edit page
 const getEditBanner = asyncHandler(async (req, res, next) => {
      let banner = await Banner.findById(req.params.id);
 
@@ -66,6 +73,8 @@ const getEditBanner = asyncHandler(async (req, res, next) => {
      res.render("admin/editBanner", { banner, category });
 });
 
+
+//save edited banner
 const putEditBanner = asyncHandler(async (req, res, next) => {
      if (req.file?.filename) {
           req.body.image = {
@@ -86,6 +95,8 @@ const putEditBanner = asyncHandler(async (req, res, next) => {
      }
 });
 
+
+//delete banner
 const deleteBanner = asyncHandler(async (req, res, next) => {
      const banner = await Banner.findByIdAndDelete(req.params.id, {
           new: true,
@@ -98,6 +109,7 @@ const deleteBanner = asyncHandler(async (req, res, next) => {
           throw error;
      }
 });
+
 
 module.exports = {
      getAllBanners,

@@ -62,10 +62,10 @@ function generateInvoiceNumber() {
      const prefix = "order_";
      const timestamp = Date.now(); // Get the current timestamp in milliseconds
      const randomPart = Math.floor(Math.random() * 600); // Generate a random 4-digit number
-   
+
      const invoiceNumber = `${prefix}${timestamp}${randomPart}`;
      return invoiceNumber;
-   }
+}
 
 
 //proceed order
@@ -264,109 +264,135 @@ const verifyPayment = asyncHandler(async (req, res) => {
 
 
 
-const printInvoice=asyncHandler(async(req, res, next)=>{
-     let orders=await Order.aggregate([
-         {
-             $match:{
-                 _id: new mongoose.Types.ObjectId(req.query.orderid)
-             }
-         },
-         {
-             $lookup:{
-                 from:'users',
-                 localField:'user',
-                 foreignField:'_id',
-                 as:'user'
-             }
-         },
-         {
-             $unwind:{
-                 path:'$user'
-             }
-         },
-         {
-             $unwind:{path:'$products'}
-         },
-         {
-             $lookup:{
-                 from:'products',
-                 localField:'products.product',
-                 foreignField:'_id',
-                 as:'prod_details'
-             }
-         },
-         {
-             $lookup:{
-                 from:'payments',
-                 localField:'_id',
-                 foreignField:'order_id',            
-                 as:'payment_details'    
-             }
-         },
-         {
-             $lookup:{
-                 from:'categories',
-                 localField:'prod_details.category',
-                 foreignField:'_id',
-                 as:'category'
-             }
-         },
-         {
-             $unwind:{path:'$category'}
-         },
-         {
-             $unwind:{path:'$payment_details'}
-         },
-         {
-             $unwind:{path:'$prod_details'}
-         },
-         {
-             $match:{
-                 'prod_details._id': new mongoose.Types.ObjectId(req.query.product)
-             }
-         }
-         
+const printInvoice = asyncHandler(async (req, res, next) => {
+     let orders = await Order.aggregate([
+          {
+               $match: {
+                    _id: new mongoose.Types.ObjectId(req.query.orderid)
+               }
+          },
+          {
+               $lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'user'
+               }
+          },
+          {
+               $unwind: {
+                    path: '$user'
+               }
+          },
+          {
+               $unwind: { path: '$products' }
+          },
+          {
+               $lookup: {
+                    from: 'products',
+                    localField: 'products.product',
+                    foreignField: '_id',
+                    as: 'prod_details'
+               }
+          },
+          {
+               $lookup: {
+                    from: 'payments',
+                    localField: '_id',
+                    foreignField: 'order_id',
+                    as: 'payment_details'
+               }
+          },
+          {
+               $lookup: {
+                    from: 'categories',
+                    localField: 'prod_details.category',
+                    foreignField: '_id',
+                    as: 'category'
+               }
+          },
+          {
+               $unwind: { path: '$category' }
+          },
+          {
+               $unwind: { path: '$payment_details' }
+          },
+          {
+               $unwind: { path: '$prod_details' }
+          },
+          {
+               $match: {
+                    'prod_details._id': new mongoose.Types.ObjectId(req.query.product)
+               }
+          }
+
      ])
- 
- 
+
+
      //pdf download
-     
+
      const html = fs.readFileSync('./views/pdf/invoice.hbs', "utf8");
      const options = {
-         format: "A4",
-         orientation: "landscape",
-         border: "10mm",
-         header: {
-           height: "5mm",
-           contents: '<div style="text-align: center;">INVOICE</div>'
-         },
-       };
-       const document = {
-         html: html,
-         data: {
-           order:orders[0],
-         },
-         path: "./invoice.pdf",
-         type: "",
-       };
-     
-       pdf.create(document, options).then((data) => {
-           const pdfStream = fs.createReadStream("invoice.pdf");
-           res.setHeader("Content-Type", "application/pdf");
-           res.setHeader("Content-Disposition", `attachment; filename=invoice.pdf`);
-           pdfStream.pipe(res);
-           console.log("PDF sent as a download");
-         }).catch((error) => {
-           console.error(error);
-           res.status(500).send("Error generating the PDF");
-         });
- 
-     
- })
+          format: "A4",
+          orientation: "landscape",
+          border: "10mm",
+          header: {
+               height: "5mm",
+               contents: '<div style="text-align: center;">INVOICE</div>'
+          },
+     };
+     const document = {
+          html: html,
+          data: {
+               order: orders[0],
+          },
+          path: "./invoice.pdf",
+          type: "",
+     };
+
+     pdf.create(document, options).then((data) => {
+          const pdfStream = fs.createReadStream("invoice.pdf");
+          res.setHeader("Content-Type", "application/pdf");
+          res.setHeader("Content-Disposition", `attachment; filename=invoice.pdf`);
+          pdfStream.pipe(res);
+          console.log("PDF sent as a download");
+     }).catch((error) => {
+          console.error(error);
+          res.status(500).send("Error generating the PDF");
+     });
+
+
+})
+
+//cancel order
+const cancelOrder = asyncHandler(async (req, res) => {
+     let order = await Order.findById(req.query.order)
+     let product = order.products.find((item) => item.product == req.query.product);
+     console.log(product)
+     product.status = 'Canceled';
+     product.cancelled_date = new Date();
+     await order.save();
+     //update user wallet id it is an online payment
+     if (order.payment_method === 'ONLINE') {
+          let user = await User.findById(res.locals.userData._id)
+          if (user) {
+               if (product.discount) {
+                    user.user_wallet = user.user_wallet + (product.price - product.discount)
+               } else {
+                    user.user_wallet = user.user_wallet + product.price
+               }
+               await user.save()
+          }
+     }
+     res.status(200).json({
+          status: 'success'
+     })
+})
 
 module.exports = {
      getCheckout,
      proceedOrder,
      verifyPayment,
-     printInvoice
+     printInvoice,
+     cancelOrder
 };

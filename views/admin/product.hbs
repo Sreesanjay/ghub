@@ -24,7 +24,7 @@
                 {{#each products}}
                 <tr>
                     <td><img src="/Images/Products/{{this.primary_img.filename}}" alt="" style="width:50px;"></td>
-                    <td style="max-width:150px;">{{this.product_name}}</td>
+                    <td style="max-width:150px;">{{this.product_name}}{{this.prod_highlight}}</td>
                     <td>{{this.brand_name}}</td>
                     <td>{{this.category.cat_name}}</td>
                     <td>{{this.stock}}</td>

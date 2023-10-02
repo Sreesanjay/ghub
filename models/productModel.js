@@ -16,6 +16,10 @@ var prodSchema = new mongoose.Schema(
                type: String,
                required: true,
           },
+          prod_highlight: {
+               type: String,
+               required: true,
+          },
           prod_color: {
                type: String,
                required: true,

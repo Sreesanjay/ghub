@@ -10,8 +10,25 @@
     </div>
     <div class="search d-none d-md-block">
       <div class="search-box form-control d-flex  justify-content-end">
-        <input type="search" placeholder="Searc Products Brands and More..">
-        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="search" id="search" list="browsers" {{#if search}}value="{{search}}" {{/if}}
+          placeholder="Searc Products Brands and More.."  name="search" autocomplete="off">
+        <datalist id="browsers">
+          {{#if products}}
+            {{#each products}}
+              <option value="{{this.product_name}}">
+            {{/each}}
+          {{/if}}
+          {{#if category}}
+            {{#each category}}
+            <option value="{{this._id}}"></option>
+              {{#each this.products}}
+                <option value="{{this.product_name}}">
+              {{/each}}
+            {{/each}}
+          {{/if}}
+        </datalist>
+        <a class="btn" id="search-btn" onclick="appendSearch(event)" href="/products"><i
+            class="fa-solid fa-magnifying-glass"></i></a>
       </div>
     </div>
     <div class="link">
@@ -76,3 +93,12 @@
     </div>
   </div>
 </div>
+<script>
+  $(function () {
+    appendSearch = (e) => {
+      const search = document.getElementById('search').value
+      let searchBtn = document.getElementById('search-btn')
+      searchBtn.href = searchBtn.href + `?search=${search}`
+    }
+  })
+</script>

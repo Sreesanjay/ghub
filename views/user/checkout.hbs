@@ -256,7 +256,7 @@
                 <hr>
                 <div class="item-list row">
                     {{#each cartList}}
-                    <p class="col-9">{{this.prod_detail.product_name}}</p>
+                    <p class="col-9">{{this.prod_detail.product_name}}{{this.prod_highlight}}</p>
                     <input type="text" class="col-3 item-price" name="price" value="{{this.price}}"
                         style="border: none;" readonly>
                     {{/each}}

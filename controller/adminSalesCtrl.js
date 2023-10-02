@@ -176,6 +176,27 @@ const filterSales=asyncHandler(async(req, res, next)=>{
         },
         {
             $lookup:{
+                from:'payments',
+                localField:'_id',
+                foreignField:'order_id',
+                as:'payment_details',
+                pipeline: [
+                    {
+                        $project:{
+                            _id:0,
+                            payment_method:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $unwind:{
+                path:'$payment_details'
+            }
+        },
+        {
+            $lookup:{
                 from:'products',
                 localField:'products.product',
                 foreignField:'_id',

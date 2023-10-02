@@ -9,6 +9,7 @@ const { errorMonitor } = require("nodemailer/lib/xoauth2");
 
 //request for home page for users
 const getHomePage = asyncHandler(async (req, res) => {
+     console.log(req.query)
      const brands = await Product.aggregate([
           { $match: { is_delete: false, product_status: true } },
           { $group: { _id: "$brand_name", count: { $sum: 1 } } },
@@ -60,7 +61,7 @@ const getHomePage = asyncHandler(async (req, res) => {
                }
           }
      ]);
-     console.log(category[0])
+
      res.render("user/homePage", {
           brands,
           category,
@@ -69,13 +70,9 @@ const getHomePage = asyncHandler(async (req, res) => {
           error: req.flash("error")[0],
      });
 });
-const filterProducts = async (req, res) => {
-     let product = await Product.find(req.query);
-};
+
 
 
 module.exports = {
-     getHomePage,
-     filterProducts,
-
+     getHomePage
 };

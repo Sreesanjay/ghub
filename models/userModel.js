@@ -69,14 +69,6 @@ var userSchema = new mongoose.Schema(
      },
      { timestamps: true }
 );
-// hashing user password
-userSchema.pre("save", async function (next) {
-     console.log("password hashed");
-     const salt = await bcrypt.genSalt(10);
-     this.user_password = await bcrypt.hash(this.user_password, salt);
-     next();
-});
-
 //static functions for login and password
 userSchema.statics.login = async function (email, password) {
      let user = await this.findOne({ user_email: email });

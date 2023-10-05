@@ -93,6 +93,15 @@ handlebars.registerHelper('isEqual', function (str1, str2, options) {
   }
 })
 
+handlebars.registerHelper('isWishlist', function (key, array, options) {
+  for (let arr of array) {
+    if (key.toString() === arr.product_id.toString()) {
+      return options.fn(this);
+    }
+  }
+  return options.inverse(this);
+})
+
 
 
 // clearing cache
@@ -113,9 +122,9 @@ app.use('/admin/customers', require('./routes/adminCustomerRout'));
 app.use('/admin/banner-management', require('./routes/adminBannerRout'))
 app.use('/admin/coupon-management', require('./routes/adminCouponRout'))
 app.use('/admin/orders', require('./routes/adminOrderRout'))
-app.use('/admin/sales-report',require('./routes/adminSaleReportRout'))
+app.use('/admin/sales-report', require('./routes/adminSaleReportRout'))
 
-app.use('/get-pdf',require('./routes/testRout'))
+app.use('/get-pdf', require('./routes/testRout'))
 
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)

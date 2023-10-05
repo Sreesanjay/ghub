@@ -332,8 +332,17 @@ $(document).ready(function () {
 
    //edit usesr-------------------
    editUser = () => {
-      var inputElement = $('input');
-      inputElement.prop('readonly', false);
+      let inputElement = $('input');
+      $('input').each(function() {
+         let inputElement = $(this);
+         if (inputElement.prop('readonly')) {
+           console.log("read only");
+           inputElement.prop('readonly', false);
+         } else {
+           console.log("not read only");
+           inputElement.prop('readonly', true);
+         }
+       });
       $('.gen-info-submit-btn').toggle()
    }
 

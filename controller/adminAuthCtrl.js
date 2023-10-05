@@ -4,8 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../config/nodeMailer");
 
-
-
 //jwt token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -46,7 +44,6 @@ const adminSignUp = async (req, res) => {
      }
 };
 
-
 //get req for admin page
 const adminLoginPage = async (req, res) => {
      let token = req.cookies.adminToken;
@@ -70,7 +67,6 @@ const adminLoginPage = async (req, res) => {
           });
      }
 };
-
 
 //post req for admin login
 const adminlogin = async (req, res) => {
@@ -105,7 +101,6 @@ const adminlogin = async (req, res) => {
      }
 };
 
-
 //render forgot verify mail page forgot password
 const forgotPassword = (req, res) => {
      res.render("admin/forgotPAssVerifier", {
@@ -114,7 +109,6 @@ const forgotPassword = (req, res) => {
           error: req.flash("error"),
      });
 };
-
 
 //request for otp for forgot password
 const getOtpForgotPass = async (req, res) => {
@@ -141,7 +135,6 @@ const getOtpForgotPass = async (req, res) => {
                     admin_email: admin_email,
                });
           } catch (err) {
-               console.log(err);
                res.status(500).json({
                     success: false,
                     err: "sorry! Something went wrong,try again",
@@ -154,7 +147,6 @@ const getOtpForgotPass = async (req, res) => {
           });
      }
 };
-
 
 //verify otp for forgot password
 const verifyOtp = async (req, res) => {
@@ -175,12 +167,10 @@ const verifyOtp = async (req, res) => {
      }
 };
 
-
 //render reset password page for forgot password
 const resetPassword = async (req, res) => {
      res.render("admin/passReset", { adminData: true, fullScreen: true });
 };
-
 
 //create new password for admin
 const updatePassword = async (req, res) => {
@@ -199,13 +189,11 @@ const updatePassword = async (req, res) => {
      }
 };
 
-
 //request for signout
 const signOut = async (req, res) => {
      res.cookie("adminToken", "", { maxAge: 1 });
      res.redirect("/admin");
 };
-
 
 module.exports = {
      adminSignUp,

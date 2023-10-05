@@ -1,6 +1,6 @@
-<div class="my-account p-3">
-    <h3 class="mb-3">My Profile</h3>
-    <div class="user-details card p-4 mb-3">
+<div class="my-account p-3 row">
+    <h3 class="mb-3 col-12">My Profile</h3>
+    <div class="user-details card p-4 mb-3 col-sm-8">
         <div class="header d-flex justify-content-between">
             <h5 class="mb-3">General Informations</h5>
             <i class="fa-solid fa-pen-to-square text-danger" onclick="editUser()"></i>
@@ -22,7 +22,13 @@
         </div>
         <button class="btn btn-outline-primary gen-info-submit-btn">Submit</button>
     </div>
-
+    <div class="wallet col-sm-3 mb-3 card ms-sm-3 p-2 pt-4">
+        <h5 class=" " align="center" >My Wallet</h5>
+        <span class="fs-6 mt-4 mb-3" align="center">Your Wallet Balance is</span>
+        <h4 align="center">₹{{userData.user_wallet}}</h4>
+        <a href="/" class="btn btn-outline-primary mt-5">Shop Now</a>
+        <span style="font-size: 10px;" class="mt-4" align="center">Ghub Wallet is designed for making your online shopping experience faster, safer, and more enjoyable. Start using your wallet today and discover a new level of shopping ease</span>
+    </div>
     <div class="password-details card p-4">
        <h5 class="reset-pass-btn mb-3">Reset Password<i class="fa-solid fa-angle-down ms-3 mb-4 down-btn"></i><i class="fa-solid fa-angle-up up-btn ms-3 mb-4"></i></h5>
        <div class="old-pass form-group">

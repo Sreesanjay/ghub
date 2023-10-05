@@ -101,7 +101,9 @@ const registerUser = asyncHandler(async (req, res) => {
           let user = await User.findOne({ user_email: req.body.user_email });
 
           if (user === null) {
-               console.log(req.body);
+
+               const salt = await bcrypt.genSalt(10);
+               req.body.user_password = await bcrypt.hash(req.body.user_password, salt);
                await User.create(req.body);
                res.json({ status: "success" });
           } else {

@@ -72,7 +72,8 @@ $(function () {
                     "Order Placed Successfully",
                     "success"
                 ).then(() => {
-                    location.assign("/my-cart");
+                    history.replaceState(null, null, '/');
+                    location.assign("/order/order-success")
                 });
             } else if (data.status === 'paymentPending') {
                 var options = {
@@ -102,9 +103,10 @@ $(function () {
                                     "Order Placed Successfully",
                                     "success"
                                 ).then(() => {
-                                    location.assign("/my-cart");
+                                    history.replaceState(null, null, '/');
+                                    location.assign("/order/order-success")
                                 });
-                            }else{
+                            } else {
                                 throw new Error(data.message);
                             }
                         })
@@ -114,11 +116,11 @@ $(function () {
                 var rzp1 = new Razorpay(options);
                 rzp1.open();
                 rzp1.on('payment.failed', function (response) {
-                    Swal.fire("Failed!", response.error.description, "error") 
+                    Swal.fire("Failed!", response.error.description, "error")
                 });
 
             }
-            else{
+            else {
                 throw new Error(data.message)
             }
         }).catch((error) => {

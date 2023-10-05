@@ -85,13 +85,16 @@ const proceedOrder = asyncHandler(async (req, res) => {
           };
           order.products.push(products);
      }
+
      let totalAmount = order.products.reduce((acc, prod) => {
           acc = acc + prod.price;
           return acc;
      }, 0);
+
      const address = await Address.findById(req.body.delivery_address);
      order.delivery_address = address;
      order.payment_method = req.body.payment_option;
+
      if (req.body.coupon_id) {
           const coupon = await Coupon.findById(req.body.coupon_id);
           let discount = Math.round((totalAmount * coupon.discount) / 100);
@@ -212,10 +215,6 @@ const proceedOrder = asyncHandler(async (req, res) => {
      }
 });
 
-
-
-
-
 //verify payment
 const verifyPayment = asyncHandler(async (req, res) => {
      const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
@@ -260,8 +259,6 @@ const verifyPayment = asyncHandler(async (req, res) => {
           throw new Error("Invalid signature")
      }
 });
-
-
 
 
 const printInvoice = asyncHandler(async (req, res, next) => {
@@ -387,6 +384,12 @@ const cancelOrder = asyncHandler(async (req, res) => {
      res.status(200).json({
           status: 'success'
      })
+
+})
+
+//display order success page
+const getSuccessPage = asyncHandler(async(req,res)=>{
+     res.render('user/orderSuccess')
 })
 
 module.exports = {
@@ -394,5 +397,6 @@ module.exports = {
      proceedOrder,
      verifyPayment,
      printInvoice,
-     cancelOrder
+     cancelOrder,
+     getSuccessPage
 };

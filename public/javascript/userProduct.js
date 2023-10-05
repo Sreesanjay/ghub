@@ -14,13 +14,15 @@ $(function () {
                 let timerInterval
                 Swal.fire({
                     text: 'Item added to wishlist',
-                    timer: 500,
+                    timer: 100,
                     didOpen: () => {
                         Swal.showLoading()
                     },
                     willClose: () => {
                         clearInterval(timerInterval)
                     }
+                }).then(()=>{
+                    location.reload()
                 })
             }
             if (data.message) {
@@ -84,7 +86,6 @@ $(function () {
         }).then((response) => {
             return response.json()
         }).then((data) => {
-            console.log(data);
             if (data.status == 'success') {
                 let timerInterval
                 Swal.fire({
@@ -104,6 +105,11 @@ $(function () {
                         } else {
                             count.innerText = '1'
                         }
+                    }else{
+                        Swal.fire('Item already in the cart').then(()=>{
+                            location.assign('/my-cart')
+                        })
+                        
                     }
                 })
             }

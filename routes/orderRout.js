@@ -9,6 +9,7 @@ router.post('/proceed-order',isUserLogedIn,orderCtrl.proceedOrder)
 router.post('/payment/verify-payment',isUserLogedIn,orderCtrl.verifyPayment)
 router.get('/print-invoice',orderCtrl.printInvoice)
 router.get('/cancel-order',isUserLogedIn,orderCtrl.cancelOrder)
+router.get('/order-success',isUserLogedIn,orderCtrl.getSuccessPage)
 
 
 module.exports=router

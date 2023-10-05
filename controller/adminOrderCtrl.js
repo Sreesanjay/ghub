@@ -65,7 +65,6 @@ const getAllOrders = asyncHandler(async (req, res, next) => {
             order.coupon.details = await Coupon.findById(order.coupon.coupon_id)
         }
     }
-    console.log(orders[10])
     res.render('admin/orderList', { orders })
 });
 //filter order

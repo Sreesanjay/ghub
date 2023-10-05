@@ -45,7 +45,8 @@
                     <p class="text-danger"> Cancelled on {{toDate this.products.cancelled_date}}</p>
                     {{/isEqual}}
                 </div>
-                <button class="btn text-primary pe-4 mt-3 pb-2" style="width: max-content;" onclick="trackOrder('{{this._id}}{{this.prod_details._id}}')">Track Order
+                <button class="btn text-primary pe-4 mt-3 pb-2" style="width: max-content;"
+                    onclick="trackOrder('{{this._id}}{{this.prod_details._id}}')">Track Order
                     <i class="fa-solid fa-chevron-down col-1 fs-5 down-{{this._id}}{{this.prod_details._id}}"></i>
                     <i class="fa-solid fa-chevron-up col-1 fs-5 up-{{this._id}}{{this.prod_details._id}}"
                         style="display: none"></i>
@@ -156,20 +157,22 @@
                                         </div>
                                         {{#if this.products.out_for_delivery_date}}
                                         {{else}}
-                                        <a onclick="cancelOrder(event,'{{this._id}}','{{this.prod_details._id}}')"
-                                            class="btn btn-outline-danger mt-2">Cancel order</a>
+                                        <button class="btn btn-outline-danger mt-2 order-cancel">Cancel order
+                                        </button><br>
+                                        <div class="reason-wraper" style="display: none;">
+                                            <textarea name="cancel_reason" class="form-control" id="reason{{this._id}}{{this.prod_details._id}}" cols="30"
+                                            rows="5"></textarea>
+                                            <button class="btn btn-outline-danger mt-3 clear-cancel">Cancel</button>
+                                            <button class="btn btn-outline-primary ms-2 mt-3"
+                                                onclick="cancelOrder(event,'{{this._id}}','{{this.prod_details._id}}')">Submit
+                                            </button>
+                                        </div>
                                         {{/if}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -207,6 +210,17 @@
             $('.down-' + cls).toggle()
         }
         /*cancel order*/
+
+        $('.order-cancel').on('click', () => {
+            $('.order-cancel').toggle();
+            $('.reason-wraper').slideToggle()
+        });
+        
+        $('.clear-cancel').on('click', () => {
+            $('.order-cancel').toggle();
+            $('.reason-wraper').slideToggle()
+        });
+
         cancelOrder = (e, order, product) => {
             e.preventDefault()
             Swal.fire({
@@ -219,7 +233,17 @@
                 confirmButtonText: 'Yes'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    fetch(`/order/cancel-order?order=${order}&product=${product}`).then((response) => {
+                    const cancel_reason = document.getElementById('reason'+order+product).value
+                    let body={
+                        order,
+                        product,
+                        cancel_reason
+                    }
+                    fetch('/order/cancel-order',{
+                        method:'POST',
+                        body:JSON.stringify(body),
+                        headers: { "Content-Type": "application/json" }
+                    }).then((response) => {
                         return response.json()
                     }).then((data) => {
                         if (data.status == 'success') {

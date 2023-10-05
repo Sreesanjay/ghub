@@ -51,6 +51,9 @@ const orderSchema = new mongoose.Schema({
                },
                cancelled_date:{
                 type:Date
+               },
+               cancel_reason:{
+                    type:String
                }
 
           },
@@ -116,7 +119,7 @@ const orderSchema = new mongoose.Schema({
       },
      payment_method: {
           type: String,
-          enum: ['COD','ONLINE'],
+          enum: ['COD','ONLINE','GHUBWALLET'],
           required: true,
      },
 });

@@ -93,6 +93,14 @@ handlebars.registerHelper('isEqual', function (str1, str2, options) {
   }
 })
 
+handlebars.registerHelper('lessThanEquals', function (arg1, arg2, options) {
+  if (arg1 <= arg2) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+})
+
 handlebars.registerHelper('isWishlist', function (key, array, options) {
   for (let arr of array) {
     if (key.toString() === arr.product_id.toString()) {

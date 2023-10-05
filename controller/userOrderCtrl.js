@@ -113,6 +113,7 @@ const proceedOrder = asyncHandler(async (req, res) => {
      let newOrder = await Order.create(order);
 
      if (newOrder) {
+          //pay using cod
           if (newOrder.payment_method === "COD") {
                //changing the status of order to confirmed from Payment pending
                newOrder.products.forEach((product) => {
@@ -158,7 +159,58 @@ const proceedOrder = asyncHandler(async (req, res) => {
 
                res.status(200).json({ status: "success" });
 
-          } else {
+          }
+          //pay using ghub wallet
+          else if (newOrder.payment_method === "GHUBWALLET") {
+
+               //changing the status of order to confirmed from Payment pending
+               newOrder.products.forEach((product) => {
+                    product.status = "Confirmed";
+                    product.confirmed_date = new Date()
+               });
+
+               let confirmedOrder = await newOrder.save();
+
+               if (confirmedOrder) {
+                    confirmedOrder.products.forEach(async (product) => {
+                         await Product.findByIdAndUpdate(product.product, {
+                              $inc: { stock: -product.quantity },
+                         });
+                    });
+                    await User.findByIdAndUpdate(confirmedOrder.user, {
+                         $set: { cart: [] },
+                    });
+
+
+
+                    let total = 0;
+                    for (let prod of confirmedOrder.products) {
+                         console.log(prod.price)
+                         total = total + prod.price
+                    }
+                    console.log(total)
+                    if (confirmedOrder.coupon?.discount) {
+                         total = total - confirmedOrder.coupon.discount
+                    }
+                    await User.findByIdAndUpdate(res.locals.userData._id,{$inc:{user_wallet:-(total)}})
+                    const invoiceNumber = generateInvoiceNumber()
+                    const payment = {
+                         payment_id: invoiceNumber,
+                         amount: total,
+                         currency: 'INR',
+                         status: 'created',
+                         order_id: confirmedOrder._id,
+                         created_at: new Date(),
+                         payment_method: 'GHUBWALLET'
+                    }
+                    await Payment.create(payment)
+               }
+
+               res.status(200).json({ status: "success" });
+
+          }
+          //pay using online payment
+          else {
                let total;
                if (newOrder.coupon?.discount) {
                     console.log(newOrder.coupon);
@@ -363,14 +415,15 @@ const printInvoice = asyncHandler(async (req, res, next) => {
 
 //cancel order
 const cancelOrder = asyncHandler(async (req, res) => {
-     let order = await Order.findById(req.query.order)
-     let product = order.products.find((item) => item.product == req.query.product);
+     let order = await Order.findById(req.body.order)
+     let product = order.products.find((item) => item.product == req.body.product);
      console.log(product)
      product.status = 'Canceled';
      product.cancelled_date = new Date();
+     product.cancel_reason=req.body.cancel_reason
      await order.save();
      //update user wallet id it is an online payment
-     if (order.payment_method === 'ONLINE') {
+     if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET' ) {
           let user = await User.findById(res.locals.userData._id)
           if (user) {
                if (product.discount) {
@@ -388,7 +441,7 @@ const cancelOrder = asyncHandler(async (req, res) => {
 })
 
 //display order success page
-const getSuccessPage = asyncHandler(async(req,res)=>{
+const getSuccessPage = asyncHandler(async (req, res) => {
      res.render('user/orderSuccess')
 })
 

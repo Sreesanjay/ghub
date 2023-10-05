@@ -234,7 +234,14 @@
                     <input type="radio" value="COD" class="form-check-input" name="payment_option">
                     <label for="">Cash on Delivery</label>
 
+                </div> 
+
+                {{#lessThanEquals cartList.total userData.user_wallet}}
+                <div class="form-group ghub-balance">
+                    <input type="radio" class="form-check-input" value="GHUBWALLET" name="payment_option">
+                    <label for="">GHub Wallet (₹{{userData.user_wallet}})</label>
                 </div>
+                {{/lessThanEquals}}
                 <div class="form-group">
                     <input type="radio" class="form-check-input" value="ONLINE" name="payment_option">
                     <label for="">Online Payment</label>

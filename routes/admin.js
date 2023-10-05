@@ -15,6 +15,7 @@ router.post('/admin-sign-up',adminAuthCtrl.adminSignUp)
 
 //admin dashboard
 router.get('/',isAdminLogedIn,adminCtrl.getDashboard)
+router.get('/getRevenue',isAdminLogedIn,adminCtrl.getRevenue)
 //admin login 
 router.get('/admin-sign-in',adminAuthCtrl.adminLoginPage)
 router.post('/admin-sign-in',adminAuthCtrl.adminlogin)

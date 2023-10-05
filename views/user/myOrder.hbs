@@ -157,6 +157,8 @@
                                         </div>
                                         {{#if this.products.out_for_delivery_date}}
                                         {{else}}
+                                        {{#isEqual this.products.status "Canceled"}}
+                                        {{else}}
                                         <button class="btn btn-outline-danger mt-2 order-cancel">Cancel order
                                         </button><br>
                                         <div class="reason-wraper" style="display: none;">
@@ -167,6 +169,7 @@
                                                 onclick="cancelOrder(event,'{{this._id}}','{{this.prod_details._id}}')">Submit
                                             </button>
                                         </div>
+                                        {{/isEqual}}
                                         {{/if}}
                                     </div>
                                 </div>

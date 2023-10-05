@@ -1,4 +1,112 @@
-<section class="dash-board">
-  <h3></h3>
+<style>
+
+
+</style>
+<section class="dash-board p-3" style="width:100%;">
+  <h3 class="mb-5">Dashboard</h3>
+
+  <h4 class="text-muted">Total Sales</h4>
+  <h4 class="mb-5">₹{{totalSales}}</h4>
+  
+  <div class="stat-header d-flex justify-content-between">
+    <h6>Sales Statistics</h6>
+    <div class="">Select Year <select name="" class="form-select" id="year-selector" style="width: 100px !important;">
+      </select>
+    </div>
+  </div>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+  <div class="stat-wraper mt-4 px-5 d-flex">
+    <div class="year-slaes card p-3" style="width:fit-content; font-size:15px;">
+      <p>Total sales in <span class="year"></span></p>
+      <p class="total-sales m-0 fw-bold" align="center"></p>
+    </div>
+
+    {{!-- registered users --}}
+    <div class="year-slaes card p-3 ms-3" style="width:fit-content; font-size:15px;">
+      <p>Registered Users</p>
+      <p class="total-users m-0 fw-bold" align="center">{{userCount}}</p>
+    </div>
+    {{!-- Total stock --}}
+    <div class="year-slaes card p-3 ms-3" style="width:fit-content; font-size:15px;">
+      <p>Total Products</p>
+      <p class="total-users m-0 fw-bold" align="center">{{prodCount}}</p>
+    </div>
+  </div>
 </section>
-   
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  $(() => {
+    let yearRange = document.getElementById('year-selector')
+    const currentYear = new Date().getFullYear()
+    for (let year = currentYear; year >= 2022; year--) {
+      const opt = document.createElement('option')
+      opt.setAttribute('value', year)
+      opt.innerText = year
+      yearRange.appendChild(opt)
+    }
+
+  })
+</script>
+
+<script>
+  $(() => {
+    const ctx = document.getElementById('myChart');
+
+    displayDiagram = (data) => {
+      const existingChart = Chart.getChart("myChart");
+      if (existingChart) {
+        existingChart.destroy();
+      }
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augest', 'September', 'October', 'November', 'December'],
+          datasets: [{
+            label: 'revenue',
+            data: data,
+            borderWidth: 1,
+            backgroundColor: '#3D05AD',
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    /*initial fetch*/
+    fetch('/admin/getRevenue').then((res) => {
+      return res.json()
+    }).then((data) => {
+      let totalSales = data.reduce((acc, sale) => {
+        return acc + sale
+      })
+      const year=new Date().getFullYear()
+      $('.year').text(year)
+      $('.total-sales').text('₹'+totalSales)
+      displayDiagram(data)
+    })
+
+    /*year fetch*/
+    $('#year-selector').on('change', () => {
+      const selectYear = document.getElementById('year-selector').value
+      fetch(`/admin/getRevenue?year=${selectYear}`).then((res) => {
+        return res.json()
+      }).then((data) => {
+        let totalSales = data.reduce((acc, sale) => {
+          return acc + sale
+        })
+        $('.year').text(selectYear)
+        $('.total-sales').text('₹'+totalSales)
+        displayDiagram(data)
+      })
+    })
+  })
+</script>

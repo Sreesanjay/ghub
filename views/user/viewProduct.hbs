@@ -7,12 +7,14 @@
     <div class="row p-0 m-0">
       <aside class="col-lg-6 d-flex flex-column align-items-center p-0">
         <div class="border rounded-4 mb-3 image-container" id="image-container">
-          <img src="/Images/Products/{{product.primary_img.filename}}" alt="" id="primary-img-view">
+          <img src="/Images/Products/{{product.primary_img.filename}}" alt="" id="primary-img-view"> 
+          {{#if userData}}
           {{#isWishlist product._id userData.wishlist}}
             <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
           {{else}}
             <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
           {{/isWishlist}}
+          {{/if}}
         </div>
         <div class="secondary-img-container d-flex align-items-center">
           <i class="fa-solid fa-chevron-left left-img-scroll"></i>

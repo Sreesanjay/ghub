@@ -15,6 +15,9 @@
             <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
           {{/isWishlist}}
           {{/if}}
+            <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" id="add-wish" onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
+            <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish" onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
+
         </div>
         <div class="secondary-img-container d-flex align-items-center">
           <i class="fa-solid fa-chevron-left left-img-scroll"></i>
@@ -72,8 +75,8 @@
             <span id="show-less" style="display:none;">...Show Less</span>
           </div>
           <div class="row pt-3">
-            <h3 class="col-3 text-danger">₹{{product.prod_price}}</h3>
-            <h4 class="col-9 mt-1 text-secondary"><strike>₹{{product.sellig_price}}</strike></h4>
+            <h3 class="col-2 text-danger">₹{{product.sellig_price}}</h3>
+            <h4 class="col-10 mt-1 text-secondary"><strike>₹{{product.prod_price}}</strike></h4>
           </div>
 
           <hr />

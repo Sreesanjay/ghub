@@ -26,7 +26,7 @@
                         <option value="GHUBWALLET">Wallet</option>
                     </select>
                 </div>
-                
+
                 <div class="order-price-filter m-2">
                     <h6 class="fw-bold">Amount</h6>
                     From: <input type="number" class="form-control" name="from_amt" style="max-width: 100%;" min="1">
@@ -91,61 +91,55 @@
 <script type="text/javascript">
     jQuery(function ($) {
         $("#exportToButton").click(function () {
-    const dataSource = shield.DataSource.create({
-        data: "#salesTable",
-        schema: {
-            type: "table",
-            fields: {
-                ProductName: { type: String },
-                OrderDate: { type: String },
-                CustomerEmail: { type: String },
-                Quantity: { type: String },
-                PaymentMethod: { type: String },
-                Amount: { type: Number },
-                Discount: {type: Number}
-            }
-        }
-    });
-
-    dataSource.read().then(function (data) {
-        const pdf = new shield.exp.PDFDocument({
-            author: "Devnote",
-            title: "Sales Report", // Add the title here
-            created: new Date()
-        });
-        pdf.addPage("a4", "portrait");
-        pdf.drawText("Sales Report", {
-            x: 50, // X-coordinate position
-            y: 50, // Y-coordinate position
-            fontSize: 16, // Font size
-            color: "#000000" // Text color (black in this example)
-        });
-        pdf.table(
-            50,
-            50,
-            data,
-            [
-                { field: "ProductName", title: "Product Name", width: 150 },
-                { field: "OrderDate", title: "Order Date", width: 100 },
-                { field: "CustomerEmail", title: "Customer email", width: 100 },
-                { field: "Quantity", title: "Quantity", width: 50 },
-                { field: "PaymentMethod", title: "Payment Method", width: 50 },
-                { field: "Amount", title: "Amount", width: 50 },
-                { field: "Discount", title: "Discount", width: 50 },
-            ],
-            {
-                margins: {
-                    top: 50,
-                    left: 50
+            const dataSource = shield.DataSource.create({
+                data: "#salesTable",
+                schema: {
+                    type: "table",
+                    fields: {
+                        ProductName: { type: String },
+                        OrderDate: { type: String },
+                        CustomerEmail: { type: String },
+                        Quantity: { type: String },
+                        PaymentMethod: { type: String },
+                        Amount: { type: Number },
+                        Discount: { type: Number }
+                    }
                 }
-            }
-        );
+            });
 
-        pdf.saveAs({
-            fileName: "sales_report.pdf"
+            dataSource.read().then(function (data) {
+                const pdf = new shield.exp.PDFDocument({
+                    author: "Devnote",
+                    title: "Sales Report", // Add the title here
+                    created: new Date()
+                });
+                pdf.addPage("a4", "portrait");
+                pdf.table(
+                    50,
+                    50,
+                    data,
+                    [
+                        { field: "ProductName", title: "Product Name", width: 130 },
+                        { field: "OrderDate", title: "Order Date", width: 80 },
+                        { field: "CustomerEmail", title: "Customer email", width: 100 },
+                        { field: "Quantity", title: "Quantity", width: 50 },
+                        { field: "PaymentMethod", title: "Payment Method", width: 50 },
+                        { field: "Amount", title: "Amount", width: 50 },
+                        { field: "Discount", title: "Discount", width: 50 },
+                    ],
+                    {
+                        margins: {
+                            top: 50,
+                            left: 50
+                        }
+                    }
+                );
+
+                pdf.saveAs({
+                    fileName: "sales_report.pdf"
+                });
+            });
         });
-    });
-});
 
     });
 </script>

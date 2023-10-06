@@ -3,7 +3,6 @@
 $(function () {
 
     addToWishlist = (e, id) => {
-        console.log(id);
         e.preventDefault();
         fetch(`/account/add-to-wishlist/${id}`, {
             method: 'GET'
@@ -11,19 +10,14 @@ $(function () {
             return response.json()
         }).then((data) => {
             if (data.status === 'success') {
-                let timerInterval
-                Swal.fire({
-                    text: 'Item added to wishlist',
-                    timer: 100,
-                    didOpen: () => {
-                        Swal.showLoading()
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                }).then(()=>{
-                    location.reload()
-                })
+                $('.add-to-wish-list-btn').css("display", "none");
+                if (data.exist) {
+                    $('#remove-wish').toggle()
+
+                } else {
+                    $('#add-wish').toggle()
+
+                }
             }
             if (data.message) {
                 throw new Error(data.message)
@@ -78,11 +72,11 @@ $(function () {
     //add to cart
     addToCart = (e, id) => {
         e.preventDefault();
-       
-        fetch(`/my-cart/add-to-cart/${id}`,{
+
+        fetch(`/my-cart/add-to-cart/${id}`, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
-              }
+            }
         }).then((response) => {
             return response.json()
         }).then((data) => {
@@ -105,11 +99,11 @@ $(function () {
                         } else {
                             count.innerText = '1'
                         }
-                    }else{
-                        Swal.fire('Item already in the cart').then(()=>{
+                    } else {
+                        Swal.fire('Item already in the cart').then(() => {
                             location.assign('/my-cart')
                         })
-                        
+
                     }
                 })
             }
@@ -122,7 +116,7 @@ $(function () {
                 error.message,
                 'error'
             ).then(() => {
-                if(error.message=='Unauthorized! Please login to continue'){
+                if (error.message == 'Unauthorized! Please login to continue') {
                     location.assign('/login')
                 }
             })
@@ -193,13 +187,13 @@ $(function () {
                     totalPrice.value = parseInt(crtTotal.value)
                 }
 
-                let quantity = document.getElementById('prod-'+prod)
-                let stock = document.getElementById('stock-'+prod)
-                let outofstock = document.getElementById('out-of-stock-'+prod)
-                if(outofstock){
+                let quantity = document.getElementById('prod-' + prod)
+                let stock = document.getElementById('stock-' + prod)
+                let outofstock = document.getElementById('out-of-stock-' + prod)
+                if (outofstock) {
                     console.log("out of stock")
-                    if(parseInt(quantity.value)<=parseInt(stock.value)){
-                        outofstock.innerText=''
+                    if (parseInt(quantity.value) <= parseInt(stock.value)) {
+                        outofstock.innerText = ''
                     }
                 }
             } else if (data.status === 'failed') {

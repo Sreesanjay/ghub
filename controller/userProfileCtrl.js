@@ -148,7 +148,11 @@ const addToWishlist = asyncHandler(async (req, res, next) => {
           );
      }
      if (wishlist) {
-          res.status(200).json({ status: "success" });
+          if(exist){
+               res.status(200).json({ status: "success",exist: true });
+          }else{
+               res.status(200).json({ status: "success",exist: false });
+          }
      } else {
           throw new Error();
      }

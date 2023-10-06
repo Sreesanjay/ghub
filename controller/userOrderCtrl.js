@@ -19,41 +19,63 @@ let instance = new Razorpay({
 });
 
 const getCheckout = asyncHandler(async (req, res, next) => {
-     const user = res.locals.userData._id;
+     let user = res.locals.userData._id;
+     let cartList;
      const address = await Address.find({ user_id: user });
-     let cartList = await User.aggregate([
-          { $match: { _id: user } },
-          { $project: { cart: 1, _id: 0 } },
-          { $unwind: { path: "$cart" } },
-          {
-               $lookup: {
-                    from: "products",
-                    localField: "cart.product_id",
-                    foreignField: "_id",
-                    as: "prod_detail",
-               },
-          },
-          { $unwind: { path: "$prod_detail" } },
-     ]);
-     let prodTotal = 0;
-     for (prod of cartList) {
-          prod.price = prod.prod_detail.sellig_price * prod.cart.count;
-          prodTotal += prod.price;
-     }
-     cartList.prodTotal = prodTotal;
-     if (req.query.cpn) {
-          let cpn = await Coupon.findById(req.query.cpn);
-          let total =cartList.prodTotal - (cartList.prodTotal * cpn.discount) / 100;
-          cartList.total = Math.round(total);
-          cartList.discount = Math.round(
-               (cartList.prodTotal * cpn.discount) / 100
-          );
+     if (req.query.product) {
+          cartList = [
+               {
+                    prod_detail: {},
+               }
+          ];
+          cartList[0].prod_detail = await Product.findById(req.query.product)
+          cartList.total = cartList[0].prod_detail.sellig_price
      } else {
-          cartList.total = cartList.prodTotal;
-          cartList.discount = 0;
+          cartList = await User.aggregate([
+               { $match: { _id: user } },
+               { $project: { cart: 1, _id: 0 } },
+               { $unwind: { path: "$cart" } },
+               {
+                    $lookup: {
+                         from: "products",
+                         localField: "cart.product_id",
+                         foreignField: "_id",
+                         as: "prod_detail",
+                    },
+               },
+               { $unwind: { path: "$prod_detail" } },
+          ]);
+          let prodTotal = 0;
+          for (prod of cartList) {
+               prod.price = prod.prod_detail.sellig_price * prod.cart.count;
+               prodTotal += prod.price;
+          }
+          cartList.total = prodTotal;
      }
+
+     //get available coupon
+     let coupon = await Coupon.find({
+          is_delete: false,
+          start_date: { $lte: new Date() },
+          exp_date: { $gte: new Date() },
+          $expr: {
+               $and: [
+                    { $ne: ["$max_count", "$used_count"] },
+                    { $not: { $in: [user, "$user_list"] } }
+
+               ],
+          },
+     });
+
+     coupon = coupon.map((cpn) => {
+          return {
+               ...cpn.toObject(),
+               start_date: new Date(cpn.start_date).toLocaleDateString(),
+               exp_date: new Date(cpn.exp_date).toLocaleDateString(),
+          };
+     })
      console.log(cartList);
-     res.render("user/checkout", { address, cartList, cpnId: req.query.cpn });
+     res.render("user/checkout", { address, cartList, coupon });
 });
 
 
@@ -68,21 +90,30 @@ function generateInvoiceNumber() {
 
 
 //proceed order
-const proceedOrder = asyncHandler(async (req, res,next) => {
+const proceedOrder = asyncHandler(async (req, res, next) => {
      let order = {};
      const user = await User.findById(res.locals.userData._id);
      let cart = user.cart;
-     //     console.log(req.body)
      order.user = user._id;
      order.products = [];
-     for (let i = 0; i < cart.length; i++) {
-          let prod = await Product.findById(cart[i].product_id);
+     if (req.body.product) {
+          let prod = await Product.findById(req.body.product);
           const products = {
-               product: new mongoose.Types.ObjectId(cart[i].product_id),
-               quantity: cart[i].count,
-               price: prod.sellig_price * cart[i].count,
+               product: new mongoose.Types.ObjectId(req.body.product),
+               quantity: 1,
+               price: prod.sellig_price,
           };
           order.products.push(products);
+     } else {
+          for (let i = 0; i < cart.length; i++) {
+               let prod = await Product.findById(cart[i].product_id);
+               const products = {
+                    product: new mongoose.Types.ObjectId(cart[i].product_id),
+                    quantity: cart[i].count,
+                    price: prod.sellig_price * cart[i].count,
+               };
+               order.products.push(products);
+          }
      }
 
      let totalAmount = order.products.reduce((acc, prod) => {
@@ -96,16 +127,16 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
 
      if (req.body.coupon_id) {
           const coupon = await Coupon.findById(req.body.coupon_id);
-          let discount = Math.round((totalAmount * coupon.discount) / 100);
           order.coupon = {
                coupon_id: new mongoose.Types.ObjectId(req.body.coupon_id),
-               discount: discount,
+               discount: coupon.discount,
           };
           coupon.user_list.push(user._id)
           coupon.used_count++;
           coupon.save()
           for (let prod of order.products) {
-               prod.discount = discount / order.products.length;
+               let discount = Math.round((prod.price * coupon.discount) / 100);
+               prod.discount = discount
           }
      }
 
@@ -128,9 +159,11 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
                               $inc: { stock: -product.quantity },
                          });
                     });
-                    await User.findByIdAndUpdate(confirmedOrder.user, {
-                         $set: { cart: [] },
-                    });
+                    if (!req.body.product) {
+                         await User.findByIdAndUpdate(confirmedOrder.user, {
+                              $set: { cart: [] },
+                         });
+                    }
 
 
 
@@ -176,9 +209,11 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
                               $inc: { stock: -product.quantity },
                          });
                     });
-                    await User.findByIdAndUpdate(confirmedOrder.user, {
-                         $set: { cart: [] },
-                    });
+                    if (!req.body.product) {
+                         await User.findByIdAndUpdate(confirmedOrder.user, {
+                              $set: { cart: [] },
+                         });
+                    }
 
 
 
@@ -191,7 +226,7 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
                     if (confirmedOrder.coupon?.discount) {
                          total = total - confirmedOrder.coupon.discount
                     }
-                    await User.findByIdAndUpdate(res.locals.userData._id,{$inc:{user_wallet:-(total)}})
+                    await User.findByIdAndUpdate(res.locals.userData._id, { $inc: { user_wallet: -(total) } })
                     const invoiceNumber = generateInvoiceNumber()
                     const payment = {
                          payment_id: invoiceNumber,
@@ -244,7 +279,7 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
                                    created_at: formattedDate,
                               });
                               await payment.save();
-                              res.status(200).json({
+                              let data = {
                                    status: "paymentPending",
                                    key: process.env.RAZORPAY_KEY,
                                    amount: payment_details.amount,
@@ -256,7 +291,11 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
                                         email: user.user_email,
                                         contact: user.user_mobile,
                                    },
-                              });
+                              }
+                              if (req.body.product) {
+                                   data.nonCartPurchase = true
+                              }
+                              res.status(200).json(data);
                          }
                     }
                );
@@ -268,6 +307,7 @@ const proceedOrder = asyncHandler(async (req, res,next) => {
 
 //verify payment
 const verifyPayment = asyncHandler(async (req, res) => {
+     console.log(req.body)
      const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
      hmac.update(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id);
      let generatedSignature = hmac.digest("hex");
@@ -287,9 +327,11 @@ const verifyPayment = asyncHandler(async (req, res) => {
           });
           await order.save()
           //change cart to empty
-          await User.findByIdAndUpdate(order.user, {
-               $set: { cart: [] },
-          });
+          if (!req.body.nonCartPurchase) {
+               await User.findByIdAndUpdate(order.user, {
+                    $set: { cart: [] },
+               });
+          }
 
           const payment_details = await instance.payments.fetch(req.body.razorpay_payment_id)
           if (payment_details) {
@@ -419,10 +461,10 @@ const cancelOrder = asyncHandler(async (req, res) => {
      console.log(product)
      product.status = 'Canceled';
      product.cancelled_date = new Date();
-     product.cancel_reason=req.body.cancel_reason
+     product.cancel_reason = req.body.cancel_reason
      await order.save();
      //update user wallet id it is an online payment
-     if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET' ) {
+     if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
           let user = await User.findById(res.locals.userData._id)
           if (user) {
                if (product.discount) {

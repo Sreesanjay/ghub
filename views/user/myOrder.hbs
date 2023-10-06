@@ -5,7 +5,7 @@
         }
     }
 </style>
-<div class="my-address p-3">
+<div class="my-order p-3">
     <h3 class="mb-3">My Orders</h3>
     <div class="my-order-wraper">
         {{#each orders}}
@@ -45,12 +45,15 @@
                     <p class="text-danger"> Cancelled on {{toDate this.products.cancelled_date}}</p>
                     {{/isEqual}}
                 </div>
-                <button class="btn text-primary pe-4 mt-3 pb-2" style="width: max-content;"
-                    onclick="trackOrder('{{this._id}}{{this.prod_details._id}}')">Track Order
-                    <i class="fa-solid fa-chevron-down col-1 fs-5 down-{{this._id}}{{this.prod_details._id}}"></i>
-                    <i class="fa-solid fa-chevron-up col-1 fs-5 up-{{this._id}}{{this.prod_details._id}}"
-                        style="display: none"></i>
-                </button>
+                <div class="d-flex justify-content-between">
+                    <button class="btn text-primary pe-4 mt-3 pb-2" style="width: max-content;"
+                        onclick="trackOrder('{{this._id}}{{this.prod_details._id}}')">Track Order
+                        <i class="fa-solid fa-chevron-down col-1 fs-5 down-{{this._id}}{{this.prod_details._id}}"></i>
+                        <i class="fa-solid fa-chevron-up col-1 fs-5 up-{{this._id}}{{this.prod_details._id}}"
+                            style="display: none"></i>
+                    </button>
+                    <button class="btn mt-3 text-primary" onclick="addReview('{{this.prod_details._id}}')"><i class="fa-solid fa-star "></i> Rate & Review Product</button>
+                </div>
             </div>
 
             <div class="view-order p-3 track-{{this._id}}{{this.prod_details._id}}" style="display:none;">
@@ -162,8 +165,9 @@
                                         <button class="btn btn-outline-danger mt-2 order-cancel">Cancel order
                                         </button><br>
                                         <div class="reason-wraper" style="display: none;">
-                                            <textarea name="cancel_reason" class="form-control" id="reason{{this._id}}{{this.prod_details._id}}" cols="30"
-                                            rows="5"></textarea>
+                                            <textarea name="cancel_reason" class="form-control"
+                                                id="reason{{this._id}}{{this.prod_details._id}}" cols="30"
+                                                rows="5"></textarea>
                                             <button class="btn btn-outline-danger mt-3 clear-cancel">Cancel</button>
                                             <button class="btn btn-outline-primary ms-2 mt-3"
                                                 onclick="cancelOrder(event,'{{this._id}}','{{this.prod_details._id}}')">Submit
@@ -172,8 +176,8 @@
                                         {{/isEqual}}
                                         {{/if}}
                                         {{#isEqual this.products.status "Canceled"}}
-                                            <h6 class="mt-3 fw-bold">Calcellation reason</h6>
-                                            {{this.products.cancel_reason}}
+                                        <h6 class="mt-3 fw-bold">Calcellation reason</h6>
+                                        {{this.products.cancel_reason}}
                                         {{/isEqual}}
                                     </div>
                                 </div>
@@ -184,6 +188,9 @@
             </div>
         </div>
         {{/each}}
+    </div>
+    <div class="review-rate  p-4 card" style="">
+        <h4>Review And Rating</h4>
     </div>
 </div>
 
@@ -222,7 +229,7 @@
             $('.order-cancel').toggle();
             $('.reason-wraper').slideToggle()
         });
-        
+
         $('.clear-cancel').on('click', () => {
             $('.order-cancel').toggle();
             $('.reason-wraper').slideToggle()
@@ -240,15 +247,15 @@
                 confirmButtonText: 'Yes'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const cancel_reason = document.getElementById('reason'+order+product).value
-                    let body={
+                    const cancel_reason = document.getElementById('reason' + order + product).value
+                    let body = {
                         order,
                         product,
                         cancel_reason
                     }
-                    fetch('/order/cancel-order',{
-                        method:'POST',
-                        body:JSON.stringify(body),
+                    fetch('/order/cancel-order', {
+                        method: 'POST',
+                        body: JSON.stringify(body),
                         headers: { "Content-Type": "application/json" }
                     }).then((response) => {
                         return response.json()

@@ -31,30 +31,7 @@ const getCart = asyncHandler(async (req, res, next) => {
                cartList[i].outOfStock = true;
           }
      }
-     //get available coupon
-     let coupon = await Coupon.find({
-          is_delete: false,
-          start_date: { $lte: new Date() },
-          exp_date: { $gte: new Date() },
-          $expr: {
-               $and: [
-                    { $ne: ["$max_count", "$used_count"] },
-                    // {$in:["$user_list",[user]]}
-                         {$not:{ $in: [user, "$user_list"] }}
-                    
-               ],
-          },
-     });
-
-     coupon=coupon.map((cpn)=>{
-        return {
-            ...cpn.toObject(),
-            start_date: new Date(cpn.start_date).toLocaleDateString(),
-            exp_date: new Date(cpn.exp_date).toLocaleDateString(),
-       };
-     })
-
-     res.render("user/cart", { cartList , coupon});
+     res.render("user/cart", { cartList});
 });
 
 const addToCart = asyncHandler(async (req, res) => {

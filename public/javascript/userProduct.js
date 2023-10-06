@@ -140,14 +140,6 @@ $(function () {
                 dis.value = total
                 let crtTotal = document.getElementById('cart_total')
                 crtTotal.value = parseInt(crtTotal.value) + parseInt(price.value)
-
-                let totalPrice = document.getElementById('total_price')
-                let cpDisc = document.getElementById('coupon-disc')
-                if (cpDisc.value) {
-                    totalPrice.value = parseInt(crtTotal.value) - parseInt(cpDisc.value)
-                } else {
-                    totalPrice.value = parseInt(crtTotal.value)
-                }
             } else {
                 throw new Error(data.message)
             }
@@ -177,14 +169,6 @@ $(function () {
 
                 let crtTotal = document.getElementById('cart_total')
                 crtTotal.value = parseInt(crtTotal.value) - parseInt(price.value)
-
-                let totalPrice = document.getElementById('total_price')
-                let cpDisc = document.getElementById('coupon-disc')
-                if (cpDisc.value) {
-                    totalPrice.value = parseInt(crtTotal.value) - parseInt(cpDisc.value)
-                } else {
-                    totalPrice.value = parseInt(crtTotal.value)
-                }
 
                 let quantity = document.getElementById('prod-' + prod)
                 let stock = document.getElementById('stock-' + prod)
@@ -257,21 +241,18 @@ $(function () {
 
     applyCpn = (e, cpn_id, disc) => {
         e.preventDefault()
-        let coupon_id = document.getElementById('coupon-id')
+        let coupon_id = document.getElementById('coupon-id') //store the selected coupon
         coupon_id.value = cpn_id
         if ($('.disc-grp').is(":visible")) {
         } else {
             $('.disc-grp').toggle()
         }
-        let crtTotal = document.getElementById('cart_total').value
+        let crtTotal = document.getElementById('cart-total-price').value
         let coupon_disc = document.getElementById('coupon-disc')
         coupon_disc.value = parseInt((crtTotal * disc) / 100)
 
         let totalPrice = document.getElementById('total_price')
         let cpDisc = document.getElementById('coupon-disc')
-        let link = document.querySelector('.checkout-link')
-        link.href = link.href + '?cpn=' + cpn_id
-        console.log(link.href)
         if (cpDisc.value) {
             totalPrice.value = parseInt(crtTotal) - parseInt(cpDisc.value)
         } else {
@@ -287,15 +268,16 @@ $(function () {
         $('.coupon-select-wrapper').toggle()
         $('.apply-cpn' + cpn_id).toggle()
         $('.remove-cpn' + cpn_id).toggle()
-        document.getElementById('coupon-disc').value = '';
-        document.getElementById('coupon-id').value = ''
+        document.getElementById('coupon-disc').value = '';//clearing the coupon discount from order summary
+        document.getElementById('coupon-id').value = ''//clearing the coupon id from hidden input
         $('.disc-grp').toggle()
     }
 
-    //open coupon
+    //open coupon selector
     $('#check-coupon').on('click', (e) => {
         e.preventDefault()
         const total=document.getElementById('total_price').value
+        console.log(total)
         if(parseInt(total)>=30000){
             $('.coupon-select-wrapper').toggle()
         }else{
@@ -316,6 +298,17 @@ $(function () {
     getCheckout = (e) => {
         let quantity = document.getElementsByName('quantity')
         let stock = document.getElementsByName('stock')
+        const total=document.getElementById('cart_total').value  //for checking cart is empty or not
+        if(total < 1){
+            e.preventDefault()
+                Swal.fire(
+                    'Failed',
+                    'Cart is empty!',
+                    'error'
+                )
+        }
+
+        //checking is there any product in out of stock
         for (let i = 0; i < quantity.length; i++) {
             if (parseInt(quantity[i].value) > parseInt(stock[i].value)) {
                 e.preventDefault()
@@ -346,8 +339,7 @@ $(function () {
     //     })
     // })
 
-
-
+    //product view page
     $('#show-more').on('click', () => {
         $('#prod-disc').css('height', 'max-content')
         $('#show-more').toggle();
@@ -359,6 +351,8 @@ $(function () {
         $('#show-less').toggle();
     })
 
+
+    
     setImgView = (id) => {
         let imagePath = $('#' + id).attr('src');
         let primary_img_path = $('#primary-img-view').attr('src');

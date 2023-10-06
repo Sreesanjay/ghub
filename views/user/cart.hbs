@@ -4,49 +4,6 @@
             height: 100vh !important;
         }
     }
-
-    .group {
-        display: flex;
-        line-height: 28px;
-        align-items: center;
-        position: relative;
-        max-width: 500px;
-    }
-
-    .input {
-        width: 100%;
-        height: 40px;
-        line-height: 28px;
-        padding: 0 1rem;
-        padding-left: 2.5rem;
-        border: 2px solid transparent;
-        border-radius: 8px;
-        outline: none;
-        background-color: #f3f3f4;
-        color: #0d0c22;
-        transition: .3s ease;
-    }
-
-    .input::placeholder {
-        color: #9e9ea7;
-    }
-
-    .input:focus,
-    input:hover {
-        outline: none;
-        border-color: rgba(234, 76, 137, 0.4);
-        background-color: #fff;
-        box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
-    }
-
-    .icon {
-        position: absolute;
-        left: 1rem;
-        fill: #9e9ea7;
-        width: 1rem;
-        height: 1rem;
-    }
-
     .order-summary-inp {
         border: none;
     }
@@ -56,16 +13,7 @@
         outline: none;
     }
 
-    .cart-body {
-        position: relative;
-    }
-
-    .coupon-select-wrapper {
-        position: absolute;
-        top: 0;
-        right:0;
-       
-    }
+    
 </style>
 <section class="my-cart" style="background-color: #eee;">
     <div class="container pb-5 pt-4 h-100">
@@ -149,42 +97,19 @@
 
                                     <div class="card-body p-3 ">
                                         <h5 class="mb-3">Price Details</h5>
-                                        <div class="card check-coupon p-3 mb-3">
-                                            <h6 class="mb-3">Apply Coupon</h6>
-                                            <a class="d-flex align-items-center txt-decoration-null text-dark justify-content-around" id="check-coupon">
-                                                <div class="check-left-sec d-flex align-items-center">
-                                                    <img src="https://drive.google.com/uc?id=1ebkzjTBay3zCtBF1JxrPojYOLclODShJ"
-                                                        alt="" width="50">
-                                                    <h4 class="m-0 ms-3">Check for coupons</h4>
-                                                </div>
-                                                <i class="fa-solid fa-angle-right fs-5"></i>
-                                            </a>
-                                        </div>
-
                                         <div class="card order-summary p-3">
                                             <h6>Order Summary</h6>
                                             <hr>
                                             <div class="item-list row">
                                                 {{#each cartList}}
                                                 <p class="col-9">{{this.prod_detail.product_name}}</p>
-                                                <input type="text" class="col-3 item-price"
-                                                    id="price{{this.cart.product_id}}" name="price"
-                                                    value="{{this.price}}" style="border: none;" readonly>
+                                                <input type="text" class="col-3 item-price" id="price{{this.cart.product_id}}" name="price" value="{{this.price}}" style="border: none;" readonly>
                                                 {{/each}}
                                             </div>
                                             <hr>
                                             <div class="frm-grp">
                                                 <label for="">Cart Total: ₹</label><input type="text"
                                                     class="order-summary-inp" id="cart_total" readonly value="0.00">
-                                            </div>
-                                            <div class="disc-grp" style="display:none;">
-                                                <label for="">Coupon Discount: ₹</label><input type="text"
-                                                    class="order-summary-inp" id="coupon-disc" readonly>
-                                                <input type="hidden" id="coupon-id">
-                                            </div>
-                                            <div class="frm-grp">
-                                                <label for="">Total: ₹</label><input type="text"
-                                                    class="order-summary-inp" id="total_price" readonly>
                                             </div>
                                             <hr>
                                             <a class="btn btn-primary checkout-link" onclick="getCheckout(event)" href="/order/get-checkout">Go to Checkout</a>
@@ -196,41 +121,6 @@
                             </div>
 
                         </div>
-
-                        <div class="coupon-select-wrapper shadow-lg card p-3 col-md-6" style="display: none;">
-                            <div class="d-flex justify-content-between">
-                                <h3>Offers</h3>
-                                <i class="fa-solid fa-xmark fs-4 close-cpn"></i>
-                            </div>
-                            <div class="group">
-                                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                                    <g>
-                                        <path
-                                            d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
-                                        </path>
-                                    </g>
-                                </svg>
-                                <input placeholder="Search" type="search" id="search-cpn" class="input">
-                                <button class="btn btn-primary ms-4 px-4 search-btn">Apply</button>
-                            </div>
-                            {{#each coupon}}
-                            <div class="card p-3 mt-3">
-                                <div class="d-flex justify-content-between">
-                                    <div class="card px-4 py-1 bg-warning mb-3" style="width:fit-content;">
-                                        {{this.coupon_code}}</div>
-                                    <a onclick="applyCpn(event,'{{this._id}}','{{this.discount}}')"
-                                        class="txt-decoration-null apply-cpn{{this._id}}">Apply</a>
-                                    <a onclick="removeCpn(event,'{{this._id}}')"
-                                        class="txt-decoration-null text-danger remove-cpn{{this._id}}" style="display:none;">Remove</a>
-                                </div>
-                                <p class="disc">You can save <span class="text-success">{{this.discount}}%</span></p>
-                                {{this.discription}}
-                                <p class=""><span class="fw-bold">Valid till :</span>{{this.exp_date}}</p>
-                            </div>
-                            {{/each}}
-                        </div>
-
-
                     </div>
                 </div>
             </div>
@@ -257,8 +147,6 @@
         const totalPriceElement = document.getElementById('cart_total');
         if (totalPriceElement) {
             totalPriceElement.value = totalPrice.toFixed(2);
-            let total = document.getElementById('total_price')
-            total.value = totalPrice.toFixed(2)
         }
     }
 

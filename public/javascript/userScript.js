@@ -361,7 +361,7 @@ $(document).ready(function () {
 
       Swal.fire({
          title: 'Are you sure!',
-         text: "You want to create new Category?",
+         text: "You want to edit?",
          icon: 'warning',
          showCancelButton: true,
          confirmButtonColor: '#3085d6',

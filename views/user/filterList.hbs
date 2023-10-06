@@ -8,23 +8,75 @@
         <hr>
         {{#each products}}
         <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
-        <div class=" mb-4 d-flex">
-            <div class="img">
-                <img src="/Images/Products/{{primary_img.filename}}" style="width: 200px;" alt="">
-                <i class="fa-regular fa-heart add-to-wish-list-btn mt-2"
-                    onclick="addToWishlist(event ,'{{this._id}}')"></i>
-            </div>
-            <div class="details py-2 ms-2">
-                <h4>{{this.product_name}} {{this.prod_highlight}}</h4>
-                <h6>{{this.brand_name}}, {{this.prod_color}}</h6>
-                <span class="bg-success py-1 px-3 rounded text-white">4.4</span>
-                <div class="d-flex align-items-center">
-                    <h4 class="mt-2">₹{{this.sellig_price}} </h4><strike class="text-muted ms-3"><p class="m-0">₹{{this.prod_price}}</p></strike>
-                </div>
-            </div>
+            <div class=" mb-4 d-flex">
+                {{#if ../userData}}
+                {{#isWishlist this._id ../userData.wishlist}}
+                <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2 icon{{this._id}}" onclick="WishlistAdd(event ,'{{this._id}}')"></i>
+                {{else}}
+                <i class="fa-regular fa-heart add-to-wish-list-btn mt-2 icon{{this._id}}" onclick="WishlistAdd(event ,'{{this._id}}')"></i>
+                {{/isWishlist}}
+                {{/if}}
+                <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" id="add-wish-{{this._id}}"
+                    onclick="WishlistAdd(event ,'{{this._id}}')" style="display: none;"></i>
+                <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish-{{this._id}}"
+                    onclick="WishlistAdd(event ,'{{this._id}}')" style="display: none;"></i>
 
-        </div>
+
+                <div class="img">
+                    <img src="/Images/Products/{{primary_img.filename}}" style="width: 200px;" alt="">
+                </div>
+                <div class="details py-2 ms-2">
+                    <h4>{{this.product_name}} {{this.prod_highlight}}</h4>
+                    <h6>{{this.brand_name}}, {{this.prod_color}}</h6>
+                    <span class="bg-success py-1 px-3 rounded text-white">4.4</span>
+                    <div class="d-flex align-items-center">
+                        <h4 class="mt-2">₹{{this.sellig_price}} </h4><strike class="text-muted ms-3">
+                            <p class="m-0">₹{{this.prod_price}}</p>
+                        </strike>
+                    </div>
+                </div>
+
+            </div>
         </a>
         {{/each}}
     </div>
 </div>
+
+<script>
+    $(()=>{
+        WishlistAdd = (e, id) => {
+        e.preventDefault();
+        fetch(`/account/add-to-wishlist/${id}`, {
+            method: 'GET'
+        }).then((response) => {
+            return response.json()
+        }).then((data) => {
+            if (data.status === 'success') {
+                $('.icon'+id).css("display", "none");
+                if (data.exist) {
+                    console.log("exsist")
+                    $('#remove-wish-'+id).toggle()
+                     if($('#add-wish-'+id).is(':visible')) {
+                        $('#add-wish-'+id).toggle()
+                     }
+                } else {
+                    console.log("not exsist")
+                    $('#add-wish-'+id).toggle()
+                    if($('#remove-wish-'+id).is(':visible')) {
+                        $('#remove-wish-'+id).toggle()
+                     }
+                }
+            }
+            if (data.message) {
+                throw new Error(data.message)
+            }
+        }).catch((error) => {
+            Swal.fire(
+                'Failed',
+                error.message,
+                'error'
+            )
+        })
+    }
+    })
+</script>

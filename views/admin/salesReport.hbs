@@ -4,8 +4,12 @@
             <h3 class="mb-4">Sales Report</h3>
             <button class="btn" id="exportToButton"><i class="fa fa-print text-success fs-3"></i></button>
         </div>
-        <button id="filter-toggler" class=" btn btn-outline-primary mb-3">Filter <i
-                class="fa-solid fa-filter text-primary"></i></button>
+        <div class="d-flex justify-content-between">
+            <button id="filter-toggler" class=" btn btn-outline-primary mb-3">Filter <i
+                    class="fa-solid fa-filter text-primary">
+                </i></button>
+            <h5 class="m-0">Total sales: <span id="sales-total"></span></h5>
+        </div>
         <form class="mb-3 card p-3" id="filter-from" action="/admin/sales-report/filter-sales" method="post"
             style="display:none;">
             <div class="filter-wraper mb-4 d-flex flex-row justify-content-around flex-wrap">
@@ -58,8 +62,8 @@
                         <td>{{this.user.user_email}}</td>
                         <td>{{this.products.quantity}}</td>
                         <td>{{this.payment_details.payment_method}}</td>
-                        <td>{{this.products.price}}</td>
-                        <td>{{this.products.discount}}</td>
+                        <td class="order-price">{{this.products.price}}</td>
+                        <td class="order-disc">{{this.products.discount}}</td>
                         <td><a class="txt-decoration-null"
                                 href="/admin/sales-report/get-invoice?orderid={{this._id}}&product={{this.prod_details._id}}">Invoice</a>
                         </td>
@@ -83,7 +87,17 @@
         $('#filter-toggler').on('click', () => {
             $('#filter-from').slideToggle()
         })
-
+        //find total price without coupon disc
+        let sum = 0;
+        $(".order-price").each(function () {
+            sum += parseFloat($(this).text());
+        });
+        //find total disc
+        let disc=0;
+        $(".order-disc").each(function () {
+            disc += parseFloat($(this).text());
+        });
+        $('#sales-total').text('₹'+(sum-disc))
     })
 
 </script>

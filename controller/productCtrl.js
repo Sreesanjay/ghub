@@ -119,7 +119,7 @@ const filterProducts = asyncHandler(async (req, res, next) => {
            
       });
 
-      res.render('user/filterList',{products,search:req.query.search})
+      res.render('user/filterList',{products,search:req.query.search,userData:res.locals.userData})
 
 })
 

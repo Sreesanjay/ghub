@@ -20,13 +20,17 @@ $(function () {
             },
             discount: {
                 required: true,
-                positive:true,
                 digits:true,
+                positive:true,
                 lessThan100:true
             },
             max_count: {
                 required: true,
+                min:1
             },
+            discription:{
+                required: true
+            }
         },
 
         submitHandler: function (form) {

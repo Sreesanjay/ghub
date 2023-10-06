@@ -43,8 +43,7 @@ const getCheckout = asyncHandler(async (req, res, next) => {
      cartList.prodTotal = prodTotal;
      if (req.query.cpn) {
           let cpn = await Coupon.findById(req.query.cpn);
-          let total =
-               cartList.prodTotal - (cartList.prodTotal * cpn.discount) / 100;
+          let total =cartList.prodTotal - (cartList.prodTotal * cpn.discount) / 100;
           cartList.total = Math.round(total);
           cartList.discount = Math.round(
                (cartList.prodTotal * cpn.discount) / 100
@@ -69,7 +68,7 @@ function generateInvoiceNumber() {
 
 
 //proceed order
-const proceedOrder = asyncHandler(async (req, res) => {
+const proceedOrder = asyncHandler(async (req, res,next) => {
      let order = {};
      const user = await User.findById(res.locals.userData._id);
      let cart = user.cart;

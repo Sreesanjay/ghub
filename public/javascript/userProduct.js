@@ -1,5 +1,4 @@
 
-
 $(function () {
 
     addToWishlist = (e, id) => {
@@ -296,7 +295,16 @@ $(function () {
     //open coupon
     $('#check-coupon').on('click', (e) => {
         e.preventDefault()
-        $('.coupon-select-wrapper').toggle()
+        const total=document.getElementById('total_price').value
+        if(parseInt(total)>=30000){
+            $('.coupon-select-wrapper').toggle()
+        }else{
+            Swal.fire(
+                'Failed',
+                'Minimum Cart price to apply coupon is ₹30000',
+                'error'
+            )
+        }
     })
     //close coupon
     $('.close-cpn').on('click', () => {

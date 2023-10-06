@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Category = require("../models/categoryModel");
 
-var prodSchema = new mongoose.Schema(
+const prodSchema = new mongoose.Schema(
      {
           product_name: {
                type: String,

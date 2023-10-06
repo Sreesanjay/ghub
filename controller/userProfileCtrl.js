@@ -222,6 +222,11 @@ const getMyOrders=asyncHandler(async(req,res)=>{
       res.render('user/myOrder',{orders,account:true})
 })
 
+//add review and rating
+const addReviewRaing=asyncHandler(async(req,res)=>{
+     console.log(req.body)
+})
+
 module.exports = {
      getMyAccount,
      verifyOldPass,
@@ -234,5 +239,6 @@ module.exports = {
      addToWishlist,
      getWishlist,
      deleteWish,
-     getMyOrders
+     getMyOrders,
+     addReviewRaing
 };

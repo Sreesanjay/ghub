@@ -3,6 +3,10 @@
         .progress {
             display: none;
         }
+
+        .my-order {
+            position: relative;
+        }
     }
 </style>
 <div class="my-order p-3">
@@ -52,7 +56,8 @@
                         <i class="fa-solid fa-chevron-up col-1 fs-5 up-{{this._id}}{{this.prod_details._id}}"
                             style="display: none"></i>
                     </button>
-                    <button class="btn mt-3 text-primary" onclick="addReview('{{this.prod_details._id}}')"><i class="fa-solid fa-star "></i> Rate & Review Product</button>
+                    <button class="btn mt-3 text-primary" onclick="addReview('{{this.prod_details._id}}')"><i
+                            class="fa-solid fa-star "></i> Rate & Review Product</button>
                 </div>
             </div>
 
@@ -189,8 +194,41 @@
         </div>
         {{/each}}
     </div>
-    <div class="review-rate  p-4 card" style="">
-        <h4>Review And Rating</h4>
+    <style>
+        .review-rate {
+            max-width: 800px;
+            width: 100%;
+            display: none;
+            position: fixed;
+            top: 150px;
+        }
+    </style>
+    <div class="review-rate  p-4 card shadow">
+        <div class="d-flex justify-content-between">
+            <h5>Rate this product</h5><i class="fa-solid fa-xmark text-danger fs-2"></i>
+        </div>
+        <div class="rating-err text-danger"></div>
+        <div id="rating-wraper" class="py-3">
+            <i class="fa-regular fa-star star text-warning" id="1"></i>
+            <i class="fa-regular fa-star star text-warning" id="2"></i>
+            <i class="fa-regular fa-star star text-warning" id="3"></i>
+            <i class="fa-regular fa-star star text-warning" id="4"></i>
+            <i class="fa-regular fa-star star text-warning" id="5"></i>
+        </div>
+        <form action="">
+            <input type="hidden" id="rating-field"> <!--stores the selected rating temperorly-->
+            <input type="hidden" id="rating-product">
+            <h5>Review this product</h5>
+            <div class="review-err text-danger"></div>
+            <div id="review-container">
+                <textarea name="review" id="review-field" class="form-control" id="" cols="30" rows="7"
+                    style="width: 100%;"></textarea>
+            </div>
+            <div class="d-flex">
+                <button type="reset" class="btn btn-outline-danger mt-3" onclick="clearRating()">Clear</button><button
+                    type="button" class="btn btn-outline-primary mt-3 ms-3" id="submit-review">Submit</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -273,5 +311,58 @@
                 }
             })
         }
+
+        $('.star').on('click', (e) => {
+            const rating = e.target.id;
+            $('.star').removeClass('fa-solid')
+            $('.star').addClass('fa-regular');
+            for (let i = 0; i <= rating; i++) {
+                $('#' + i).removeClass('fa-regular');
+                $('#' + i).addClass('fa-solid');
+            }
+            $('#rating-field').val(e.target.id)
+        })
+
+
+        clearRating = () => {
+            $('.star').removeClass('fa-solid')
+            $('.star').addClass('fa-regular');
+        }
+
+
+        $('#submit-review').on('click', () => {
+            $('.rating-err').text('');
+            $('.review-err').text('');
+            const rating = $('#rating-field').val()
+            const review = $('#review-field').val()
+            const product = $('#rating-product').val()
+            if (rating == '') {
+                $('.rating-err').text('Please add a raing');
+            } else if (review == '') {
+                $('.review-err').text('Please add a review');
+            } else {
+                fetch('/account/add-review-rating', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        rating,
+                        review,
+                        product
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                })
+            }
+        })
+
+        addReview = (product) => {
+            if (!$('.review-rate').is(":visible")) {
+                $('.review-rate').toggle()
+                $('#rating-product').val(product)
+            }
+        }
+        closeReview = () => {
+            $('.review-rate').toggle()
+            $('#rating-product').val('')
+        }
+
     })
 </script>

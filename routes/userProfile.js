@@ -23,6 +23,7 @@ router.get('/delete-wish/:id',isUserLogedIn,userProfileCtrl.deleteWish)
 
 //my orders
 router.get('/my-orders',isUserLogedIn,userProfileCtrl.getMyOrders)
+router.post('/add-review-rating',isUserLogedIn,userProfileCtrl.addReviewRaing)
 
 
 

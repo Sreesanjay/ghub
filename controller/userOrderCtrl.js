@@ -481,6 +481,35 @@ const cancelOrder = asyncHandler(async (req, res) => {
 
 })
 
+//return order request
+
+//cancel order
+const returnOrder = asyncHandler(async (req, res) => {
+     let order = await Order.findById(req.body.order)
+     let product = order.products.find((item) => item.product == req.body.product);
+     console.log(product)
+     product.status = 'Return pending';
+     product.return_pending_date = new Date();
+     product.return_reason = req.body.return_reason
+     await order.save();
+     //update user wallet id it is an online payment
+     // if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
+     //      let user = await User.findById(res.locals.userData._id)
+     //      if (user) {
+     //           if (product.discount) {
+     //                user.user_wallet = user.user_wallet + (product.price - product.discount)
+     //           } else {
+     //                user.user_wallet = user.user_wallet + product.price
+     //           }
+     //           await user.save()
+     //      }
+     // }
+     res.status(200).json({
+          status: 'success'
+     })
+
+})
+
 //display order success page
 const getSuccessPage = asyncHandler(async (req, res) => {
      res.render('user/orderSuccess')
@@ -492,5 +521,6 @@ module.exports = {
      verifyPayment,
      printInvoice,
      cancelOrder,
-     getSuccessPage
+     getSuccessPage,
+     returnOrder
 };

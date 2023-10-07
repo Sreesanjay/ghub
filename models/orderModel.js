@@ -21,8 +21,8 @@ const orderSchema = new mongoose.Schema({
                     type: Number,
                     required: true,
                },
-               discount:{
-                    type:Number,
+               discount: {
+                    type: Number,
                     default: 0,
                },
                status: {
@@ -34,27 +34,39 @@ const orderSchema = new mongoose.Schema({
                          "Out for delivery",
                          "Delivered",
                          "Canceled",
+                         "Return pending",
+                         "Returned"
                     ],
                     default: "Payment pending",
                },
-               confirmed_date:{
-                type:Date
+               confirmed_date: {
+                    type: Date
                },
-               shipped_date:{
-                type:Date
+               shipped_date: {
+                    type: Date
                },
-               out_for_delivery_date:{
-                 type:Date
+               out_for_delivery_date: {
+                    type: Date
                },
-               delivered_date:{
-                type:Date
+               delivered_date: {
+                    type: Date
                },
-               cancelled_date:{
-                type:Date
+               cancelled_date: {
+                    type: Date
                },
-               cancel_reason:{
-                    type:String
+               cancel_reason: {
+                    type: String
+               },
+               return_pending_date:{
+                    type:Date
+               },
+               returned_date: {
+                    type: Date
+               },
+               return_reason: {
+                    type: String
                }
+
 
           },
      ],
@@ -109,17 +121,17 @@ const orderSchema = new mongoose.Schema({
           },
      },
      coupon: {
-          coupon_id:{
+          coupon_id: {
                type: mongoose.Schema.Types.ObjectId,
                ref: 'Coupon',
           },
-          discount:{
-               type:Number
+          discount: {
+               type: Number
           }
-      },
+     },
      payment_method: {
           type: String,
-          enum: ['COD','ONLINE','GHUBWALLET'],
+          enum: ['COD', 'ONLINE', 'GHUBWALLET'],
           required: true,
      },
 });

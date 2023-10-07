@@ -6,6 +6,7 @@ const Address = require("../models/addressModel");
 const Product = require("../models/productModel");
 const bcrypt = require("bcrypt");
 const asyncHandler = require("express-async-handler");
+const ReviewRate = require("../models/reviewRatingModel");
 
 const Order = require("../models/orderModel");
 const Coupon = require("../models/couponModel");
@@ -148,10 +149,10 @@ const addToWishlist = asyncHandler(async (req, res, next) => {
           );
      }
      if (wishlist) {
-          if(exist){
-               res.status(200).json({ status: "success",exist: true });
-          }else{
-               res.status(200).json({ status: "success",exist: false });
+          if (exist) {
+               res.status(200).json({ status: "success", exist: true });
+          } else {
+               res.status(200).json({ status: "success", exist: false });
           }
      } else {
           throw new Error();
@@ -187,44 +188,84 @@ const deleteWish = asyncHandler(async (req, res, next) => {
 
 
 //get my orders
-const getMyOrders=asyncHandler(async(req,res)=>{
-     let orders=await Order.aggregate([
+const getMyOrders = asyncHandler(async (req, res) => {
+     let orders = await Order.aggregate([
           {
-               $match:{user: new mongoose.Types.ObjectId(res.locals.userData._id)}
+               $match: { user: new mongoose.Types.ObjectId(res.locals.userData._id) }
           },
           {
-              $unwind:{
-                  path:'$user'
-              }
+               $unwind: {
+                    path: '$user'
+               }
           },
           {
-              $unwind:{path:'$products'}
+               $unwind: { path: '$products' }
           },
           {
-              $lookup:{
-                  from:'products',
-                  localField:'products.product',
-                  foreignField:'_id',
-                  as:'prod_details'
-              }
+               $lookup: {
+                    from: 'products',
+                    localField: 'products.product',
+                    foreignField: '_id',
+                    as: 'prod_details',
+                    pipeline: [
+                         {
+                              $lookup: {
+                                   from: 'reviewrates',
+                                   localField: '_id',
+                                   foreignField: 'product',
+                                   as: 'reviewRate',
+                                   pipeline: [
+                                        {
+                                             $match: {
+                                                  user: res.locals.userData._id
+                                             }
+                                        }
+                                   ]
+                              }
+                         },
+                    ]
+               }
           },
           {
-              $unwind:{path:'$prod_details'}
+               $unwind: { path: '$prod_details' }
           },
-      ])
-      for(let order of orders){
-          if(order.coupon){
-              order.coupon.details= await Coupon.findById(order.coupon.coupon_id)
+     ])
+     for (let order of orders) {
+          if (order.coupon) {
+               order.coupon.details = await Coupon.findById(order.coupon.coupon_id)
           }
-      }
-      orders.reverse()
-
-      res.render('user/myOrder',{orders,account:true})
+          order.prod_details.reviewRate = order.prod_details.reviewRate[0]
+     }
+     orders.reverse()
+     console.log(orders[6])
+     res.render('user/myOrder', { orders, account: true })
 })
 
 //add review and rating
-const addReviewRaing=asyncHandler(async(req,res)=>{
-     console.log(req.body)
+const addReviewRaing = asyncHandler(async (req, res) => {
+     req.body.user = res.locals.userData._id
+     const newReview = await ReviewRate.updateOne(
+          {
+               user: req.body.user,
+               product: new mongoose.Types.ObjectId(req.body.product)
+          },
+          {
+               $set: {
+                    user: req.body.user,
+                    product: req.body.product,
+                    rating:req.body.rating,
+                    review:req.body.review
+               }
+          },
+          {
+               upsert:true
+          })
+     if (newReview) {
+          res.status(200).json({ status: 'success' })
+     } else {
+          throw new Error()
+
+     }
 })
 
 module.exports = {

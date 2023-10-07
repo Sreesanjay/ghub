@@ -253,12 +253,12 @@ const addReviewRaing = asyncHandler(async (req, res) => {
                $set: {
                     user: req.body.user,
                     product: req.body.product,
-                    rating:req.body.rating,
-                    review:req.body.review
+                    rating: req.body.rating,
+                    review: req.body.review
                }
           },
           {
-               upsert:true
+               upsert: true
           })
      if (newReview) {
           res.status(200).json({ status: 'success' })
@@ -266,6 +266,44 @@ const addReviewRaing = asyncHandler(async (req, res) => {
           throw new Error()
 
      }
+})
+
+
+//request for all reviews&rating of user
+const getMyReviews=asyncHandler(async(req,res)=>{
+     const review_ratings=await ReviewRate.aggregate([
+          {
+               $match:{
+                    user:res.locals.userData._id
+               }
+          },
+          {
+               $lookup:{
+                    from:'products',
+                    localField:'product',
+                    foreignField:'_id',
+                    as:'product'
+               }
+          },
+          {
+               $unwind:{
+                    path:'$product'
+               }
+          },{
+               $match:{
+                    'product.is_delete':false
+               }
+          }
+     ])
+     console.log(review_ratings)
+     res.render('user/myReviews',{account:true,review_ratings})
+})
+
+const deleteReview=asyncHandler(async(req,res)=>{
+     await ReviewRate.findByIdAndDelete(req.params.id)
+     res.json({
+          status:'success'
+     })
 })
 
 module.exports = {
@@ -281,5 +319,7 @@ module.exports = {
      getWishlist,
      deleteWish,
      getMyOrders,
-     addReviewRaing
+     addReviewRaing,
+     getMyReviews,
+     deleteReview
 };

@@ -56,6 +56,14 @@
                     {{#isEqual this.products.status "Canceled"}}
                     <p class="text-danger"> Cancelled on {{toDate this.products.cancelled_date}}</p>
                     {{/isEqual}}
+
+                    {{#isEqual this.products.status "Return pending"}}
+                    <p class="text-danger"> Return requested on {{toDate this.products.return_pending_date}}</p>
+                    {{/isEqual}}
+                    
+                    {{#isEqual this.products.status "Returned"}}
+                    <p class="text-danger"> Returned on {{toDate this.products.returned_date}}</p>
+                    {{/isEqual}}
                 </div>
                 <div class="d-flex justify-content-between">
                     <button class="btn text-primary pe-4 mt-3 pb-2" style="width: max-content;"
@@ -72,6 +80,16 @@
                         value="{{this.prod_details.reviewRate.rating}}">
 
                     <button class="btn mt-3 text-primary"
+                        onclick="addReview('{{this.prod_details._id}}','{{this._id}}')"><i
+                            class="fa-solid fa-star "></i> Rate & Review Product</button>
+                    {{/isEqual}}
+                    {{#isEqual this.products.status "Return pending"}}
+                        <button class="btn mt-3 text-primary"
+                        onclick="addReview('{{this.prod_details._id}}','{{this._id}}')"><i
+                            class="fa-solid fa-star "></i> Rate & Review Product</button>
+                    {{/isEqual}}
+                    {{#isEqual this.products.status "Returned"}}
+                        <button class="btn mt-3 text-primary"
                         onclick="addReview('{{this.prod_details._id}}','{{this._id}}')"><i
                             class="fa-solid fa-star "></i> Rate & Review Product</button>
                     {{/isEqual}}
@@ -108,7 +126,11 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex flex-column">
+                                        {{#isEqual this.products.status 'Return pending'}}
+                                        <span class="lead fw-normal text-warning">Return pending</span>
+                                        {{else}}
                                         <span class="lead fw-normal">Your order has been {{this.products.status}}</span>
+                                        {{/isEqual}}
                                     </div>
                                 </div>
                                 <hr class="my-4">
@@ -170,14 +192,35 @@
                                             {{else}}
                                             {{#if this.products.delivered_date}}
                                             <div class="d-flex flex-md-column align-items-start">
-                                                <span>{{toDate
-                                                    this.products.delivered_date}}</span><span
+                                                <span>{{toDate this.products.delivered_date}}</span><span
                                                     class="ms-2 ms-md-0">Delivered</span>
                                             </div>
                                             {{else}}
                                             <span class="text-muted">Delivered</span>
                                             {{/if}}
                                             {{/isEqual}}
+
+                                            {{#if this.products.return_pending_date}}
+                                            <div class="d-flex flex-md-column align-items-start">
+                                                <span>{{toDate this.products.return_pending_date}}</span><span
+                                                    class="ms-2 ms-md-0">Return Pending</span>
+                                            </div>
+                                            {{#isEqual this.products.status 'Returned'}}
+                                            {{else}}
+                                            <div class="d-flex flex-md-column align-items-start">
+                                                <span></span><br><span
+                                                    class="ms-2 ms-md-0">Returned</span>
+                                            </div>
+                                            {{/isEqual}}
+                                            {{/if}}
+
+                                            {{#if this.products.returned_date}}
+                                            <div class="d-flex flex-md-column align-items-start">
+                                                <span>{{toDate this.products.returned_date}}</span><span
+                                                    class="ms-2 ms-md-0">Returned</span>
+                                            </div>
+                                            {{/if}}
+
                                         </div>
                                         {{#if this.products.out_for_delivery_date}}
                                         {{else}}
@@ -276,6 +319,14 @@
                 document.getElementById('bar-' + st.id).style.width = '100%'
                 document.getElementById('bar-' + st.id).style.backgroundColor = "red";
             }
+            else if (st.value == 'Return pending') {
+                document.getElementById('bar-' + st.id).style.width = '80%'
+                document.getElementById('bar-' + st.id).style.backgroundColor = "yellow";
+            }
+            else if (st.value == 'Returned') {
+                document.getElementById('bar-' + st.id).style.width = '100%'
+                document.getElementById('bar-' + st.id).style.backgroundColor = "red";
+            }
         }
 
         trackOrder = (cls) => {
@@ -336,7 +387,7 @@
         }
 
         //order return
-        $('.order-return').on('click',()=>{
+        $('.order-return').on('click', () => {
             $('.order-return').toggle();
             $('.return-reason-wraper').slideToggle()
         })

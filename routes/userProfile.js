@@ -25,6 +25,9 @@ router.get('/delete-wish/:id',isUserLogedIn,userProfileCtrl.deleteWish)
 router.get('/my-orders',isUserLogedIn,userProfileCtrl.getMyOrders)
 router.post('/add-review-rating',isUserLogedIn,userProfileCtrl.addReviewRaing)
 
+//review and rating
+router.get('/my-reviews',isUserLogedIn,userProfileCtrl.getMyReviews)
+router.get('/delete-review/:id',isUserLogedIn,userProfileCtrl.deleteReview)
 
 
 

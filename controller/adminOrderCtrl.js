@@ -240,8 +240,21 @@ const changeStatus = asyncHandler(async (req, res) => {
 
     } else if (req.body.status == 'Canceled') {
         product.cancelled_date = new Date()
-        if (order.payment_method === 'ONLINE') {
-            let user = await User.findById(res.locals.userData._id)
+        if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
+            let user = await User.findById(order.user)
+            if (user) {
+                if (product.discount) {
+                    user.user_wallet = user.user_wallet + (product.price - product.discount)
+                } else {
+                    user.user_wallet = user.user_wallet + product.price
+                }
+                await user.save()
+            }
+        }
+    }else if(req.body.status == 'Returned'){
+        product.returned_date= new Date()
+        if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
+            let user = await User.findById(order.user)
             if (user) {
                 if (product.discount) {
                     user.user_wallet = user.user_wallet + (product.price - product.discount)

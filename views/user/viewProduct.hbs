@@ -1,22 +1,55 @@
 <!-- content -->
 <style>
+  .reviews::-webkit-scrollbar {
+    display: none;
+  }
 
+  /* Hide scrollbar for IE, Edge add Firefox */
+  .reviews {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  :root {
+    background: #fff;
+  }
+
+  span#procent {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 50px;
+    transform: translate(-50%, -50%);
+    color: #03860e;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 300px;
+    height: 300px;
+  }
 </style>
 <section class="py-5 product-view-top">
   <div class="container">
     <div class="row p-0 m-0">
       <aside class="col-lg-6 d-flex flex-column align-items-center p-0">
         <div class="border rounded-4 mb-3 image-container" id="image-container">
-          <img src="/Images/Products/{{product.primary_img.filename}}" alt="" id="primary-img-view"> 
+          <img src="/Images/Products/{{product.primary_img.filename}}" alt="" id="primary-img-view">
           {{#if userData}}
           {{#isWishlist product._id userData.wishlist}}
-            <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
+          <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2"
+            onclick="addToWishlist(event ,'{{product._id}}')"></i>
           {{else}}
-            <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" onclick="addToWishlist(event ,'{{product._id}}')"></i>
+          <i class="fa-regular fa-heart add-to-wish-list-btn mt-2"
+            onclick="addToWishlist(event ,'{{product._id}}')"></i>
           {{/isWishlist}}
           {{/if}}
-            <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" id="add-wish" onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
-            <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish" onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
+          <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" id="add-wish"
+            onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
+          <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish"
+            onclick="addToWishlist(event ,'{{product._id}}')" style="display: none;"></i>
 
         </div>
         <div class="secondary-img-container d-flex align-items-center">
@@ -63,7 +96,7 @@
             <dt class="col-3">Brand</dt>
             <dd class="col-9">{{product.brand_name}}</dd>
           </div>
-           <div class="row pb-3">
+          <div class="row pb-3">
             <dt class="col-3">Color</dt>
             <dd class="col-9">{{product.prod_color}}</dd>
           </div>
@@ -95,7 +128,7 @@
   <div class="container">
     <div class="row gx-4">
       <div class="col-lg-8 mb-4">
-        <div class="border rounded-2 px-3 py-2 bg-white">
+        <div class="border rounded-2 px-3 mb-3 py-2 bg-white">
           <!-- Pills navs -->
           <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
             <li class="nav-item d-flex" role="presentation">
@@ -120,6 +153,33 @@
             </div>
           </div>
           <!-- Pills content -->
+        </div>
+        <div class="card p-3">
+          <h4>Rating</h4>
+          <input type="hidden" value="{{ratingPerc}}" id="rating-perc">
+          <div class="rating d-flex align-items-center" style="width:fit-content;">
+            <div class="canvas-wrap">
+              <canvas id="canvas" width="300" height="300"></canvas>
+              <span id="procent">{{this.rating}}<i class="fa-regular fa-star"></i></span>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+              <h4>Total Rating</h4>
+              <h1>{{reviews.length}}</h1>
+            </div>
+          </div>
+          <h4>Reviews</h4>
+          <div class="reviews p-2" style="max-height: 600px; overflow-y:scroll;">
+            <div class="card p-3">
+              {{#each reviews}}
+              <div class="">
+                <div style="width: min-content;"
+                  class="bg-success text-white px-2 mb-2 py-1 rounded d-flex align-items-center justify-content-center">
+                  {{this.rating}}<i class="fa-regular fa-star"></i></div>
+                <p>{{this.review}}</p>
+              </div>
+              {{/each}}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-lg-4">
@@ -166,5 +226,51 @@
     console.log("zoom_out")
 
     zoom_img.style.transform = 'translate(-50%,-50%) scale(1)'
+  })
+</script>
+<script>
+  $(() => {
+    window.onload = function () {
+      var can = document.getElementById('canvas'),
+        //spanProcent = document.getElementById('procent'),
+        c = can.getContext('2d');
+
+      var posX = can.width / 2,
+        posY = can.height / 2,
+        fps = 1000 / 200,
+        procent = 0,
+        oneProcent = 360 / 100,
+        result = oneProcent * $('#rating-perc').val();
+
+      c.lineCap = 'round';
+      arcMove();
+
+      function arcMove() {
+        var deegres = 0;
+        var acrInterval = setInterval(function () {
+          deegres += 1;
+          c.clearRect(0, 0, can.width, can.height);
+          procent = deegres / oneProcent;
+
+         // spanProcent.innerHTML = procent.toFixed();
+
+          c.beginPath();
+          c.arc(posX, posY, 70, (Math.PI / 180) * 270, (Math.PI / 180) * (270 + 360));
+          c.strokeStyle = '#b1b1b1';
+          c.lineWidth = '10';
+          c.stroke();
+
+          c.beginPath();
+          c.strokeStyle = '#03860e';
+          c.lineWidth = '10';
+          c.arc(posX, posY, 70, (Math.PI / 180) * 270, (Math.PI / 180) * (270 + deegres));
+          c.stroke();
+          if (deegres >= result) clearInterval(acrInterval);
+        }, fps);
+
+      }
+
+
+    }
   })
 </script>

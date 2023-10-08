@@ -2,6 +2,8 @@ const Product = require("../models/productModel");
 const Category = require("../models/categoryModel");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
+const ReviewRate = require("../models/reviewRatingModel");
+
 
 
 // function similarity(s1, s2) {
@@ -68,7 +70,38 @@ const viewProduct = async (req, res, next) => {
                req.flash('error', 'Product cannot find!')
                res.redirect('/')
           }
-          res.render("user/viewProduct", { product, rel_product, category });
+          const reviews=await ReviewRate.aggregate([
+               {
+                    $match:{product:product._id}
+               },
+               {
+                    $lookup:{
+                         from:'users',
+                         localField:'user',
+                         foreignField:'_id',
+                         as:'user',
+                         pipeline:[
+                              {
+                                   $project:{
+                                        user_name:1,
+                                        user_email:1
+                                   }
+                              }
+                         ]
+                    }
+               },{
+                    $unwind:{
+                         path:'$user'
+                    }
+               }
+               
+          ])
+          let rating=reviews.reduce((acc,rev)=>{
+               return acc+rev.rating;
+          },0)
+          rating=rating/reviews.length
+          const ratingPerc=rating*10;
+          res.render("user/viewProduct", { product, rel_product, category,reviews,rating,ratingPerc });
      } catch (err) {
           next(err);
      }

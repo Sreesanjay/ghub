@@ -35,7 +35,7 @@
                 </div>
                 <div class="status-details col-12 col-md-3">
                     {{#isEqual this.products.status "Payment pending"}}
-                    <p class="text-secondary">Payment Pending</p>
+                    <p class="text-secondary text-danger">Payment Pending</p>
                     {{/isEqual}}
                     {{#isEqual this.products.status "Confirmed"}}
                     <p class=""> Confirmed on {{toDate this.products.confirmed_date}}</p>
@@ -121,6 +121,8 @@
 
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col">
+                    {{#isEqual this.products.status "Payment pending"}}
+                    {{else}}
                         <div class="card card-stepper" style="border-radius: 10px;">
                             <div class="card-body p-4">
 
@@ -261,6 +263,7 @@
                                 </div>
                             </div>
                         </div>
+                    {{/isEqual}}
                     </div>
                 </div>
             </div>

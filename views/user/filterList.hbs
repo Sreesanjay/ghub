@@ -1,7 +1,16 @@
 <div class="filter-product-list row bg-light p-3 mt-2" style="width:100vw;">
     <div class="filter-wraper col-md-3">
         <div class="card p-3">
-
+            <a href="/products" class="txt-decoration-null text-dark">All Products</a>
+            <a href="/products/filter?" id="filter-link"></a>
+            <hr>
+            <h5>Category</h5>
+            {{#each category}}
+            <div class="wraper d-flex mb-2">
+                <input type="checkbox" id="category={{this.cat_name}}" class="filter-key"
+                    value="category={{this.cat_name}}"><label for="" class="ms-2">{{this.cat_name}}</label>
+            </div>
+            {{/each}}
         </div>
     </div>
     <div class="product-wraper col-md-9 card bg-white">
@@ -13,9 +22,11 @@
             <div class=" mb-4 d-flex">
                 {{#if ../userData}}
                 {{#isWishlist this._id ../userData.wishlist}}
-                <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2 icon{{this._id}}" onclick="WishlistAdd(event ,'{{this._id}}')"></i>
+                <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2 icon{{this._id}}"
+                    onclick="WishlistAdd(event ,'{{this._id}}')"></i>
                 {{else}}
-                <i class="fa-regular fa-heart add-to-wish-list-btn mt-2 icon{{this._id}}" onclick="WishlistAdd(event ,'{{this._id}}')"></i>
+                <i class="fa-regular fa-heart add-to-wish-list-btn mt-2 icon{{this._id}}"
+                    onclick="WishlistAdd(event ,'{{this._id}}')"></i>
                 {{/isWishlist}}
                 {{/if}}
                 <i class="fa-solid fa-heart text-danger add-to-wish-list-btn mt-2" id="add-wish-{{this._id}}"
@@ -45,40 +56,72 @@
 </div>
 
 <script>
-    $(()=>{
+    $(() => {
+        //assigning initial filtered catgories
+        let urlString = window.location.href;
+        const url = new URL(urlString);
+        const queryParameters = url.searchParams;
+        const params = [];
+        queryParameters.forEach((value, key) => {
+            params.push(key + '=' + value)
+            if (key == 'category') {
+                //$('#'+key+'='+value).attr("checked", true);
+                let filter = document.getElementById(key + '=' + value).checked = true;
+            }
+        });
+        console.log(params)
+
         WishlistAdd = (e, id) => {
-        e.preventDefault();
-        fetch(`/account/add-to-wishlist/${id}`, {
-            method: 'GET'
-        }).then((response) => {
-            return response.json()
-        }).then((data) => {
-            if (data.status === 'success') {
-                $('.icon'+id).css("display", "none");
-                if (data.exist) {
-                    console.log("exsist")
-                    $('#remove-wish-'+id).toggle()
-                     if($('#add-wish-'+id).is(':visible')) {
-                        $('#add-wish-'+id).toggle()
-                     }
+            e.preventDefault();
+            fetch(`/account/add-to-wishlist/${id}`, {
+                method: 'GET'
+            }).then((response) => {
+                return response.json()
+            }).then((data) => {
+                if (data.status === 'success') {
+                    $('.icon' + id).css("display", "none");
+                    if (data.exist) {
+                        console.log("exsist")
+                        $('#remove-wish-' + id).toggle()
+                        if ($('#add-wish-' + id).is(':visible')) {
+                            $('#add-wish-' + id).toggle()
+                        }
+                    } else {
+                        console.log("not exsist")
+                        $('#add-wish-' + id).toggle()
+                        if ($('#remove-wish-' + id).is(':visible')) {
+                            $('#remove-wish-' + id).toggle()
+                        }
+                    }
+                }
+                if (data.message) {
+                    throw new Error(data.message)
+                }
+            }).catch((error) => {
+                Swal.fire(
+                    'Failed',
+                    error.message,
+                    'error'
+                )
+            })
+        }
+
+        //filter
+        $('.filter-key').on('click', (e) => {
+            let link = window.location.href;
+            link=decodeURIComponent(link);
+            if (link.includes(e.target.value)) {
+                link = link.replace('&' + e.target.value, '').replace(e.target.value, '')
+                
+            } else {
+                if (link.includes('?', '=')) {
+                    link = link + '&' + e.target.value
                 } else {
-                    console.log("not exsist")
-                    $('#add-wish-'+id).toggle()
-                    if($('#remove-wish-'+id).is(':visible')) {
-                        $('#remove-wish-'+id).toggle()
-                     }
+                    link = link + '?' + e.target.value
                 }
             }
-            if (data.message) {
-                throw new Error(data.message)
-            }
-        }).catch((error) => {
-            Swal.fire(
-                'Failed',
-                error.message,
-                'error'
-            )
+            location.assign(link)
         })
-    }
     })
+
 </script>

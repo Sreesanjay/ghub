@@ -1,6 +1,7 @@
-<div class="filter-product-list row bg-light p-3 mt-2" style="width:100vw;">
-    <div class="filter-wraper col-md-3">
+<div class="filter-product-list row bg-light m-0 p-0 p-3 mt-2" style="width:100%;">
+    <div class="filter-wraper col-md-2" style="height: fit-content; position: sticky;top: 100px;">
         <div class="card p-3">
+            <h4 class="mb-3">Filter</h4>
             <a href="/products" class="txt-decoration-null text-dark">All Products</a>
             <a href="/products/filter?" id="filter-link"></a>
             <hr>
@@ -11,11 +12,23 @@
                     value="category={{this.cat_name}}"><label for="" class="ms-2">{{this.cat_name}}</label>
             </div>
             {{/each}}
+            <hr>
+            <h5>Brands</h5>
+            {{#each brands}}
+            <div class="wraper d-flex mb-2">
+                <input type="checkbox" id="brand={{this._id}}" class="filter-key" value="brand={{this._id}}"><label
+                    for="" class="ms-2">{{this._id}}</label>
+            </div>
+            {{/each}}
         </div>
     </div>
-    <div class="product-wraper col-md-9 card bg-white">
-        <p class="m-0 mt-2 p-0">Sort: <span class="mx-4">Price- Low to High</span> <span class="me-4">Price- High to
-                Low</span> <span class="me-4">Newest First</span></p>
+    <div class="product-wraper col-md-10 card bg-white">
+        <p class="m-0 mt-2 p-0">
+            Sort: <a class="mx-4 txt-decoration-null c-pointer" onclick="sortProd('low-to-high')">Price- Low to
+                High</a>
+            <a class="mx-4 txt-decoration-null c-pointer" onclick="sortProd('high-to-low')">Price- High to Low</a>
+            <a class="mx-4 txt-decoration-null c-pointer" onclick="sortProd('newest-first')">Newest First</a>
+        </p>
         <hr>
         {{#each products}}
         <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
@@ -51,7 +64,23 @@
 
             </div>
         </a>
+        <hr>
         {{/each}}
+        <div class="pagination d-flex justify-content-end">
+        <table class="table table-bordered p-0" style="width: min-content;">
+            <tr>
+                <td><i class="fa-solid fa-angles-left" onclick="pagination('{{subtract limitKey 1}}')"></i></td>
+                {{#each page}}
+                    {{#isEqual ../limitKey this}}
+                        <td class="px-3 bg-primary text-white">{{add this 1}}</td>
+                    {{else}}
+                        <td class="px-3" onclick="pagination('{{this}}')">{{add this 1}}</td>
+                    {{/isEqual}}
+                {{/each}}
+                <td><i class="fa-solid fa-angles-right" onclick="pagination('{{add limitKey 1}}')"></i></td>
+            </tr>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -64,7 +93,7 @@
         const params = [];
         queryParameters.forEach((value, key) => {
             params.push(key + '=' + value)
-            if (key == 'category') {
+            if (key == 'category' || key == 'brand') {
                 //$('#'+key+'='+value).attr("checked", true);
                 let filter = document.getElementById(key + '=' + value).checked = true;
             }
@@ -109,10 +138,10 @@
         //filter
         $('.filter-key').on('click', (e) => {
             let link = window.location.href;
-            link=decodeURIComponent(link);
+            link = decodeURIComponent(link);
             if (link.includes(e.target.value)) {
                 link = link.replace('&' + e.target.value, '').replace(e.target.value, '')
-                
+
             } else {
                 if (link.includes('?', '=')) {
                     link = link + '&' + e.target.value
@@ -122,6 +151,46 @@
             }
             location.assign(link)
         })
+
+        //sort product
+        sortProd = (sortKey) => {
+            let link = window.location.href;
+            const url = new URL(link); 
+
+            if (url.searchParams.has('sort')) {
+                const sortValue = url.searchParams.get("sort");
+                console.log(sortValue);
+                url.searchParams.delete('sort'); 
+            }
+
+            if (url.search) {
+                url.search += `&sort=${sortKey}`; 
+            } else {
+                url.search = `sort=${sortKey}`; 
+            }
+
+            location.assign(url.toString());
+        }
+
+        //pagination
+        pagination=(page)=>{
+            let link = window.location.href;
+            const url = new URL(link); 
+
+            if (url.searchParams.has('limit')) {
+                url.searchParams.delete('limit'); 
+            }
+
+            if (url.search) {
+                url.search += `&limit=${page}`; 
+            } else {
+                url.search = `limit=${page}`; 
+            }
+
+            location.assign(url.toString());
+            
+        }
+
     })
 
 </script>

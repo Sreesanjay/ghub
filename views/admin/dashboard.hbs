@@ -4,10 +4,29 @@
 </style>
 <section class="dash-board p-3" style="width:100%;">
   <h3 class="mb-5">Dashboard</h3>
+  <div class="d-flex">
+    <div class="">
+      <h4 class="text-muted text-nowrap">Total Sales</h4>
+      <h4 class="mb-5">₹{{totalSales}}</h4>
+    </div>
+    <div class="stat-wraper px-5 d-flex justify-content-around" style="width: 100%;">
+      <div class="year-slaes card p-3 blue-clr text-white" style="width:fit-content; height:min-content;font-size:15px;">
+        <p>Total sales in <span class="year"></span></p>
+        <p class="total-sales m-0 fw-bold" align="center"></p>
+      </div>
 
-  <h4 class="text-muted">Total Sales</h4>
-  <h4 class="mb-5">₹{{totalSales}}</h4>
-  
+      {{!-- registered users --}}
+      <div class="year-slaes card p-3 ms-3 blue-clr text-white" style="width:fit-content; height:min-content; font-size:15px;">
+        <p>Registered Users</p>
+        <p class="total-users m-0 fw-bold" align="center">{{userCount}}</p>
+      </div>
+      {{!-- Total stock --}}
+      <div class="year-slaes card p-3 ms-3 blue-clr text-white" style="width:fit-content; height:min-content; font-size:15px;">
+        <p>Total Products</p>
+        <p class="total-users m-0 fw-bold" align="center">{{prodCount}}</p>
+      </div>
+    </div>
+  </div>
   <div class="stat-header d-flex justify-content-between">
     <h6>Sales Statistics</h6>
     <div class="">Select Year <select name="" class="form-select" id="year-selector" style="width: 100px !important;">
@@ -17,23 +36,7 @@
   <div>
     <canvas id="myChart"></canvas>
   </div>
-  <div class="stat-wraper mt-5 px-5 d-flex">
-    <div class="year-slaes card p-3 blue-clr text-white" style="width:fit-content; font-size:15px;">
-      <p>Total sales in <span class="year"></span></p>
-      <p class="total-sales m-0 fw-bold" align="center"></p>
-    </div>
 
-    {{!-- registered users --}}
-    <div class="year-slaes card p-3 ms-3 blue-clr text-white" style="width:fit-content; font-size:15px;">
-      <p>Registered Users</p>
-      <p class="total-users m-0 fw-bold" align="center">{{userCount}}</p>
-    </div>
-    {{!-- Total stock --}}
-    <div class="year-slaes card p-3 ms-3 blue-clr text-white" style="width:fit-content; font-size:15px;">
-      <p>Total Products</p>
-      <p class="total-users m-0 fw-bold" align="center">{{prodCount}}</p>
-    </div>
-  </div>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -88,9 +91,9 @@
       let totalSales = data.reduce((acc, sale) => {
         return acc + sale
       })
-      const year=new Date().getFullYear()
+      const year = new Date().getFullYear()
       $('.year').text(year)
-      $('.total-sales').text('₹'+totalSales)
+      $('.total-sales').text('₹' + totalSales)
       displayDiagram(data)
     })
 
@@ -104,7 +107,7 @@
           return acc + sale
         })
         $('.year').text(selectYear)
-        $('.total-sales').text('₹'+totalSales)
+        $('.total-sales').text('₹' + totalSales)
         displayDiagram(data)
       })
     })

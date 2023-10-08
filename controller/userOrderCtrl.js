@@ -190,7 +190,6 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
                }
 
                res.status(200).json({ status: "success" });
-
           }
           //pay using ghub wallet
           else if (newOrder.payment_method === "GHUBWALLET") {
@@ -215,8 +214,6 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
                          });
                     }
 
-
-
                     let total = 0;
                     for (let prod of confirmedOrder.products) {
                          console.log(prod.price)
@@ -239,9 +236,7 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
                     }
                     await Payment.create(payment)
                }
-
                res.status(200).json({ status: "success" });
-
           }
           //pay using online payment
           else {

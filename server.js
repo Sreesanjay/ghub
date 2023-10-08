@@ -45,16 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// app.engine('hbs', hbs.engine({
-//   layoutsDir: __dirname + '/views/layouts',
-//   extname: 'hbs',
-//   runtimeOptions: {
-//     allowProtoPropertiesByDefault: true,
-//     allowProtoMethodsByDefault: true,
-//   },
-//   defaultLayout: 'layout',
-//   partialsDir: __dirname + '/views/partials/'
-// }));
 
 
 const xhbs = hbs.create({
@@ -73,6 +63,15 @@ handlebars.registerHelper('subtract', function (num1, num2) {
   return num1 - num2;
 });
 
+handlebars.registerHelper('firstLetter', function (str) {
+  return str[0];
+});
+
+// Register the custom Handlebars helper for addititon
+handlebars.registerHelper('add', function (num1, num2) {
+  return parseInt(num1) + parseInt(num2);
+});
+
 handlebars.registerHelper('devide', function (num1, num2) {
   return num1 / num2;
 });
@@ -86,7 +85,8 @@ handlebars.registerHelper('toDate', function (date) {
 });
 
 handlebars.registerHelper('isEqual', function (str1, str2, options) {
-  if (str1 === str2) {
+  console.log(str1,str2)
+  if (str1 == str2) {
     return options.fn(this);
   } else {
     return options.inverse(this);

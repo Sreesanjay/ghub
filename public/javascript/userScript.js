@@ -132,8 +132,10 @@ $(document).ready(function () {
       let user_email = document.getElementById('signup-user-email').value
       let user_mobile = document.getElementById('signup-user-mobile').value
       let user_password = document.getElementById('signup-user-pass').value
+      let referredBy = document.getElementById('signup-user-referal').value
       let otp = document.getElementById('user-otp').value
       let otpErr = document.querySelector('.otpErr')
+      let referralErr = document.querySelector('.referral-err')
       try {
          const formData = new FormData()
          formData.append('user_name', user_name)
@@ -141,6 +143,9 @@ $(document).ready(function () {
          formData.append('user_mobile', user_mobile)
          formData.append('user_password', user_password)
          formData.append('otp', otp)
+         if(referredBy!=''){
+            formData.append('referred_by', referredBy)
+         }
          const obj = Object.fromEntries(formData);
          console.log(obj)
          const res = await fetch('/user-sign-up', {
@@ -160,7 +165,10 @@ $(document).ready(function () {
          else if (data.otpErr) {
             otpErr.innerText = data.otpErr
          }
-         else {
+         else if(data.referalErr){
+            console.log("refferal error")
+            referralErr.innerText=data.referalErr
+         }else {
             throw new Error(data.message)
          }
       } catch (err) {

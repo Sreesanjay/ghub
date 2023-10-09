@@ -29,6 +29,14 @@ var userSchema = new mongoose.Schema(
                required: true,
                default: true,
           },
+          referral_code: {
+               type: String,
+               required: true,
+          },
+          referred_by: {
+                type: mongoose.Schema.Types.ObjectId, 
+                ref: 'User' 
+               },
           cart: [
                {
                     product_id: {

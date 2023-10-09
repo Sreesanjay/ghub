@@ -56,7 +56,7 @@
           <i class="fa-solid fa-chevron-left left-img-scroll"></i>
           <div class="d-flex justify-content-center mb-3 sec-img-wrapper">
             {{#each product.secondary_img}}
-            <div class="card me-5 d-flex justify-content-center align-items-center" style="min-width:100px;">
+            <div class="card me-3 d-flex justify-content-center align-items-center" style="min-width:100px;">
               <img style="max-height: 100px; max-width:min-content;" class="rounded-2"
                 src="/Images/Products/{{this.filename}}" id="{{this._id}}" onclick="setImgView('{{this._id}}')" />
             </div>
@@ -73,7 +73,7 @@
             {{product.product_name}}
           </h4>
           <div class="d-flex flex-row my-3">
-            <div class="text-warning mb-1 me-2">
+            {{!-- <div class="text-warning mb-1 me-2">
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
@@ -82,7 +82,7 @@
               <span class="ms-1">
                 4.5
               </span>
-            </div>
+            </div> --}}
             <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>{{product.stock}} items</span>
             <span class="text-success ms-2">In stock</span>
           </div>
@@ -108,8 +108,8 @@
             <span id="show-less" style="display:none;">...Show Less</span>
           </div>
           <div class="row pt-3">
-            <h3 class="col-2 text-danger">₹{{product.sellig_price}}</h3>
-            <h4 class="col-10 mt-1 text-secondary"><strike>₹{{product.prod_price}}</strike></h4>
+            <h3 class="col-3 col-md-2 text-danger">₹{{product.sellig_price}}</h3>
+            <h4 class="col-9 col-md-10 mt-1 text-secondary"><strike>₹{{product.prod_price}}</strike></h4>
           </div>
 
           <hr />
@@ -157,12 +157,12 @@
         <div class="card p-3">
           <h4>Rating</h4>
           <input type="hidden" value="{{ratingPerc}}" id="rating-perc">
-          <div class="rating d-flex align-items-center" style="width:fit-content;">
-            <div class="canvas-wrap">
+          <div class="rating d-flex align-items-center row" style="width:fit-content;">
+            <div class="canvas-wrap col-12 col-sm-7">
               <canvas id="canvas" width="300" height="300"></canvas>
               <span id="procent">{{this.rating}}<i class="fa-regular fa-star"></i></span>
             </div>
-            <div class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-column align-items-center col-12 col-sm-5">
               <h4>Total Rating</h4>
               <h1>{{reviews.length}}</h1>
             </div>

@@ -27,7 +27,7 @@
     {{#each brands}}
     <div class="card col-md-3 p-0 py-3 me-3 d-flex justify-content-center"
       style="width:220px; background-color:#3D05AD;">
-      <a href="/products?search={{this._id}}" class="txt-decoration-null">
+      <a href="/products?brand={{this._id}}" class="txt-decoration-null">
         <h3 align="center" style="text-transform: uppercase;color:#ffffff">{{this._id}}</h3>
       </a>
     </div>
@@ -79,7 +79,7 @@
           <div class="row">
             {{#each this.products}}
             {{!-- mb-4 mb-lg-0 --}}
-            <div class="col-md-3 mt-4">
+            <div class="col-md-4 col-lg-3 mt-4">
               <div class="card p-1 me-3" style="height:fit-content; min-height:440px;">
                 <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
                   <div class="card-header d-flex justify-content-center" style="height:270px;">

@@ -33,7 +33,12 @@ const getMyAccount = asyncHandler(async (req, res) => {
                },
           },
      ]);
-     res.render("user/myAccount", { category, user, account: true });
+     const referals=await User.find({referred_by:res.locals.userData._id})
+     let referalAmt=0;
+     if(referals.length>0){
+          referalAmt = referals.length*50
+     }
+     res.render("user/myAccount", { category, user, account: true ,referalAmt});
 });
 
 const verifyOldPass = asyncHandler(async (req, res) => {

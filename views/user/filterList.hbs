@@ -30,6 +30,27 @@
             <a class="mx-4 txt-decoration-null c-pointer" onclick="sortProd('newest-first')">Newest First</a>
         </p>
         <hr>
+        <div id="carouselExampleControls" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {{#each banners}}
+                <a href="{{this.reference}}">
+                    <div class="carousel-item active">
+                        <img src="/Images/Banners/{{this.image.filename}}" class="d-block w-100" alt="...">
+                    </div>
+                </a>
+                {{/each}}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
         {{#each products}}
         <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
             <div class=" mb-4 d-flex">
@@ -67,18 +88,18 @@
         <hr>
         {{/each}}
         <div class="pagination d-flex justify-content-end">
-        <table class="table table-bordered p-0" style="width: min-content;">
-            <tr>
-                <td><i class="fa-solid fa-angles-left" onclick="pagination('{{subtract limitKey 1}}')"></i></td>
-                {{#each page}}
+            <table class="table table-bordered p-0" style="width: min-content;">
+                <tr>
+                    <td><i class="fa-solid fa-angles-left" onclick="pagination('{{subtract limitKey 1}}')"></i></td>
+                    {{#each page}}
                     {{#isEqual ../limitKey this}}
-                        <td class="px-3 bg-primary text-white">{{add this 1}}</td>
+                    <td class="px-3 bg-primary text-white">{{add this 1}}</td>
                     {{else}}
-                        <td class="px-3" onclick="pagination('{{this}}')">{{add this 1}}</td>
+                    <td class="px-3" onclick="pagination('{{this}}')">{{add this 1}}</td>
                     {{/isEqual}}
-                {{/each}}
-                <td><i class="fa-solid fa-angles-right" onclick="pagination('{{add limitKey 1}}')"></i></td>
-            </tr>
+                    {{/each}}
+                    <td><i class="fa-solid fa-angles-right" onclick="pagination('{{add limitKey 1}}')"></i></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -155,40 +176,40 @@
         //sort product
         sortProd = (sortKey) => {
             let link = window.location.href;
-            const url = new URL(link); 
+            const url = new URL(link);
 
             if (url.searchParams.has('sort')) {
                 const sortValue = url.searchParams.get("sort");
                 console.log(sortValue);
-                url.searchParams.delete('sort'); 
+                url.searchParams.delete('sort');
             }
 
             if (url.search) {
-                url.search += `&sort=${sortKey}`; 
+                url.search += `&sort=${sortKey}`;
             } else {
-                url.search = `sort=${sortKey}`; 
+                url.search = `sort=${sortKey}`;
             }
 
             location.assign(url.toString());
         }
 
         //pagination
-        pagination=(page)=>{
+        pagination = (page) => {
             let link = window.location.href;
-            const url = new URL(link); 
+            const url = new URL(link);
 
             if (url.searchParams.has('limit')) {
-                url.searchParams.delete('limit'); 
+                url.searchParams.delete('limit');
             }
 
             if (url.search) {
-                url.search += `&limit=${page}`; 
+                url.search += `&limit=${page}`;
             } else {
-                url.search = `limit=${page}`; 
+                url.search = `limit=${page}`;
             }
 
             location.assign(url.toString());
-            
+
         }
 
     })

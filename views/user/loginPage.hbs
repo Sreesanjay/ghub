@@ -10,43 +10,45 @@
         <div class="h2 text-center mb-4">Log in</div>
         <form name="form" id="user-loginForm">
           <div class="d-flex flex-column align-items-center justify-content-center justify-content-lg-start px-5">
-          {{#if err}}
-          <div class="form-control" style="border:none !important">
-          <div class="err text-danger"><p>{{err.message}}</p></div>
-        </div>
-          {{/if}}
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <div class="emailErr text-danger"></div>
-            <input type="email" id="email" class="form-control"
-              placeholder="Enter a valid email address" name="user_email"/>
-            <label></label>
-            <p class="form-label">Email address</p>
-          </div>
+            {{#if err}}
+            <div class="form-control" style="border:none !important">
+              <div class="err text-danger">
+                <p>{{err.message}}</p>
+              </div>
+            </div>
+            {{/if}}
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <div class="emailErr text-danger"></div>
+              <input type="email" id="email" class="form-control" placeholder="Enter a valid email address"
+                name="user_email" />
+              <label></label>
+              <p class="form-label">Email address</p>
+            </div>
 
-          <!-- Password input -->
-          <div class="form-outline mb-3">
-            <div class="passErr text-danger"></div>
-            <input type="password" id="password" class="form-control"
-              placeholder="Enter password" name="user_password"/>
-            <label class="lbl" for="form3Example4"></label>
-            <p class="form-label ">Password</p>
-          </div>
-           <div class="form-outline mb-3 ">
-            <a href="" class="txt-decoration-null">Forgot Password</a>
-          </div>
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+              <div class="passErr text-danger"></div>
+              <input type="password" id="password" class="form-control" placeholder="Enter password"
+                name="user_password" />
+              <label class="lbl" for="form3Example4"></label>
+              <p class="form-label ">Password</p>
+            </div>
+            <div class="form-outline mb-3 ">
+              <a href="" class="txt-decoration-null">Forgot Password</a>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-         <div class="form-outline my-5 d-flex justify-content-center" style="width: 100%;">
-          <a href="/sign-up" class="sign-up-link txt-decoration-null">Don't have an account, Sign Up?</a>
-          </div>
+            <div class="form-outline my-5 d-flex justify-content-center" style="width: 100%;">
+              <a href="/sign-up" class="sign-up-link txt-decoration-null">Don't have an account, Sign Up?</a>
+            </div>
 
         </form>
       </div>
     </div>
   </div>
- 
-    <!-- Right -->
+
+  <!-- Right -->
   </div>
 </section>

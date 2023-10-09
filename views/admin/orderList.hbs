@@ -2,22 +2,24 @@
     <div class="order-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">
             <h3 class="mb-4">Orders</h3>
-                <button id="exportToButton" class="btn btn-success clearfix" style="height:50px;"><span class="fa fa-file-pdf-o"></span> Export
+            <button id="exportToButton" class="btn btn-success clearfix" style="height:50px;"><span
+                    class="fa fa-file-pdf-o"></span> Export
                 to PDF</button>
         </div>
         <h5 id="filter-toggler">Filter <i class="fa-solid fa-chevron-down"></i></h5>
-        <form class="mb-3 card p-3" id="filter-from" action="/admin/orders/filter-order" method="post" style="display:none;">
-        <div class="filter-wraper mb-4 d-flex flex-row justify-content-around flex-wrap">
-            <div class="order-date-filter m-2">
-                <h6 class="fw-bold">Order date</h6>
-                From: <input type="date" class="form-control" name="from_date" style="max-width: 100%;">
-                To: <input type="date" class="form-control" name="to_date" style="max-width: 100%;">
-            </div>
+        <form class="mb-3 card p-3" id="filter-from" action="/admin/orders/filter-order" method="post"
+            style="display:none;">
+            <div class="filter-wraper mb-4 d-flex flex-row justify-content-around flex-wrap">
+                <div class="order-date-filter m-2">
+                    <h6 class="fw-bold">Order date</h6>
+                    From: <input type="date" class="form-control" name="from_date" style="max-width: 100%;">
+                    To: <input type="date" class="form-control" name="to_date" style="max-width: 100%;">
+                </div>
 
-             <div class="order-status-filter m-2">
-                <h6 class="fw-bold">Order Status</h6>
-                Select an order status
-                <select class="form-select" name="status" aria-label="Default select example" id="new-status">
+                <div class="order-status-filter m-2">
+                    <h6 class="fw-bold">Order Status</h6>
+                    Select an order status
+                    <select class="form-select" name="status" aria-label="Default select example" id="new-status">
                         <option value="">All</option>
                         <option value="Payment pending">Payment pending</option>
                         <option value="Confirmed">Confirmed</option>
@@ -28,27 +30,28 @@
                         <option value="Return pending">Pending Return</option>
                         <option value="Returned">Returned</option>
                     </select>
-             </div>
-             <div class="order-price-filter m-2">
+                </div>
+                <div class="order-price-filter m-2">
                     <h6 class="fw-bold">Amount</h6>
                     From: <input type="number" class="form-control" name="from_amt" style="max-width: 100%;" min="1">
                     To: <input type="number" class="form-control" name="to_amt" style="max-width: 100%;" min="1">
-             </div>
-              <div class="order-status-filter m-2">
-                <h6 class="fw-bold">Payment method</h6>
-                Select a payment method
-                <select class="form-select" name="payment_method" aria-label="Default select example" id="new-status">
+                </div>
+                <div class="order-status-filter m-2">
+                    <h6 class="fw-bold">Payment method</h6>
+                    Select a payment method
+                    <select class="form-select" name="payment_method" aria-label="Default select example"
+                        id="new-status">
                         <option value=""></option>
                         <option value="COD">COD</option>
                         <option value="ONLINE">Online</option>
                         <option value="GHUBWALLET">Wallet</option>
 
                     </select>
-             </div>
-        </div>
-        <button type="submit" class="btn btn-primary ms-auto" style="width: 100px;">Filter</button>
-       </form>
-        <div class="table-container">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary ms-auto" style="width: 100px;">Filter</button>
+        </form>
+        <div class="table-container table-responsive">
             <table id="exportToTable" class="table table-striped">
                 <thead>
                     <tr>
@@ -84,15 +87,15 @@
 <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script>
 <script>
-      $(document).ready(function () {
-          new DataTable('#exportToTable',{
+    $(document).ready(function () {
+        new DataTable('#exportToTable', {
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-          });
-          $('#filter-toggler').on('click', ()=>{
+        });
+        $('#filter-toggler').on('click', () => {
             $('#filter-from').slideToggle()
-          })
+        })
 
-      })
+    })
 
 </script>
 

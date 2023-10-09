@@ -110,36 +110,43 @@
             </div>
 
             <div class="container d-flex">
-                <p class="">{{this.area_street}}, Near to {{this.landmark}}, {{this.locality}}, {{this.town}}, {{this.state}}, {{this.pincode}}</p><br>
+                <p class="">{{this.area_street}}, Near to {{this.landmark}}, {{this.locality}}, {{this.town}},
+                    {{this.state}}, {{this.pincode}}</p><br>
             </div>
         </div>
         <div class="address-edit-card{{this._id}} card p-3 mb-3" id="address-edit-card">
-            <form class="row" id="edit-address-form-{{this._id}}"> 
+            <form class="row" id="edit-address-form-{{this._id}}">
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Name</label>
-                    <input type="text" class="form-control" placeholder="eg.Amarnath" value="{{this.user_name}}" name="user_name">
+                    <input type="text" class="form-control" placeholder="eg.Amarnath" value="{{this.user_name}}"
+                        name="user_name">
                 </div>
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">10 digit Mobile Number</label>
-                    <input type="text" class="form-control" placeholder="eg.9562052835" value="{{this.phone}}" name="phone">
+                    <input type="text" class="form-control" placeholder="eg.9562052835" value="{{this.phone}}"
+                        name="phone">
                 </div>
 
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Pincode</label>
-                    <input type="number" class="form-control" placeholder="eg.673506" value="{{this.pincode}}" name="pincode">
+                    <input type="number" class="form-control" placeholder="eg.673506" value="{{this.pincode}}"
+                        name="pincode">
                 </div>
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Locality</label>
-                    <input type="text" class="form-control" placeholder="your near locality" value="{{this.locality}}" name="locality">
+                    <input type="text" class="form-control" placeholder="your near locality" value="{{this.locality}}"
+                        name="locality">
                 </div>
 
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Area/Street</label>
-                    <input type="text" class="form-control" placeholder="Enter your area or street name" value="{{this.area_street}}" name="area_street">
+                    <input type="text" class="form-control" placeholder="Enter your area or street name"
+                        value="{{this.area_street}}" name="area_street">
                 </div>
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Town</label>
-                    <input type="text" class="form-control" placeholder="Enter your town name" value="{{this.town}}" name="town">
+                    <input type="text" class="form-control" placeholder="Enter your town name" value="{{this.town}}"
+                        name="town">
                 </div>
 
                 <div class="form-group col-sm-6 mt-4">
@@ -178,25 +185,31 @@
                 </div>
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Alternate phone number</label>
-                    <input type="text" class="form-control" placeholder="eg.9562052835" value="{{this.alternate_phone}}" name="alternate_phone">
+                    <input type="text" class="form-control" placeholder="eg.9562052835" value="{{this.alternate_phone}}"
+                        name="alternate_phone">
                 </div>
 
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Address type</label><br>
                     <label for="" class="form-label">Home</label>
-                    <input type="radio" class="form-check-input home-type" value="Home" name="address_type" id="home-type">
+                    <input type="radio" class="form-check-input home-type" value="Home" name="address_type"
+                        id="home-type">
                     <label for="" class="form-label ms-3">Work</label>
-                    <input type="radio" class="form-check-input work-type" value="Work" name="address_type" id="work-type">
+                    <input type="radio" class="form-check-input work-type" value="Work" name="address_type"
+                        id="work-type">
                 </div>
                 <input type="hidden" id="address-type{{this._id}}" value="{{this.address_type}}">
                 <div class="form-group col-sm-6 mt-4">
                     <label for="" class="form-label">Landmark</label>
-                    <input type="text" class="form-control" value="{{this.landmark}}" placeholder="Enter your landmark" name="landmark">
+                    <input type="text" class="form-control" value="{{this.landmark}}" placeholder="Enter your landmark"
+                        name="landmark">
                 </div>
                 <input type="hidden" id="address-id" value="{{this._id}}">
                 <div class="btn-handler pt-5">
-                    <button class="btn btn-danger edit-address-cancel" onclick="closeEditAddress('{{this._id}}')" type="button">Cancel</button>
-                    <button class="btn btn-primary" type="button" onclick="submitEdit('{{this._id}}')" type="button">Submit</button>
+                    <button class="btn btn-danger edit-address-cancel" onclick="closeEditAddress('{{this._id}}')"
+                        type="button">Cancel</button>
+                    <button class="btn btn-primary" type="button" onclick="submitEdit('{{this._id}}')"
+                        type="button">Submit</button>
                 </div>
             </form>
         </div>

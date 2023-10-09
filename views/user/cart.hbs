@@ -4,6 +4,7 @@
             height: 100vh !important;
         }
     }
+
     .order-summary-inp {
         border: none;
     }
@@ -12,8 +13,6 @@
         border: none;
         outline: none;
     }
-
-    
 </style>
 <section class="my-cart" style="background-color: #eee;">
     <div class="container pb-5 pt-4 h-100">
@@ -58,7 +57,8 @@
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0">₹{{this.prod_detail.sellig_price}}</h5>
                                                 </div>
-                                                <input type="hidden" value="{{this.prod_detail.stock}}" id="stock-{{this.prod_detail._id}}" name="stock">
+                                                <input type="hidden" value="{{this.prod_detail.stock}}"
+                                                    id="stock-{{this.prod_detail._id}}" name="stock">
                                                 <div class="out-of-stock-err text-danger"></div>
                                                 <i class="fas fa-trash-alt text-muted"
                                                     onclick="removeCart('{{this.cart.product_id}}')"></i>
@@ -66,7 +66,8 @@
                                         </div>
                                     </div>
                                     {{#if this.outOfStock}}
-                                        <h5 class="text-danger ms-2" id="out-of-stock-{{this.prod_detail._id}}">Out of Stock</h5>
+                                    <h5 class="text-danger ms-2" id="out-of-stock-{{this.prod_detail._id}}">Out of Stock
+                                    </h5>
                                     {{/if}}
                                     <div class="d-flex flex-row align-items-center ms-2 pt-4">
                                         <div class="d-flex mb-4" style="max-width: 200px">
@@ -103,7 +104,9 @@
                                             <div class="item-list row">
                                                 {{#each cartList}}
                                                 <p class="col-9">{{this.prod_detail.product_name}}</p>
-                                                <input type="text" class="col-3 item-price" id="price{{this.cart.product_id}}" name="price" value="{{this.price}}" style="border: none;" readonly>
+                                                <input type="text" class="col-3 item-price"
+                                                    id="price{{this.cart.product_id}}" name="price"
+                                                    value="{{this.price}}" style="border: none;" readonly>
                                                 {{/each}}
                                             </div>
                                             <hr>
@@ -112,9 +115,9 @@
                                                     class="order-summary-inp" id="cart_total" readonly value="0.00">
                                             </div>
                                             <hr>
-                                            <a class="btn btn-primary checkout-link" onclick="getCheckout(event)" href="/order/get-checkout">Go to Checkout</a>
+                                            <a class="btn btn-primary checkout-link" onclick="getCheckout(event)"
+                                                href="/order/get-checkout">Go to Checkout</a>
                                         </div>
-
                                     </div>
                                 </div>
 

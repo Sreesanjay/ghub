@@ -185,15 +185,15 @@
                         }).then((response) => {
                             return response.json()
                         }).then((data) => {
-                            if(data.status=='success'){
-                                 Swal.fire(
-                                        "Success!",
-                                        `Status changeed to ${body.status}`,
-                                        "success"
-                                   ).then(() =>
-                                        location.reload()
-                                   );
-                            }else{
+                            if (data.status == 'success') {
+                                Swal.fire(
+                                    "Success!",
+                                    `Status changeed to ${body.status}`,
+                                    "success"
+                                ).then(() =>
+                                    location.reload()
+                                );
+                            } else {
                                 throw new Error(data.message)
                             }
                         }).catch((error) => {

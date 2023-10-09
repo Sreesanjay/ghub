@@ -98,6 +98,9 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
      order.products = [];
      if (req.body.product) {
           let prod = await Product.findById(req.body.product);
+          if(prod.stock<1){
+               throw new Error('product is out of stock!')
+          }
           const products = {
                product: new mongoose.Types.ObjectId(req.body.product),
                quantity: 1,
@@ -107,6 +110,9 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
      } else {
           for (let i = 0; i < cart.length; i++) {
                let prod = await Product.findById(cart[i].product_id);
+               if(prod.stock<cart[i].count){
+                    throw new Error('Some products are out of stock!')
+               }
                const products = {
                     product: new mongoose.Types.ObjectId(cart[i].product_id),
                     quantity: cart[i].count,

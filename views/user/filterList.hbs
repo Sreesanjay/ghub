@@ -68,21 +68,21 @@
                 <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish-{{this._id}}"
                     onclick="WishlistAdd(event ,'{{this._id}}')" style="display: none;"></i>
 
-
-                <div class="img">
-                    <img src="/Images/Products/{{primary_img.filename}}" style="width: 200px;" alt="">
-                </div>
-                <div class="details py-2 ms-2">
-                    <h4>{{this.product_name}} {{this.prod_highlight}}</h4>
-                    <h6>{{this.brand_name}}, {{this.prod_color}}</h6>
-                    <span class="bg-success py-1 px-3 rounded text-white">4.4</span>
-                    <div class="d-flex align-items-center">
-                        <h4 class="mt-2">₹{{this.sellig_price}} </h4><strike class="text-muted ms-3">
-                            <p class="m-0">₹{{this.prod_price}}</p>
-                        </strike>
+                <div class="row">
+                    <div class="img col-12">
+                        <img src="/Images/Products/{{primary_img.filename}}" style="width: 200px;" alt="">
+                    </div>
+                    <div class="details py-2 ms-2 col-12">
+                        <h4>{{this.product_name}} {{this.prod_highlight}}</h4>
+                        <h6>{{this.brand_name}}, {{this.prod_color}}</h6>
+                        <span class="bg-success py-1 px-3 rounded text-white">4.4</span>
+                        <div class="d-flex align-items-center">
+                            <h4 class="mt-2">₹{{this.sellig_price}} </h4><strike class="text-muted ms-3">
+                                <p class="m-0">₹{{this.prod_price}}</p>
+                            </strike>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </a>
         <hr>

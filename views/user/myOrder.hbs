@@ -23,17 +23,25 @@
         {{#each orders}}
         <div class="card mt-3 p-3 c-pointer">
 
-            <div class="img-container row">
+            <div class="img-container row p-0 m-0">
                 <img src="/Images/Products/{{this.prod_details.primary_img.filename}}" alt="" class="col-12 col-md-2"
                     style="height: 100px;width:auto;">
                 <div class="prod-details col-12 col-md-5 mt-3 mt-md-0">
                     <h5 class="prod-name">{{this.prod_details.product_name}}{{this.prod_details.prod_highlight}}</h5>
                     <h6 class="">{{this.prod_details.brand_name}}</h6>
                 </div>
+                <div class="price col-12 col-md-1">
+
+                    <h5 id="price">{{this.products.quantity}} (qty)</h5>
+                </div>
+
                 <div class="price col-12 col-md-2">
                     <h5 id="price">₹{{subtract this.products.price this.products.discount}}</h5>
                 </div>
-                <div class="status-details col-12 col-md-3">
+                <div class="price col-12 col-md-2">
+                    <h5 class="m-0"> ₹{{this.products.discount}} Off</h5>
+                </div>
+                <div class="status-details col-12 mt-3">
                     {{#isEqual this.products.status "Payment pending"}}
                     <p class="text-secondary text-danger">Payment Pending</p>
                     {{/isEqual}}
@@ -60,7 +68,7 @@
                     {{#isEqual this.products.status "Return pending"}}
                     <p class="text-danger"> Return requested on {{toDate this.products.return_pending_date}}</p>
                     {{/isEqual}}
-                    
+
                     {{#isEqual this.products.status "Returned"}}
                     <p class="text-danger"> Returned on {{toDate this.products.returned_date}}</p>
                     {{/isEqual}}
@@ -84,12 +92,12 @@
                             class="fa-solid fa-star "></i> Rate & Review Product</button>
                     {{/isEqual}}
                     {{#isEqual this.products.status "Return pending"}}
-                        <button class="btn mt-3 text-primary"
+                    <button class="btn mt-3 text-primary"
                         onclick="addReview('{{this.prod_details._id}}','{{this._id}}')"><i
                             class="fa-solid fa-star "></i> Rate & Review Product</button>
                     {{/isEqual}}
                     {{#isEqual this.products.status "Returned"}}
-                        <button class="btn mt-3 text-primary"
+                    <button class="btn mt-3 text-primary"
                         onclick="addReview('{{this.prod_details._id}}','{{this._id}}')"><i
                             class="fa-solid fa-star "></i> Rate & Review Product</button>
                     {{/isEqual}}
@@ -121,8 +129,8 @@
 
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col">
-                    {{#isEqual this.products.status "Payment pending"}}
-                    {{else}}
+                        {{#isEqual this.products.status "Payment pending"}}
+                        {{else}}
                         <div class="card card-stepper" style="border-radius: 10px;">
                             <div class="card-body p-4">
 
@@ -210,8 +218,7 @@
                                             {{#isEqual this.products.status 'Returned'}}
                                             {{else}}
                                             <div class="d-flex flex-md-column align-items-start">
-                                                <span></span><br><span
-                                                    class="ms-2 ms-md-0">Returned</span>
+                                                <span></span><br><span class="ms-2 ms-md-0">Returned</span>
                                             </div>
                                             {{/isEqual}}
                                             {{/if}}
@@ -263,7 +270,7 @@
                                 </div>
                             </div>
                         </div>
-                    {{/isEqual}}
+                        {{/isEqual}}
                     </div>
                 </div>
             </div>

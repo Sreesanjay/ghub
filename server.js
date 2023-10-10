@@ -6,8 +6,6 @@ const flash = require('connect-flash')
 const hbs = require('express-handlebars');
 const handlebars = require('handlebars');
 const nocache = require('nocache');
-var fileupload = require("express-fileupload");
-const asyncHandler = require('express-async-handler')
 const session = require('express-session')
 const logger = require('morgan')
 const PORT = process.env.PORT || 4000;
@@ -27,13 +25,12 @@ app.use(cookieParser());
 
 
 app.use(logger('dev'));
-//file upload
-// app.use(fileupload());
+
 //connect flash
 app.use(flash())
 
 app.use(session({
-  secret: 'session key',
+  secret:process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }))
@@ -44,8 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // view engine setup 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-
 
 const xhbs = hbs.create({
   layoutsDir: __dirname + '/views/layouts',
@@ -109,8 +104,6 @@ handlebars.registerHelper('isWishlist', function (key, array, options) {
   return options.inverse(this);
 })
 
-
-
 // clearing cache
 app.use(nocache())
 
@@ -119,7 +112,6 @@ app.use('/', require('./routes/user'))
 app.use('/account', require('./routes/userProfile'))
 app.use('/my-cart', require('./routes/userCartRout'))
 app.use('/order', require('./routes/orderRout'))
-
 
 //admin
 app.use('/admin', require('./routes/admin'));
@@ -130,8 +122,6 @@ app.use('/admin/banner-management', require('./routes/adminBannerRout'))
 app.use('/admin/coupon-management', require('./routes/adminCouponRout'))
 app.use('/admin/orders', require('./routes/adminOrderRout'))
 app.use('/admin/sales-report', require('./routes/adminSaleReportRout'))
-
-app.use('/get-pdf', require('./routes/testRout'))
 
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)

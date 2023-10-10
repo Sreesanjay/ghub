@@ -1,4 +1,5 @@
 const express = require('express')
+const app=express()
 var router = express.Router();
 //admin authentication       
 const adminAuthCtrl=require('../controller/adminAuthCtrl')
@@ -15,6 +16,7 @@ router.post('/admin-sign-up',adminAuthCtrl.adminSignUp)
 
 //admin dashboard
 router.get('/',isAdminLogedIn,adminCtrl.getDashboard)
+
 router.get('/getRevenue',isAdminLogedIn,adminCtrl.getRevenue)
 //admin login 
 router.get('/admin-sign-in',adminAuthCtrl.adminLoginPage)
@@ -27,9 +29,5 @@ router.get('/forgot-password/reset-password',adminAuthCtrl.resetPassword)
 router.post('/forgot-password/reset-password',adminAuthCtrl.updatePassword)
 //logout
 router.get('/sign-out',adminAuthCtrl.signOut)
-
-
-
-
 
 module.exports = router;

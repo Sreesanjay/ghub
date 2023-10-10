@@ -47,6 +47,11 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           ]);
           let prodTotal = 0;
           for (prod of cartList) {
+               if(prod.cart.count>prod.prod_detail.stock){
+                    console.log("stock limit exceeded")
+                    req.flash('error','stock limit exceeded! remove those products from cart')
+                    res.redirect('/my-cart')
+               }
                prod.price = prod.prod_detail.sellig_price * prod.cart.count;
                prodTotal += prod.price;
           }

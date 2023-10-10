@@ -95,7 +95,9 @@
         <div class="form-group mb-3">
             <div class="mail-err text-danger"></div>
             <label for="">Email</label>
-            <input type="text" class="form-control" id="email-box" value="{{user.user_email}}" readonly>
+            <div class="card p-2" id="email-box">
+                {{user.user_email}}
+            </div>
         </div>
         <div class="form-group mb-3">
             <div class="mobile-err text-danger"></div>
@@ -140,8 +142,8 @@
             <i class="fa-regular fa-copy mt-1" onclick="myFunction()"></i>
         </div>
         <span style="font-size: 10px;" class="mt-4" align="center">
-            The referral option in GitHub is an exciting feature. When users refer someone to GitHub using their unique
-            referral code will get 50 rupees in ghub wallet.</span>
+            The referral option in GHub is an exciting feature. When users refer someone to GHub using their unique
+            referral code will get 50 rupees in GHub wallet.</span>
     </div>
 </div>
 <div id="snackbar">Referral code copied!</div>

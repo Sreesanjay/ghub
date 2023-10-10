@@ -4,7 +4,9 @@ const notFound = (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-     console.log(err);
+     if(err.name=='BSONError'){
+         return res.render('404NotFound',{ fullScreen: true })
+     }
      err.statusCode = err.statusCode || 500;
      err.status = err.status || "error";
      res.status(err.statusCode).json({

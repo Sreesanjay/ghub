@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const { sendMail } = require("../config/nodeMailer");
 const asyncHandler = require("express-async-handler");
 const crypto = require('crypto');
-
+const Alert = require("../models/alertModel");
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
      return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
@@ -145,7 +145,10 @@ const registerUser = asyncHandler(async (req, res) => {
                                    </html>`,
                          };
                          sendMail(mailOptions)
-
+                         await Alert.create({
+                              message:'Congratulations, You got 50 rupees from Ghub referal policy',
+                              user:referredBy._id
+                          })
                          await User.create(req.body);
                          res.json({ status: "success" });
                     } else {

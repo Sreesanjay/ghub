@@ -31,7 +31,7 @@ const getCart = asyncHandler(async (req, res, next) => {
                cartList[i].outOfStock = true;
           }
      }
-     res.render("user/cart", { cartList});
+     res.render("user/cart", { cartList,error:req.flash('error')[0]});
 });
 
 const addToCart = asyncHandler(async (req, res) => {

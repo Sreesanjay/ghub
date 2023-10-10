@@ -385,6 +385,10 @@ $(document).ready(function () {
             }
             else if (user_mobile == '') {
                mobile_err.textContent = 'this field is required!'
+            }else if(user_mobile.length!=10){
+               mobile_err.textContent = 'Mobile number should be 10 digits!'
+            }else if(user_mobile.toString()=='0000000000'){
+               mobile_err.textContent = 'Enter a valid mobile number!'
             }
             else {
                fetch('/get-signup-otp', {

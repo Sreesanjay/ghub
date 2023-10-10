@@ -59,7 +59,7 @@ const Banner = require("../models/bannerModel");
 
 const viewProduct = async (req, res, next) => {
      try {
-          const product = await Product.findById(req.params.id);
+          const product = await Product.findById(new mongoose.Types.ObjectId(req.params.id));
           const category = await Category.find();
           const rel_product = await Product.find({
                category: product.category,
@@ -224,7 +224,7 @@ const filterProducts = asyncHandler(async (req, res, next) => {
           { $group: { _id: "$brand_name", count: { $sum: 1 } } },
           { $sort: { count: -1 } },
           { $project: { _id: 1 } },
-          { $limit: 6 },
+          { $limit: 20 },
      ]);
 
      // if there is any limit then setting the new limit otherwise otherwise 0 for displaying current page

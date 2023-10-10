@@ -114,7 +114,7 @@
 
           <hr />
           {{#isEqual product.stock 0}}
-            <h2 class="my-3 text-danger">Out of stock</h2>
+          <h2 class="my-3 text-danger">Out of stock</h2>
           {{else}}
           <a href="/order/get-checkout?product={{product._id}}" class="btn btn-warning shadow-0"> Buy now </a>
           <a class="btn btn-primary shadow-0" onclick="addToCart(event,'{{product._id}}')"> <i
@@ -160,12 +160,12 @@
         <div class="card p-3">
           <h4>Rating</h4>
           <input type="hidden" value="{{ratingPerc}}" id="rating-perc">
-          <div class="rating d-flex align-items-center row" style="width:fit-content;">
-            <div class="canvas-wrap col-12 col-sm-7">
+          <div class="rating d-flex align-items-center row" style="width:100%;">
+            <div class="canvas-wrap col-sm-7">
               <canvas id="canvas" width="300" height="300"></canvas>
               <span id="procent">{{this.rating}}<i class="fa-regular fa-star"></i></span>
             </div>
-            <div class="d-flex flex-column align-items-center col-12 col-sm-5">
+            <div class="d-flex flex-column align-items-center col-sm-5">
               <h4>Total Rating</h4>
               <h1>{{reviews.length}}</h1>
             </div>
@@ -191,15 +191,16 @@
             <div class="card-body">
               <h5 class="card-title">Similar items</h5>
               {{#each rel_product}}
-              <div class="d-flex">
-                <a href="#" class="me-3"><img src="/Images/Products/{{this.primary_img.filename}}"
-                    style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                </a>
-                <div class="info">
-                  <a href="#" class="nav-link mb-1">{{this.product_name}} </a>
-                  <strong class="text-dark">₹{{this.sellig_price}}</strong>
+                <div class="d-flex">
+                  <a href="/view-product/{{this._id}}" class="me-3"><img src="/Images/Products/{{this.primary_img.filename}}"
+                      style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                  </a>
+                  <div class="info">
+                    <a href="/view-product/{{this._id}}" class="nav-link mb-1">{{this.product_name}} <br>
+                    <strong class="text-dark">₹{{this.sellig_price}}</strong>
+                    </a>
+                  </div>
                 </div>
-              </div>
               {{/each}}
             </div>
           </div>
@@ -234,9 +235,9 @@
 <script>
   $(() => {
     window.onload = function () {
-      var can = document.getElementById('canvas'),
-        //spanProcent = document.getElementById('procent'),
-        c = can.getContext('2d');
+      var can = document.getElementById('canvas');
+      //spanProcent = document.getElementById('procent'),
+      c = can.getContext('2d');
 
       var posX = can.width / 2,
         posY = can.height / 2,
@@ -255,7 +256,7 @@
           c.clearRect(0, 0, can.width, can.height);
           procent = deegres / oneProcent;
 
-         // spanProcent.innerHTML = procent.toFixed();
+          // spanProcent.innerHTML = procent.toFixed();
 
           c.beginPath();
           c.arc(posX, posY, 70, (Math.PI / 180) * 270, (Math.PI / 180) * (270 + 360));

@@ -15,7 +15,7 @@ const getHomePage = asyncHandler(async (req, res) => {
           { $group: { _id: "$brand_name", count: { $sum: 1 } } },
           { $sort: { count: -1 } },
           { $project: { _id: 1 } },
-          { $limit: 6 },
+          { $limit: 5 },
      ]);
      const banner = await Banner.find({
           banner_status: true,
@@ -83,7 +83,7 @@ const getHomePage = asyncHandler(async (req, res) => {
                          },
                          {
                               $limit: 8 // Limit to 5 products per category
-                         }
+                         },
                     ],
                },
           },
@@ -104,7 +104,6 @@ const getHomePage = asyncHandler(async (req, res) => {
                }
           },
      ]);
-
      const topOrders=await Order.aggregate([
           {
                $unwind:'$products'
@@ -127,6 +126,19 @@ const getHomePage = asyncHandler(async (req, res) => {
                                    product_status: true,
                               },
                          },
+                         {
+                              $lookup:{
+                                   from: 'reviewrates',
+                                   localField: '_id',
+                                   foreignField: 'product',
+                                   as: 'reviews',
+                              }
+                         },
+                         {
+                              $addFields: {
+                                totalRating: { $sum: "$reviews.rating" } 
+                              }
+                         }
                     ]
                }
           },
@@ -156,6 +168,13 @@ const getHomePage = asyncHandler(async (req, res) => {
           }
 
      ])
+
+     for(let order of topOrders){
+          if(order.products.totalRating){
+               order.products.totalRating=order.products.totalRating/order.products.reviews.length
+          }
+     }
+     
      res.render("user/homePage", {
           brands,
           category,

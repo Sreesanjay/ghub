@@ -29,6 +29,9 @@ router.post('/add-review-rating',isUserLogedIn,userProfileCtrl.addReviewRaing)
 router.get('/my-reviews',isUserLogedIn,userProfileCtrl.getMyReviews)
 router.get('/delete-review/:id',isUserLogedIn,userProfileCtrl.deleteReview)
 
+//notifications
+router.get('/my-notifications',isUserLogedIn,userProfileCtrl.getNotifications)
+
 
 
 module.exports=router;

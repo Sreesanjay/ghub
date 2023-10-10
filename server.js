@@ -85,7 +85,6 @@ handlebars.registerHelper('toDate', function (date) {
 });
 
 handlebars.registerHelper('isEqual', function (str1, str2, options) {
-  console.log(str1,str2)
   if (str1 == str2) {
     return options.fn(this);
   } else {

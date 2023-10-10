@@ -97,11 +97,15 @@ const viewProduct = async (req, res, next) => {
                }
 
           ])
-          let rating = reviews.reduce((acc, rev) => {
-               return acc + rev.rating;
-          }, 0)
-          rating = rating / reviews.length
-          const ratingPerc = 100 * rating / 5;
+          let rating=0;
+          let ratingPerc=0;
+          if (reviews.length > 0) {
+               rating = reviews.reduce((acc, rev) => {
+                    return acc + rev.rating;
+               }, 0)
+               rating = rating / reviews.length
+               ratingPerc = 100 * rating / 5;
+          }
           res.render("user/viewProduct", { product, rel_product, category, reviews, rating, ratingPerc });
      } catch (err) {
           next(err);
@@ -181,23 +185,23 @@ const filterProducts = asyncHandler(async (req, res, next) => {
           });
      }
      //geting all categories
-     let bannerCat=products.map((prod)=>{
+     let bannerCat = products.map((prod) => {
           return prod.category._id
      })
-     let uniqueCat=[];
+     let uniqueCat = [];
      for (const item of bannerCat) {
           if (!uniqueCat.includes(item.toString())) {
                uniqueCat.push(item.toString());
           }
-        }
-     uniqueCat=uniqueCat.map((cat)=>new mongoose.Types.ObjectId(cat))
-     const banners=await Banner.find({
-          category:{$in:uniqueCat},
+     }
+     uniqueCat = uniqueCat.map((cat) => new mongoose.Types.ObjectId(cat))
+     const banners = await Banner.find({
+          category: { $in: uniqueCat },
           banner_status: true,
           starting_date: { $lte: new Date() },
           exp_date: { $gt: new Date() }
      })
-    
+
 
 
      //pagination

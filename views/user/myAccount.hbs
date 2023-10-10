@@ -1,3 +1,85 @@
+<style>
+    #snackbar {
+        visibility: hidden;
+        /* Hidden by default. Visible on click */
+        min-width: 250px;
+        /* Set a default minimum width */
+        margin-left: -125px;
+        /* Divide value of min-width by 2 */
+        background-color: #333;
+        /* Black background color */
+        color: #fff;
+        /* White text color */
+        text-align: center;
+        /* Centered text */
+        border-radius: 2px;
+        /* Rounded borders */
+        padding: 16px;
+        /* Padding */
+        position: fixed;
+        /* Sit on top of the screen */
+        z-index: 1;
+        /* Add a z-index if needed */
+        left: 50%;
+        /* Center the snackbar */
+        bottom: 30px;
+    }
+
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    /* Animations to fade the snackbar in and out */
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+</style>
 <div class="my-account p-3 row">
     <h3 class="mb-3 col-12">My Profile</h3>
     <div class="user-details card p-4 mb-3 col-sm-8">
@@ -32,9 +114,8 @@
             shopping experience faster, safer, and more enjoyable. Start using your wallet today and discover a new
             level of shopping ease</span>
     </div>
-    <div class="password-details card p-4">
-        <h5 class="reset-pass-btn mb-3">Reset Password<i class="fa-solid fa-angle-down ms-3 mb-4 down-btn"></i><i
-                class="fa-solid fa-angle-up up-btn ms-3 mb-4"></i></h5>
+    <div class="password-details card p-4 col-sm-8" style="height:min-content ;">
+        <h5 class="reset-pass-btn mb-3">Reset Password<i class="fa-solid fa-angle-down ms-3 mb-4 down-btn"></i><i class="fa-solid fa-angle-up up-btn ms-3 mb-4"></i></h5>
         <div class="old-pass form-group">
             <div id="old-pass-err" class="text-danger"></div>
             <label for="">Enter your old password</label>
@@ -52,4 +133,28 @@
             <button class="btn btn-outline-primary" onclick="changePass()">Submit</button>
         </div>
     </div>
+    <div class="referral col-sm-3 mb-3 card ms-sm-3 p-2 pt-4">
+        <h5 class=" " align="center">My Referral code</h5>
+        <div class="d-flex justify-content-around mt-3 px-5">
+            <p id="myInput" clss="m-0">{{userData.referral_code}}</p>
+            <i class="fa-regular fa-copy mt-1" onclick="myFunction()"></i>
+        </div>
+        <span style="font-size: 10px;" class="mt-4" align="center">
+            The referral option in GitHub is an exciting feature. When users refer someone to GitHub using their unique
+            referral code will get 50 rupees in ghub wallet.</span>
+    </div>
 </div>
+<div id="snackbar">Referral code copied!</div>
+<script>
+    function myFunction() {
+        // Get the text field
+        const copyText = $('#myInput').text()
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText);
+        const x = document.getElementById("snackbar");
+        // Add the "show" class to DIV
+        x.className = "show";
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>

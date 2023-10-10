@@ -319,6 +319,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
           let payment = await Payment.findOne({ payment_id: req.body.razorpay_order_id })
           let order = await Order.findById(payment.order_id)
 
+          //updating stock
           order.products.forEach(async (product) => {
                product.status = "Confirmed";
                product.confirmed_date = new Date()

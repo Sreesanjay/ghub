@@ -3,30 +3,33 @@
     <div class="wishlist-container">
         {{#if product}}
         {{else}}
-            <h1 class="m-5">No Items in wishlist</h1>
+        <h1 class="m-5">No Items in wishlist</h1>
         {{/if}}
         {{#each product}}
+
         <div class="card prod-wrapper d-flex p-4 flex-row">
             <i class="fa-solid fa-trash text-danger dlt-wishlist" onclick="deleteWish('{{this._id}}')"></i>
             <div class="left">
                 <img src="/Images/Products/{{this.primary_img.filename}}" alt="" style="max-width:100px;">
             </div>
             <div class="right ms-4 ">
-                <h4 style="max-width: 900px;">{{this.product_name}}{{this.prod_highlight}}</h4>
-                <i class="fa-solid fa-star text-warning"></i>
-                <i class="fa-solid fa-star text-warning"></i>
-                <i class="fa-solid fa-star text-warning"></i>
-                <i class="fa-solid fa-star text-warning"></i>
-                <i class="fa-solid fa-star"></i>
-                <div class="price d-flex mt-3">
-                <h5 class="text-danger">{{this.sellig_price}}</h5>
-                <h6 class="text-decoration-line-through ms-4 mt-1">{{this.prod_price}}</h6>
-                </div>
+                <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
+                    <h4 style="max-width: 900px;">{{this.product_name}}{{this.prod_highlight}}</h4>
+                    <i class="fa-solid fa-star text-warning"></i>
+                    <i class="fa-solid fa-star text-warning"></i>
+                    <i class="fa-solid fa-star text-warning"></i>
+                    <i class="fa-solid fa-star text-warning"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <div class="price d-flex mt-3">
+                        <h5 class="text-danger">{{this.sellig_price}}</h5>
+                        <h6 class="text-decoration-line-through ms-4 mt-1">{{this.prod_price}}</h6>
+                    </div>
+                </a>
             </div>
-            <button class="btn btn-primary add-to-cart-btn" onclick="addToCart(event,'{{this._id}}')">Add to cart</button>
-        </div>
 
+            <button class="btn btn-primary add-to-cart-btn" onclick="addToCart(event,'{{this._id}}')">Add to
+                cart</button>
+        </div>
         {{/each}}
     </div>
 </div>
-

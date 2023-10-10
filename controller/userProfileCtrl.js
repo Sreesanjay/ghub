@@ -310,6 +310,9 @@ const deleteReview=asyncHandler(async(req,res)=>{
           status:'success'
      })
 })
+const getNotifications=asyncHandler(async(req,res)=>{
+     res.render('user/myNotification',{account:true})
+})
 
 module.exports = {
      getMyAccount,
@@ -326,5 +329,6 @@ module.exports = {
      getMyOrders,
      addReviewRaing,
      getMyReviews,
-     deleteReview
+     deleteReview,
+     getNotifications
 };

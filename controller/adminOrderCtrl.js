@@ -7,6 +7,7 @@ const User = require("../models/userModel");
 const Order = require("../models/orderModel");
 const Payment = require("../models/paymentModel");
 const Razorpay = require("razorpay");
+const Alert = require("../models/alertModel");
 
 //get all orders
 const getAllOrders = asyncHandler(async (req, res, next) => {
@@ -221,6 +222,7 @@ const ViewOrderDetails = asyncHandler(async (req, res, next) => {
 const changeStatus = asyncHandler(async (req, res) => {
     let order = await Order.findById(req.body.order_id)
     let product = order.products.find((item) => item.product == req.body.product_id);
+    let status;
     product.status = req.body.status
     if (req.body.status == 'Confirmed') {
         product.confirmed_date = new Date()
@@ -267,6 +269,11 @@ const changeStatus = asyncHandler(async (req, res) => {
     }
     const savedOrder = await order.save()
     if (savedOrder) {
+        const alert=`Your order has been ${req.body.status} on `+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDay();
+        await Alert.create({
+            message:alert,
+            user:savedOrder.user
+        })
         res.status(200).json({ status: 'success' })
     } else {
         throw new Error()

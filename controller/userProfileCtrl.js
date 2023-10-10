@@ -12,6 +12,7 @@ const Order = require("../models/orderModel");
 const Coupon = require("../models/couponModel");
 const Payment = require("../models/paymentModel");
 const { getAllOrders } = require("./adminOrderCtrl");
+const Alert = require("../models/alertModel");
 
 const getMyAccount = asyncHandler(async (req, res) => {
      const user = await User.findById(res.locals.userData._id);
@@ -311,7 +312,9 @@ const deleteReview=asyncHandler(async(req,res)=>{
      })
 })
 const getNotifications=asyncHandler(async(req,res)=>{
-     res.render('user/myNotification',{account:true})
+     const alert=await Alert.find({user:res.locals.userData._id}).sort({createdAt:-1})
+     console.log(alert)
+     res.render('user/myNotification',{account:true,alert})
 })
 
 module.exports = {

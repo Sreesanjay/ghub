@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-var otpSchema = new mongoose.Schema({
+const otpSchema = new mongoose.Schema({
      email: {
           type: String,
           required: true,

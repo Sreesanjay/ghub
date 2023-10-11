@@ -26,14 +26,15 @@ const getCart = asyncHandler(async (req, res, next) => {
      for (prod of cartList) {
           prod.price = prod.prod_detail.sellig_price * prod.cart.count;
      }
-     for(let i=0; i<cartList.length; i++){
-          if(cartList[i].cart.count>cartList[i].prod_detail.stock){
+     for (let i = 0; i < cartList.length; i++) {
+          if (cartList[i].cart.count > cartList[i].prod_detail.stock) {
                cartList[i].outOfStock = true;
           }
      }
-     res.render("user/cart", { cartList,error:req.flash('error')[0]});
+     res.render("user/cart", { cartList, error: req.flash('error')[0] });
 });
 
+//add to cart
 const addToCart = asyncHandler(async (req, res) => {
      const user = res.locals.userData._id;
      const product = new mongoose.Types.ObjectId(req.params.id);
@@ -52,6 +53,7 @@ const addToCart = asyncHandler(async (req, res) => {
      }
 });
 
+// decrease cart quantity
 const decCartCount = asyncHandler(async (req, res) => {
      const user_id = res.locals.userData._id;
      let user = await User.findById(user_id);
@@ -70,6 +72,8 @@ const decCartCount = asyncHandler(async (req, res) => {
           }
      }
 });
+
+// increase cart quantity
 const addCartCount = asyncHandler(async (req, res) => {
      const user_id = res.locals.userData._id;
      let user = await User.findById(user_id);
@@ -94,11 +98,12 @@ const addCartCount = asyncHandler(async (req, res) => {
                     throw error;
                }
           }
-     }else{
-     throw new Error();
+     } else {
+          throw new Error();
      }
 });
 
+// remove item from cart
 const removeCartItem = asyncHandler(async (req, res, next) => {
      const product_id = new mongoose.Types.ObjectId(req.params.id);
      const user = res.locals.userData._id;

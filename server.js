@@ -4,7 +4,6 @@ require('dotenv').config();
 const path = require('path');
 const flash = require('connect-flash')
 const hbs = require('express-handlebars');
-const handlebars = require('handlebars');
 const nocache = require('nocache');
 const session = require('express-session')
 const logger = require('morgan')
@@ -12,36 +11,30 @@ const PORT = process.env.PORT || 4000;
 const cookieParser = require('cookie-parser')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 const { isAdminLogedIn } = require('./middleware/authMiddleware');
-
-
+const adminRoute = require('./routes/admin')
+const userRoute = require('./routes/user')
+const customHelpers = require('./config/helpers.js');
 //db connectin
 const connect = require('./config/dbConnect')
 connect()
-
 //parse request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-
 app.use(logger('dev'));
-
 //connect flash
 app.use(flash())
-
 app.use(session({
-  secret:process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }))
-
 //public folder setup
 app.use(express.static(path.join(__dirname, 'public')));
 
-// view engine setup 
+// -----view engine setup --------
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
 const xhbs = hbs.create({
   layoutsDir: __dirname + '/views/layouts',
   extname: 'hbs',
@@ -52,77 +45,16 @@ const xhbs = hbs.create({
   defaultLayout: 'layout',
   partialsDir: __dirname + '/views/partials/'
 });
+// Register the custom helpers from the separate file
+customHelpers();
 app.engine('hbs', xhbs.engine);
-// Register the custom Handlebars helper for subtraction
-handlebars.registerHelper('subtract', function (num1, num2) {
-  return num1 - num2;
-});
 
-handlebars.registerHelper('firstLetter', function (str) {
-  return str[0];
-});
-
-// Register the custom Handlebars helper for addititon
-handlebars.registerHelper('add', function (num1, num2) {
-  return parseInt(num1) + parseInt(num2);
-});
-
-handlebars.registerHelper('devide', function (num1, num2) {
-  return num1 / num2;
-});
-
-handlebars.registerHelper('toDate', function (date) {
-  date = new Date(date)
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // Months are zero-based, so add 1
-  const day = date.getDate();
-  return `${year}-${month}-${day}`
-});
-
-handlebars.registerHelper('isEqual', function (str1, str2, options) {
-  if (str1 == str2) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-})
-
-handlebars.registerHelper('lessThanEquals', function (arg1, arg2, options) {
-  if (arg1 <= arg2) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-})
-
-handlebars.registerHelper('isWishlist', function (key, array, options) {
-  for (let arr of array) {
-    if (key.toString() === arr.product_id.toString()) {
-      return options.fn(this);
-    }
-  }
-  return options.inverse(this);
-})
 
 // clearing cache
 app.use(nocache())
-
 //router handler
-app.use('/', require('./routes/user'))
-app.use('/account', require('./routes/userProfile'))
-app.use('/my-cart', require('./routes/userCartRout'))
-app.use('/order', require('./routes/orderRout'))
-
-//admin
-app.use('/admin', require('./routes/admin'));
-app.use('/admin/category', require('./routes/adminCatRout'));
-app.use('/admin/products', require('./routes/adminProductRout'));
-app.use('/admin/customers', require('./routes/adminCustomerRout'));
-app.use('/admin/banner-management', require('./routes/adminBannerRout'))
-app.use('/admin/coupon-management', require('./routes/adminCouponRout'))
-app.use('/admin/orders', require('./routes/adminOrderRout'))
-app.use('/admin/sales-report', require('./routes/adminSaleReportRout'))
-
+app.use('/', userRoute) //user route
+app.use('/admin', adminRoute); //admin route
 app.use('*', isAdminLogedIn, notFound)
 app.use(errorHandler)
 

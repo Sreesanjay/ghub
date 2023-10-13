@@ -1,63 +1,76 @@
+:root {
+  --primary-background: rgb(255, 255, 255);
+  --secondary-background: #eeeeee;
+  --primary-text: rgb(7, 7, 7);
+  --secondary-text: rgb(255, 255, 255);
+  --blue-clr: #3D05AD;
+  --gray: rgb(71, 71, 71);
+}
 
-:root{
-    --primary-background:rgb(255, 255, 255);
-    --secondary-background:#eeeeee;
-    --primary-text:rgb(7, 7, 7);
-    --secondary-text:rgb(255, 255, 255);
-    --blue-clr:#3D05AD;
-    --gray:rgb(71, 71, 71);
+.blue-clr {
+  background-color: var(--blue-clr) !important;
 }
-.blue-clr{
-  background-color: var(--blue-clr)!important;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-body{
+
+body {
   position: relative;
 }
-.navbar-header{
-    text-decoration: none;
-    color: var(--blue-clr)
+
+.navbar-header {
+  text-decoration: none;
+  color: var(--blue-clr)
 }
+
 .uppercase-input {
   text-transform: uppercase;
 }
-.c-pointer{
+
+.c-pointer {
   cursor: pointer;
 }
-.context-menu {cursor: context-menu;}
-.txt-decoration-null{
-    text-decoration: none;
+
+.context-menu {
+  cursor: context-menu;
+}
+
+.txt-decoration-null {
+  text-decoration: none;
 }
 
 /*jquerry validation*/
-label.error{
-  color:rgb(229, 8, 8);
+label.error {
+  color: rgb(229, 8, 8);
 }
 
 
-.menu{
-    background-color:var(--blue-clr);
-    color:var(--secondary-text)
+.menu {
+  background-color: var(--blue-clr);
+  color: var(--secondary-text)
 }
-.user-sidebar{
-    position: sticky;
-    top: 50px;
-    width:100vw;
+
+.user-sidebar {
+  position: sticky;
+  top: 50px;
+  width: 100vw;
+}
+
+.user-sidebar .link-wraper {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .user-sidebar {
+    width: 350px;
   }
-  .user-sidebar .link-wraper{
-    display: none;
-  }
-@media only screen and (min-width: 768px)  {
-  .user-sidebar{
-    width:350px;
-  }
-  .user-sidebar .link-wraper{
+
+  .user-sidebar .link-wraper {
     display: block !important;
   }
-  
+
 }

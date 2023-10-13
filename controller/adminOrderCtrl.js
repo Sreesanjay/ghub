@@ -253,8 +253,8 @@ const changeStatus = asyncHandler(async (req, res) => {
                 await user.save()
             }
         }
-    }else if(req.body.status == 'Returned'){
-        product.returned_date= new Date()
+    } else if (req.body.status == 'Returned') {
+        product.returned_date = new Date()
         if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
             let user = await User.findById(order.user)
             if (user) {
@@ -269,10 +269,10 @@ const changeStatus = asyncHandler(async (req, res) => {
     }
     const savedOrder = await order.save()
     if (savedOrder) {
-        const alert=`Your order has been ${req.body.status} on `+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDay();
+        const alert = `Your order has been ${req.body.status} on ` + new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
         await Alert.create({
-            message:alert,
-            user:savedOrder.user
+            message: alert,
+            user: savedOrder.user
         })
         res.status(200).json({ status: 'success' })
     } else {

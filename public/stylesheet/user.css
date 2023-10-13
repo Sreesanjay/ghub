@@ -1,42 +1,54 @@
-.user-nav{
+.user-nav {
     /* border-bottom:1px solid rgb(81, 81, 81); */
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: rgb(255, 255, 255);
 }
-.user-header{
+
+.user-header {
     position: relative;
 }
-.search,.link,.logo{
+
+.search,
+.link,
+.logo {
     overflow: hidden;
 }
-.user-header .logo img{
+
+.user-header .logo img {
     width: 75px;
 }
-.user-header .logo h1{
+
+.user-header .logo h1 {
     color: var(--blue-clr)
 }
-.user-header input[type="search"]{
+
+.user-header input[type="search"] {
     border: none !important;
     width: 100%;
 }
-.user-header input[type="search"]:focus{
+
+.user-header input[type="search"]:focus {
     border: none !important;
-    outline: none !important;  
+    outline: none !important;
 }
-.user-header .search-box{
+
+.user-header .search-box {
     width: 400px !important;
 }
-.user-header .search-box i{
-    font-size:20px;
+
+.user-header .search-box i {
+    font-size: 20px;
 }
+
 /* .user-header .link{
     width: 100%;
 } */
-.user-header .navbar-nav{
-  width: 100%;
+.user-header .navbar-nav {
+    width: 100%;
 }
+
 /* @media (max-width: 450px) {
     
     .user-header .navbar-nav{
@@ -44,23 +56,24 @@
         justify-content: space-around !important;
     }
   } */
-.user-header i{
-    color:var(--blue-clr);
-    font-size:25px;
-} 
+.user-header i {
+    color: var(--blue-clr);
+    font-size: 25px;
+}
 
 /* user home */
-.container-home{
-    position:relative;
-    background-color:var(--secondary-background);
+.container-home {
+    position: relative;
+    background-color: var(--secondary-background);
 }
-.category-wraper{
+
+.category-wraper {
     background-color: var(--blue-clr);
-    border-radius:5px ;
+    border-radius: 5px;
 }
 
 
-.category-selector{
+.category-selector {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -68,14 +81,15 @@
     overflow: hidden;
 }
 
-.showmore{
-    color: var(--secondary-text)!important;
+.showmore {
+    color: var(--secondary-text) !important;
     position: absolute;
     right: 20px;
     width: 120px !important;
 }
-button.showless{
-    color: var(--secondary-text)!important;
+
+button.showless {
+    color: var(--secondary-text) !important;
     position: absolute;
     right: 20px;
     width: 120px !important;
@@ -83,23 +97,25 @@ button.showless{
 }
 
 /* profile card */
-#profile-crad{
+#profile-crad {
     position: absolute;
     right: 70px;
-    top:100%;
-    z-index: 5!important;
+    top: 100%;
+    z-index: 5 !important;
     display: none;
 }
 
 /*login*/
-.login-form .form-control{
-    width:300px !important;
+.login-form .form-control {
+    width: 300px !important;
 }
-.login-form label{
-  display:none !important;
+
+.login-form label {
+    display: none !important;
 }
-.login-form label.error{
-  display:block !important;
+
+.login-form label.error {
+    display: block !important;
     color: red;
 }
 
@@ -113,69 +129,81 @@ button.showless{
     -moz-appearance: textfield;
     appearance: textfield;
 }
+
 /*sign-up*/
-.signup-otpsection{
+.signup-otpsection {
     display: none;
 }
 
 /*my account*/
-.my-account{
+.my-account {
     width: 100%;
 }
-.my-account .old-pass{
+
+.my-account .old-pass {
     display: none;
 }
-.my-account .new-pass{
+
+.my-account .new-pass {
     display: none;
 }
+
 .my-account .up-btn {
     display: none;
 }
-.my-account .gen-info-submit-btn{
+
+.my-account .gen-info-submit-btn {
     display: none;
 }
 
 
 /*my address*/
-.my-address{
+.my-address {
     width: 100%;
 }
 
- .new-address-wrapper{
+.new-address-wrapper {
     display: none;
 }
- .address-edit-card{
+
+.address-edit-card {
     display: none;
 }
- #address-edit-card{
+
+#address-edit-card {
     display: none;
 }
 
 /*view product*/
-.image-container{
+.image-container {
     width: 500px;
     height: 500px;
     position: relative;
     overflow: hidden;
 }
-#primary-img-view{
-width: fit-content;
-min-width:200px;
-position: absolute;
-left:50%;
-right: 50%; 
-top: 50%;
-transform: translate(-50%,-50%) ;
-pointer-events: none;
+
+#primary-img-view {
+    width: fit-content;
+    min-width: 200px;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
-.secondary-img-container{
+
+.secondary-img-container {
     position: relative;
 }
-.sec-img-wrapper{
-    width:45vw;
-    overflow-x:hidden;
+
+.sec-img-wrapper {
+    width: 45vw;
+    overflow-x: hidden;
 }
-.left-img-scroll,.right-img-scroll{
+
+.left-img-scroll,
+.right-img-scroll {
     font-size: 25px;
     color: var(--blue-clr);
     z-index: 5;
@@ -183,59 +211,67 @@ pointer-events: none;
 
 .sec-img-wrapper::-webkit-scrollbar {
     display: none;
-  }
-  
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .sec-img-wrapper {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-@media only screen and (max-width: 991px){
-    .sec-img-wrapper{
-        width:80vw;
-    }
-    .image-container{
-        width: 90vw;
-    }
-    
 }
 
-@media only screen and (max-width: 400px){
-    #primary-img-view{
+/* Hide scrollbar for IE, Edge and Firefox */
+.sec-img-wrapper {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+@media only screen and (max-width: 991px) {
+    .sec-img-wrapper {
+        width: 80vw;
+    }
+
+    .image-container {
+        width: 90vw;
+    }
+
+}
+
+@media only screen and (max-width: 400px) {
+    #primary-img-view {
         width: 80vw;
     }
 }
 
-.add-to-wish-list-btn{
+.add-to-wish-list-btn {
     position: absolute;
     right: 25px;
     font-size: 25px;
 }
-.my-wishlist{
+
+.my-wishlist {
     width: 100%;
-}
-.my-wishlist .prod-wrapper{
-    width: 100%;
-}
-.my-wishlist .prod-wrapper{
-    position:relative;
-}
-.my-wishlist .add-to-cart-btn{
-    position: absolute;
-    bottom: 20px;
-    right:20px;
-}
-.my-wishlist .dlt-wishlist{
-    position:absolute;
-    right: 20px;
-    font-size:20px;
 }
 
-.my-cart .price-details{
+.my-wishlist .prod-wrapper {
+    width: 100%;
+}
+
+.my-wishlist .prod-wrapper {
+    position: relative;
+}
+
+.my-wishlist .add-to-cart-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.my-wishlist .dlt-wishlist {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+}
+
+.my-cart .price-details {
     margin-top: 56px;
 }
 
-.my-cart .order-summary .item-list input:focus{
-    outline:none;
+.my-cart .order-summary .item-list input:focus {
+    outline: none;
 }

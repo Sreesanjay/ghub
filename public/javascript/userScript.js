@@ -143,7 +143,7 @@ $(document).ready(function () {
          formData.append('user_mobile', user_mobile)
          formData.append('user_password', user_password)
          formData.append('otp', otp)
-         if(referredBy!=''){
+         if (referredBy != '') {
             formData.append('referred_by', referredBy)
          }
          const obj = Object.fromEntries(formData);
@@ -165,10 +165,10 @@ $(document).ready(function () {
          else if (data.otpErr) {
             otpErr.innerText = data.otpErr
          }
-         else if(data.referalErr){
+         else if (data.referalErr) {
             console.log("refferal error")
-            referralErr.innerText=data.referalErr
-         }else {
+            referralErr.innerText = data.referalErr
+         } else {
             throw new Error(data.message)
          }
       } catch (err) {
@@ -341,16 +341,16 @@ $(document).ready(function () {
    //edit usesr-------------------
    editUser = () => {
       let inputElement = $('input');
-      $('input').each(function() {
+      $('input').each(function () {
          let inputElement = $(this);
          if (inputElement.prop('readonly')) {
-           console.log("read only");
-           inputElement.prop('readonly', false);
+            console.log("read only");
+            inputElement.prop('readonly', false);
          } else {
-           console.log("not read only");
-           inputElement.prop('readonly', true);
+            console.log("not read only");
+            inputElement.prop('readonly', true);
          }
-       });
+      });
       $('.gen-info-submit-btn').toggle()
    }
 
@@ -358,7 +358,6 @@ $(document).ready(function () {
 
    $('.gen-info-submit-btn').on('click', () => {
       const user_name = document.getElementById('user-name-box').value
-      const user_email = document.getElementById('email-box').value
       const user_mobile = document.getElementById('mobile-box').value
       const name_err = document.querySelector('.name-err')
       const mail_err = document.querySelector('.mail-err')
@@ -366,7 +365,7 @@ $(document).ready(function () {
       name_err.textContent = ''
       mail_err.textContent = ''
       mobile_err.textContent = ''
-
+      const mob=user_mobile.toString()
       Swal.fire({
          title: 'Are you sure!',
          text: "You want to edit?",
@@ -380,99 +379,50 @@ $(document).ready(function () {
             if (user_name == '') {
                name_err.textContent = 'this field is required!'
             }
-            else if (user_email == '') {
-               mail_err.textContent = 'this field is required!'
-            }
             else if (user_mobile == '') {
                mobile_err.textContent = 'this field is required!'
-            }else if(user_mobile.length!=10){
+            } else if (user_mobile.length != 10) {
                mobile_err.textContent = 'Mobile number should be 10 digits!'
-            }else if(user_mobile.toString()=='0000000000'){
+            } 
+            else if (mob.split('').every((dig)=>dig==mob[0])) {
                mobile_err.textContent = 'Enter a valid mobile number!'
             }
             else {
-               fetch('/get-signup-otp', {
+               fetch('/account/editProfile', {
                   method: 'POST',
-                  body: JSON.stringify({ user_email }),
+                  body: JSON.stringify({
+                     user_name,
+                     user_mobile
+                  }),
                   headers: { 'Content-Type': 'application/json' }
-               }).then((response) => {
-                  return response.json();
+               }).then(response => {
+                  return response.json()
                }).then((data) => {
-                  if (data.status == 'success') {
-                     //----------------------------------------------------------------
-                     Swal.fire({
-                        title: 'Verify Email',
-                        text: `Please enter the OTP that has been sent to ${user_email}`,
-                        input: 'text',
-                        inputAttributes: {
-                           autocapitalize: 'off'
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: 'Verify',
-                        showLoaderOnConfirm: true,
-                        preConfirm: async (otp) => {
-                           return fetch('/account/editProfile', {
-                              method: 'POST',
-                              body: JSON.stringify({
-                                 user_name,
-                                 user_email,
-                                 user_mobile,
-                                 otp
-                              }),
-                              headers: { 'Content-Type': 'application/json' }
-                           }).then(response => {
-                              return response.json()
-                           }).then((data) => {
-                              console.log(data);
-                              if (data.message == 'Invalid OTP') {
-                                 throw new Error(data.message)
-                              }
-                              return data
-                           }).then((result) => {
-                              console.log(result)
-                              if (result.status == 'success') {
-                                 Swal.fire(
-                                    'Success!',
-                                    'profile edited successfully!',
-                                    'success'
-                                 ).then(() => location.assign('/account'))
-                              } else {
-                                 Swal.fire(
-                                    'Error!',
-                                    result.message,
-                                    'error'
-                                 )
-                              }
-                           }).catch(error => {
-                              Swal.showValidationMessage(error.message)
-                           })
-                        },
-                        allowOutsideClick: () => !Swal.isLoading()
-                     })
-                     //----------------------------------------------------------------
-                  } else {
+                  console.log(data);
+                  if (data.message == 'Invalid OTP') {
                      throw new Error(data.message)
                   }
-               }).catch((error) => {
-                  if (error.message == 'user already exsists') {
-                     mail_err.textContent = error.message
-                  }
-                  else {
+                  return data
+               }).then((result) => {
+                  console.log(result)
+                  if (result.status == 'success') {
+                     Swal.fire(
+                        'Success!',
+                        'profile edited successfully!',
+                        'success'
+                     ).then(() => location.assign('/account'))
+                  } else {
                      Swal.fire(
                         'Error!',
-                        error.message,
+                        result.message,
                         'error'
                      )
                   }
+               }).catch(error => {
+                  Swal.showValidationMessage(error.message)
                })
             }
-
-
          }
       })
-
-
    })
-
-
 })

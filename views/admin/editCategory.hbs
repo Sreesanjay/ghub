@@ -10,7 +10,8 @@
             <input type="hidden" value="{{category._id}}" name="id">
             <div class="form-floating mb-3 col-md-6">
 
-                <input type="text" id="form4Example1" value="{{category.cat_name}}" class="form-control" name="cat_name" />
+                <input type="text" id="form4Example1" value="{{category.cat_name}}" class="form-control"
+                    name="cat_name" />
 
                 <label class="form-label ms-2" for="form4Example1">Category name</label>
 
@@ -18,13 +19,13 @@
             <div class="form-floating mb-3 col-md-6">
 
                 <select name="cat_status" id="" class="form-control" style="width:100%;height:100%;by">
-                        {{#if category.cat_status}}
-                        <option value="true">List</option> 
-                        <option value="false">Unlist</option> 
-                        {{else}}
-                        <option value="false">Unlist</option> 
-                        <option value="true">List</option> 
-                        {{/if}}
+                    {{#if category.cat_status}}
+                    <option value="true">List</option>
+                    <option value="false">Unlist</option>
+                    {{else}}
+                    <option value="false">Unlist</option>
+                    <option value="true">List</option>
+                    {{/if}}
                 </select>
 
                 <label class="form-label ms-2" for="form4Example1">Category Status</label>

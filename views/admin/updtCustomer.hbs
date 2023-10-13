@@ -10,21 +10,24 @@
             <input type="hidden" value="{{customer._id}}" name="id">
             <div class="form-floating mb-3 col-md-6">
 
-                <input type="text" id="form4Example1" value="{{customer.user_name}}" class="form-control" name="user_namae" />
+                <input type="text" id="form4Example1" value="{{customer.user_name}}" class="form-control"
+                    name="user_namae" />
 
                 <label class="form-label ms-2" for="form4Example1">Customer Name</label>
 
             </div>
-             <div class="form-floating mb-3 col-md-6">
+            <div class="form-floating mb-3 col-md-6">
 
-                <input type="text" id="form4Example1" value="{{customer.user_email}}" class="form-control" name="user_email" />
+                <input type="text" id="form4Example1" value="{{customer.user_email}}" class="form-control"
+                    name="user_email" />
 
                 <label class="form-label ms-2" for="form4Example1">Customer Email</label>
 
             </div>
-             <div class="form-floating mb-3 col-md-6">
+            <div class="form-floating mb-3 col-md-6">
 
-                <input type="text" id="form4Example1" value="{{customer.user_mobile}}" class="form-control" name="user_mobile" />
+                <input type="text" id="form4Example1" value="{{customer.user_mobile}}" class="form-control"
+                    name="user_mobile" />
 
                 <label class="form-label ms-2" for="form4Example1">Customer Phone</label>
 
@@ -32,13 +35,13 @@
             <div class="form-floating mb-3 col-md-6">
 
                 <select name="user_status" id="" class="form-select" style="width:100%;height:100%;by">
-                        {{#if customer.user_status}}
-                        <option value="true">List</option> 
-                        <option value="false">Unlist</option> 
-                        {{else}}
-                        <option value="false">Unlist</option> 
-                        <option value="true">List</option> 
-                        {{/if}}
+                    {{#if customer.user_status}}
+                    <option value="true">List</option>
+                    <option value="false">Unlist</option>
+                    {{else}}
+                    <option value="false">Unlist</option>
+                    <option value="true">List</option>
+                    {{/if}}
                 </select>
 
                 <label class="form-label ms-2" for="form4Example1">Category Status</label>

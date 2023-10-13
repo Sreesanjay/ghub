@@ -93,11 +93,11 @@
             sum += parseFloat($(this).text());
         });
         //find total disc
-        let disc=0;
+        let disc = 0;
         $(".order-disc").each(function () {
             disc += parseFloat($(this).text());
         });
-        $('#sales-total').text('₹'+(sum-disc))
+        $('#sales-total').text('₹' + (sum - disc))
     })
 
 </script>

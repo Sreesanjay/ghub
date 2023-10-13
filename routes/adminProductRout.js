@@ -14,26 +14,26 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../public/Images/Products'));
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + file.originalname+ Date.now() + path.extname(file.originalname));
+    cb(null, file.fieldname + "-" + file.originalname + Date.now() + path.extname(file.originalname));
   },
 });
 
 const multipleUpload = multer({
-  storage:storage,
+  storage: storage,
 }).fields([{ name: 'primary_img', maxCount: 1 }, { name: 'secondary_img', maxCount: 8 }])
 
 
 
 router.get('/', isAdminLogedIn, adminProdCtrl.getProducts)
 //new product
-router.get('/new-product', isAdminLogedIn,adminProdCtrl.newProduct)
-router.post('/new-product',multipleUpload,adminProdCtrl.storeProduct)
+router.get('/new-product', isAdminLogedIn, adminProdCtrl.newProduct)
+router.post('/new-product', multipleUpload, adminProdCtrl.storeProduct)
 //delete product
 router.delete('/delete-product/:id', isAdminLogedIn, adminProdCtrl.deleteProduct)
 //view product
 router.get('/view-product/:id', isAdminLogedIn, adminProdCtrl.viewProduct)
 //edit product
 router.get('/edit-product/:id', isAdminLogedIn, adminProdCtrl.getEditProduct)
-router.put('/edit-product/:id', isAdminLogedIn,multipleUpload,adminProdCtrl.editProduct)
+router.put('/edit-product/:id', isAdminLogedIn, multipleUpload, adminProdCtrl.editProduct)
 
 module.exports = router;

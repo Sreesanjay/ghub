@@ -20,7 +20,7 @@ const getDashboard = asyncHandler(async (req, res) => {
             }
         },
     ])
-    let totalSales=orders.reduce((acc,order)=>{
+    let totalSales = orders.reduce((acc, order) => {
         let price;
         if (order.products.discount) {
             price = order.products.price - order.products.discount
@@ -28,17 +28,17 @@ const getDashboard = asyncHandler(async (req, res) => {
             price = order.products.price
         }
         console.log(price)
-        return acc+price;
-    },0)
+        return acc + price;
+    }, 0)
 
     //user count
-    const userCount=await User.countDocuments({})
+    const userCount = await User.countDocuments({})
     //product count
-    const prodCount=await Product.countDocuments({is_delete:false})
-    res.render('admin/dashboard',{totalSales,userCount,prodCount})
+    const prodCount = await Product.countDocuments({ is_delete: false })
+    res.render('admin/dashboard', { totalSales, userCount, prodCount })
 })
 
-const getRevenue=asyncHandler(async(req,res)=>{
+const getRevenue = asyncHandler(async (req, res) => {
     let orders = await Order.aggregate([
         {
             $unwind: {
@@ -52,7 +52,7 @@ const getRevenue=asyncHandler(async(req,res)=>{
         },
     ])
     let year;
-    let revenue = [0,0,0,0,0,0,0,0,0,0,0,0]
+    let revenue = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     if (req.query.year) {
         year = req.query.year;
     } else {
@@ -80,7 +80,7 @@ const getRevenue=asyncHandler(async(req,res)=>{
                 revenue[1] = revenue[1] + price;
                 break;
             case 3:
-                revenue[2]= revenue[2]+ price;
+                revenue[2] = revenue[2] + price;
                 break;
             case 4:
                 revenue[3] = revenue[3] + price;
@@ -89,10 +89,10 @@ const getRevenue=asyncHandler(async(req,res)=>{
                 revenue[4] = revenue[4] + price;
                 break;
             case 6:
-                revenue[5]= revenue[5] + price;
+                revenue[5] = revenue[5] + price;
                 break;
             case 7:
-                revenue[6]= revenue[6] + price;
+                revenue[6] = revenue[6] + price;
                 break;
             case 8:
                 revenue[7] = revenue[7] + price;

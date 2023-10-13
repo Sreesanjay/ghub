@@ -1,14 +1,14 @@
 const express = require('express')
 var router = express.Router();
 //admin authentication       
-const adminAuthCtrl=require('../controller/adminAuthCtrl')
-const adminCustomerCtrl=require('../controller/adminCustomerCtrl')
+const adminAuthCtrl = require('../controller/adminAuthCtrl')
+const adminCustomerCtrl = require('../controller/adminCustomerCtrl')
 //admin controller 
-const adminCtrl=require('../controller/adminCtrl')
+const adminCtrl = require('../controller/adminCtrl')
 //auth middleware
-const {isAdminLogedIn} =require('../middleware/authMiddleware');
+const { isAdminLogedIn } = require('../middleware/authMiddleware');
 
-router.get('/',isAdminLogedIn,adminCustomerCtrl.getCustomers)
-router.get('/block-customer/:id',isAdminLogedIn,adminCustomerCtrl.blockCustomer)
-router.get('/unblock-customer/:id',isAdminLogedIn,adminCustomerCtrl.unblockCustomer)
-module.exports=router;
+router.get('/', isAdminLogedIn, adminCustomerCtrl.getCustomers)
+router.get('/block-customer/:id', isAdminLogedIn, adminCustomerCtrl.blockCustomer)
+router.get('/unblock-customer/:id', isAdminLogedIn, adminCustomerCtrl.unblockCustomer)
+module.exports = router;

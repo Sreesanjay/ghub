@@ -26,7 +26,6 @@
     #output {
         margin: 0 5px;
     }
-   
 </style>
 
 <section class="new-product p-md-5">
@@ -44,7 +43,7 @@
                             <input type="file" class=" form-control mt-2" accept=".jpeg,.png,.jpg,.webp"
                                 id="primary_img" required />
                             <label for="primary_img" class="mb-3">Primary image</label>
-                            <input type="hidden" name="primary_img" id="result"/>
+                            <input type="hidden" name="primary_img" id="result" />
                         </div>
 
                         <div for="secondary_img" class="my-2">
@@ -78,7 +77,8 @@
             </div>
             <div class="row mb-4">
                 <div class="form-group col-md-6">
-                    <input type="text" name="brand_name" class="form-control uppercase-input" required oninput="this.value = this.value.toUpperCase();">
+                    <input type="text" name="brand_name" class="form-control uppercase-input" required
+                        oninput="this.value = this.value.toUpperCase();">
                     <label for="">Brand Name</label>
                 </div>
                 <div class="form-group col-md-6 d-flex flex-column">

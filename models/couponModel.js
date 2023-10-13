@@ -35,7 +35,7 @@ const couponSchema = new mongoose.Schema(
                default: false,
           },
           user_list: [
-               {   
+               {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "User",
                },

@@ -1,12 +1,15 @@
 header {
      background-color: var(--secondary-background);
 }
+
 .navbar .logo img {
      width: 80px;
 }
+
 .admin-login-form button {
      background-color: var(--secondary-background);
 }
+
 /* forgot password */
 .forgot-pass-verifier {
      min-height: 80vh;
@@ -15,25 +18,32 @@ header {
 .forgot-pass-verifier button {
      background-color: var(--secondary-background);
 }
+
 .forgot-pass-verifier .verify-wrapper {
      min-height: 50vh;
 }
+
 .forgot-pass-verifier button:hover {
      background-color: rgb(245, 245, 245);
 }
+
 .forgot-pass-verifier #otp-wraper {
      display: none;
 }
+
 /* reset password  */
 .reset-pass .pass-box {
      box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 }
+
 .reset-pass .pass-box button {
      background-color: var(--secondary-background);
 }
+
 #admin-newpass .error {
      color: rgb(240, 2, 2);
 }
+
 .log-out {
      font-size: 20px;
 }
@@ -49,12 +59,15 @@ header {
      top: 10px;
      z-index: 10;
 }
+
 .admin-side-bar .nav-item {
      transform-origin: left;
 }
+
 .admin-side-bar .nav-item:hover {
      transform: scale(1.1);
 }
+
 .side-bar-icon {
      width: 25px;
      height: 25px;
@@ -66,20 +79,24 @@ header {
      font-size: 20px;
      color: var(--gray);
 }
+
 .sidebar-footer {
      width: 100%;
      height: 50px;
      background-color: var(--gray);
      color: var(--secondary-text);
 }
+
 .sidebar-footer .dropdown-menu {
      background-color: var(--gray);
      width: 17vw;
      color: var(--secondary-text);
 }
+
 .sidebar-footer .dropdown-menu a:hover {
      background-color: rgb(109, 109, 109);
 }
+
 .sidebar-footer button:focus {
      border: none;
 }
@@ -89,6 +106,7 @@ div.dataTables_wrapper input[type="search"] {
      width: 250px !important;
      height: 40px !important;
 }
+
 /*new category*/
 .new-category textarea {
      min-height: 150px !important;
@@ -117,13 +135,16 @@ div.dataTables_wrapper input[type="search"] {
 .new-product input[type="file"]::file-selector-button:active {
      background-color: #e5e7eb;
 }
+
 .new-product .new-spec-input {
      display: none;
 }
+
 /*edit product*/
 .edit-product .body {
      width: 100%;
 }
+
 .edit-product .left-side {
      height: fit-content;
      position: sticky;
@@ -134,6 +155,7 @@ div.dataTables_wrapper input[type="search"] {
 .new-banner {
      width: 100%;
 }
+
 .new-banner form {
      width: 100%;
 }
@@ -144,18 +166,20 @@ div.dataTables_wrapper input[type="search"] {
 }
 
 .table-container {
-    overflow-x: scroll;
+     overflow-x: scroll;
 }
 
 @media only screen and (max-width: 670px) {
      .forgot-img {
           width: 70vw;
      }
+
      header .logo img {
           width: 60px;
      }
-     .form-control{
-        width:auto;
+
+     .form-control {
+          width: auto;
      }
 }
 
@@ -163,24 +187,30 @@ div.dataTables_wrapper input[type="search"] {
      .admin-side-bar .sidebar-list {
           display: none;
      }
+
      .admin-side-bar {
           top: 0;
      }
+
      .category {
           overflow: hidden;
      }
-     .sidebar-btn{
+
+     .sidebar-btn {
           display: block;
      }
-     .edit-product .left-side{
-        position: relative;
+
+     .edit-product .left-side {
+          position: relative;
      }
 }
+
 @media only screen and (min-width: 769px) {
      .admin-side-bar .sidebar-list {
           display: block !important;
      }
-     .sidebar-btn{
+
+     .sidebar-btn {
           display: none !important;
      }
 

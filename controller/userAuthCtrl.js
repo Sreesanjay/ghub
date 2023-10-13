@@ -6,10 +6,12 @@ const { sendMail } = require("../config/nodeMailer");
 const asyncHandler = require("express-async-handler");
 const crypto = require('crypto');
 const Alert = require("../models/alertModel");
+
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
      return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
 };
+
 //otp generator
 const otpgenerateOtp = () => {
      const otpLength = 6; // You can change this length as needed
@@ -20,6 +22,7 @@ const otpgenerateOtp = () => {
      }
      return otp.toString();
 };
+
 //referal code generator
 const genReferalCode = (body) => {
      const currentDate = new Date().toISOString();
@@ -30,6 +33,7 @@ const genReferalCode = (body) => {
      const referralCode = hash.substring(0, 8);
      return referralCode;
 }
+
 //login
 const getLoginPage = asyncHandler(async (req, res) => {
      const token = req.cookies.userToken;
@@ -77,6 +81,7 @@ const getSignUpPage = async (req, res) => {
           error: req.flash("error")[0],
      });
 };
+
 const genOtp = asyncHandler(async (req, res) => {
      const email = req.body.user_email;
      const userExsist = await User.findOne({ user_email: email });
@@ -87,9 +92,9 @@ const genOtp = asyncHandler(async (req, res) => {
      } else {
           let otp = otpgenerateOtp();
           const mailOptions = {
-               from: "sreesanjay7592sachu@gmail.com", // sender address
+               from: "sreesanjay7592sachu@gmail.com", 
                to: email, // list of receivers
-               subject: "Registration to GHUB", // Subject line
+               subject: "Registration to GHUB",
                text: `your otp for email verification is ${otp}`,
           };
           otp = await bcrypt.hash(otp, 10);
@@ -146,9 +151,9 @@ const registerUser = asyncHandler(async (req, res) => {
                          };
                          sendMail(mailOptions)
                          await Alert.create({
-                              message:'Congratulations, You got 50 rupees from Ghub referal policy',
-                              user:referredBy._id
-                          })
+                              message: 'Congratulations, You got 50 rupees from Ghub referal policy',
+                              user: referredBy._id
+                         })
                          await User.create(req.body);
                          res.json({ status: "success" });
                     } else {

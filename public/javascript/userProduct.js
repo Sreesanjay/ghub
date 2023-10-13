@@ -276,11 +276,11 @@ $(function () {
     //open coupon selector
     $('#check-coupon').on('click', (e) => {
         e.preventDefault()
-        const total=document.getElementById('total_price').value
+        const total = document.getElementById('total_price').value
         console.log(total)
-        if(parseInt(total)>=30000){
+        if (parseInt(total) >= 30000) {
             $('.coupon-select-wrapper').toggle()
-        }else{
+        } else {
             Swal.fire(
                 'Failed',
                 'Minimum Cart price to apply coupon is ₹30000',
@@ -298,14 +298,14 @@ $(function () {
     getCheckout = (e) => {
         let quantity = document.getElementsByName('quantity')
         let stock = document.getElementsByName('stock')
-        const total=document.getElementById('cart_total').value  //for checking cart is empty or not
-        if(total < 1){
+        const total = document.getElementById('cart_total').value  //for checking cart is empty or not
+        if (total < 1) {
             e.preventDefault()
-                Swal.fire(
-                    'Failed',
-                    'Cart is empty!',
-                    'error'
-                )
+            Swal.fire(
+                'Failed',
+                'Cart is empty!',
+                'error'
+            )
         }
 
         //checking is there any product in out of stock
@@ -352,7 +352,7 @@ $(function () {
     })
 
 
-    
+
     setImgView = (id) => {
         let imagePath = $('#' + id).attr('src');
         let primary_img_path = $('#primary-img-view').attr('src');

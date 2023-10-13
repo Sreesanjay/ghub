@@ -1,10 +1,7 @@
 const Product = require("../models/productModel");
 const User = require("../models/userModel");
-const Category = require("../models/categoryModel");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
-const Address = require("../models/addressModel");
-const Coupon = require("../models/couponModel");
 
 //get cart
 const getCart = asyncHandler(async (req, res, next) => {

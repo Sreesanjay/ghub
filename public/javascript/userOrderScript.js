@@ -34,10 +34,10 @@ $(function () {
         let address = document.getElementsByName('delivery_address')
         let payment = document.getElementsByName('payment_option')
         let coupon = document.getElementById('coupon-id')
-        let product=document.getElementById('single-product')
+        let product = document.getElementById('single-product')
         let body = {};
         let paymentflag = 0;
-        let url='/order/proceed-order'
+        let url = '/order/proceed-order'
 
         address.forEach((add) => {
             if (add.checked) {
@@ -60,8 +60,8 @@ $(function () {
         if (coupon?.value) {
             body.coupon_id = coupon.value
         }
-        if(product){
-            body.product=product.value
+        if (product) {
+            body.product = product.value
         }
 
         fetch(url, {
@@ -92,8 +92,8 @@ $(function () {
                         "color": "#3399cc"
                     },
                     "handler": function (response) {
-                        if(data.nonCartPurchase){
-                            response.nonCartPurchase=true
+                        if (data.nonCartPurchase) {
+                            response.nonCartPurchase = true
                         }
                         fetch('/order/payment/verify-payment', {
                             method: 'POST',

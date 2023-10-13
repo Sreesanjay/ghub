@@ -22,45 +22,6 @@ const getHomePage = asyncHandler(async (req, res) => {
           starting_date: { $lte: new Date() },
           exp_date: { $gt: new Date() },
      });
-     // const category = await Category.aggregate([
-     //      {
-     //           $lookup: {
-     //                from: "products",
-     //                localField: "_id",
-     //                foreignField: "category",
-     //                as: "products",
-     //                pipeline: [
-     //                     {
-     //                          $match: {
-     //                               is_delete: false,
-     //                               product_status: true,
-     //                          },
-     //                     },
-     //                ],
-     //           },
-     //      },
-     //      {
-     //           $match: {
-     //                $expr: { $ne: [{ $size: "$products" }, 0] },
-     //           },
-     //      },
-     //      {
-     //           $unwind: {
-     //                path: '$products'
-     //           }
-     //      },
-     //      {
-     //           $sort: {
-     //                'products.createdAt': 1
-     //           }
-     //      },
-     //      {
-     //           $group: {
-     //                _id: '$cat_name',
-     //                products: { $push: '$products' }
-     //           }
-     //      },
-     // ]);
 
      const category = await Category.aggregate([
           {
@@ -82,7 +43,7 @@ const getHomePage = asyncHandler(async (req, res) => {
                               }
                          },
                          {
-                              $limit: 8 // Limit to 5 products per category
+                              $limit: 8
                          },
                     ],
                },
@@ -104,21 +65,22 @@ const getHomePage = asyncHandler(async (req, res) => {
                }
           },
      ]);
-     const topOrders=await Order.aggregate([
+
+     const topOrders = await Order.aggregate([
           {
-               $unwind:'$products'
+               $unwind: '$products'
           },
           {
-               $project:{
-                    product:'$products.product'
+               $project: {
+                    product: '$products.product'
                }
           },
           {
-               $lookup:{
-                    from:'products',
-                    localField:'product',
-                    foreignField:'_id',
-                    as:'products',
+               $lookup: {
+                    from: 'products',
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'products',
                     pipeline: [
                          {
                               $match: {
@@ -127,7 +89,7 @@ const getHomePage = asyncHandler(async (req, res) => {
                               },
                          },
                          {
-                              $lookup:{
+                              $lookup: {
                                    from: 'reviewrates',
                                    localField: '_id',
                                    foreignField: 'product',
@@ -136,45 +98,45 @@ const getHomePage = asyncHandler(async (req, res) => {
                          },
                          {
                               $addFields: {
-                                totalRating: { $sum: "$reviews.rating" } 
+                                   totalRating: { $sum: "$reviews.rating" }
                               }
                          }
                     ]
                }
           },
           {
-               $project:{
-                    products:1,
-                    _id:0
+               $project: {
+                    products: 1,
+                    _id: 0
                }
           },
           {
-               $unwind:{
-                    path:'$products'
+               $unwind: {
+                    path: '$products'
                }
           },
           {
                $group: {
-                 _id: '$products._id', // Group by product ID to avoid duplicates
-                 products: { $first: '$products' },
-                 count: { $sum: 1 } 
+                    _id: '$products._id',
+                    products: { $first: '$products' },
+                    count: { $sum: 1 }
                }
           },
           {
-               $sort:{count:-1}
+               $sort: { count: -1 }
           },
           {
-               $limit:8
+               $limit: 8
           }
 
      ])
 
-     for(let order of topOrders){
-          if(order.products.totalRating){
-               order.products.totalRating=order.products.totalRating/order.products.reviews.length
+     for (let order of topOrders) {
+          if (order.products.totalRating) {
+               order.products.totalRating = order.products.totalRating / order.products.reviews.length
           }
      }
-     
+
      res.render("user/homePage", {
           brands,
           category,

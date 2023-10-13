@@ -1,27 +1,31 @@
 <style>
-     .new-banner{
+    .new-banner {
         position: relative;
     }
-#image{
-    display: block;
-    width: 500px;
-    height: 400px;
-    max-width: 100%;
-}
-#preview-img{
-    display: none;
-}
-.crop-container{
-    position: absolute;
-    top: 50%;  
-    left: 50%; 
-    transform: translate(-50%, -50%);
-    padding: 10px;
-    display: none;
-}
-#output{
-    margin: 0 5px;
-}
+
+    #image {
+        display: block;
+        width: 500px;
+        height: 400px;
+        max-width: 100%;
+    }
+
+    #preview-img {
+        display: none;
+    }
+
+    .crop-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        display: none;
+    }
+
+    #output {
+        margin: 0 5px;
+    }
 </style>
 
 <section class="new-banner p-5 ">
@@ -32,7 +36,7 @@
             <div class="form-group mb-4">
                 <label for="">Banner Type</label>
                 <select name="banner_type" class="form-select" id="">
-                    <option value="{{banner.banner_type}}" selected>{{banner.banner_type}}</option>            
+                    <option value="{{banner.banner_type}}" selected>{{banner.banner_type}}</option>
                     <option value="Upcoming Sales">Upcoming Sales</option>
                     <option value="Upcoming Launches">Upcoming Launches</option>
                     <option value="Just Launched">Just Launched</option>
@@ -40,7 +44,8 @@
             </div>
             <div class="form-group mb-4">
                 <label for="">Banner URL</label>
-                <input type="text" class="form-control" placeholder="Enter the url" name="reference" value="{{banner.reference}}">
+                <input type="text" class="form-control" placeholder="Enter the url" name="reference"
+                    value="{{banner.reference}}">
             </div>
             <div class="form-group mb-4">
                 <label for="">Banner Category</label>
@@ -55,22 +60,22 @@
         <div class="right-section col-sm-6">
             <div class="form-group mb-4">
                 <label for="">Starting Date</label>
-                <input type="date" class="form-control" id="st_date" placeholder="Banner Name" value="{{banner.st_date}}" name="starting_date"
-                    required>
+                <input type="date" class="form-control" id="st_date" placeholder="Banner Name"
+                    value="{{banner.st_date}}" name="starting_date" required>
             </div>
             <div class="form-group mb-4">
                 <label for="">Exp. Date</label>
-                <input type="date" class="form-control" id="exp_date" value="{{banner.expdate}}" placeholder="Banner Name" name="exp_date"
-                    required>
+                <input type="date" class="form-control" id="exp_date" value="{{banner.expdate}}"
+                    placeholder="Banner Name" name="exp_date" required>
             </div>
             <div class="form-group mb-4">
                 <div>
-                <label for="">Banner Image</label>
-                <div class="d-flex">
-                <img src="/Images/Banners/{{banner.image.filename}}" alt="" width="100" id="prev">
-                <input type="file" class="form-control ms-2" placeholder="Banner Name" id="banner-image">
-                </div>
-                <input type="hidden" name="image" id="result">
+                    <label for="">Banner Image</label>
+                    <div class="d-flex">
+                        <img src="/Images/Banners/{{banner.image.filename}}" alt="" width="100" id="prev">
+                        <input type="file" class="form-control ms-2" placeholder="Banner Name" id="banner-image">
+                    </div>
+                    <input type="hidden" name="image" id="result">
                 </div>
             </div>
         </div>
@@ -80,12 +85,12 @@
         </div>
     </form>
     <div class="crop-container card shadow" id="crp-container">
-    <div>
-        <img src="" id="image" alt="" width="200" height="200px">
-        <button id="cropImageBtn" class="btn btn-primary mt-3">Crop Image</button>
+        <div>
+            <img src="" id="image" alt="" width="200" height="200px">
+            <button id="cropImageBtn" class="btn btn-primary mt-3">Crop Image</button>
+        </div>
     </div>
-    </div>
-    
+
 </section>
 
 <script>

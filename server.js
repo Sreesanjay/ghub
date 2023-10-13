@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(logger('dev'));
 //connect flash
 app.use(flash())
+//session
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -49,13 +50,12 @@ const xhbs = hbs.create({
 customHelpers();
 app.engine('hbs', xhbs.engine);
 
-
 // clearing cache
 app.use(nocache())
 //router handler
 app.use('/', userRoute) //user route
 app.use('/admin', adminRoute); //admin route
-app.use('*', isAdminLogedIn, notFound)
+app.use('*',notFound)
 app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));

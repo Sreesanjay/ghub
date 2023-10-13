@@ -1,17 +1,15 @@
-const Category = require("../models/categoryModel");
-const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const OTP = require("../models/otpModel");
-const Address = require("../models/addressModel");
-const Product = require("../models/productModel");
 const bcrypt = require("bcrypt");
 const asyncHandler = require("express-async-handler");
+//models
+const OTP = require("../models/otpModel");
+const Address = require("../models/addressModel");
+const Category = require("../models/categoryModel");
+const User = require("../models/userModel");
 const ReviewRate = require("../models/reviewRatingModel");
-
+const Product = require("../models/productModel");
 const Order = require("../models/orderModel");
 const Coupon = require("../models/couponModel");
-const Payment = require("../models/paymentModel");
-const { getAllOrders } = require("./adminOrderCtrl");
 const Alert = require("../models/alertModel");
 
 const getMyAccount = asyncHandler(async (req, res) => {
@@ -34,12 +32,12 @@ const getMyAccount = asyncHandler(async (req, res) => {
                },
           },
      ]);
-     const referals=await User.find({referred_by:res.locals.userData._id})
-     let referalAmt=0;
-     if(referals.length>0){
-          referalAmt = referals.length*50
+     const referals = await User.find({ referred_by: res.locals.userData._id })
+     let referalAmt = 0;
+     if (referals.length > 0) {
+          referalAmt = referals.length * 50
      }
-     res.render("user/myAccount", { category, user, account: true ,referalAmt});
+     res.render("user/myAccount", { category, user, account: true, referalAmt });
 });
 
 const verifyOldPass = asyncHandler(async (req, res) => {
@@ -74,27 +72,16 @@ const changePassword = asyncHandler(async (req, res) => {
 
 //POST requset for edit profile
 const editProfile = asyncHandler(async (req, res, next) => {
-     const checkOtp = await OTP.findOne({ email: req.body.user_email });
-     if (checkOtp) {
-          const cmp = await bcrypt.compare(req.body.otp, checkOtp.otp);
-          delete req.body.otp;
-          if (cmp) {
-               const newUser = await User.findByIdAndUpdate(
-                    res.locals.userData._id,
-                    req.body,
-                    { new: true }
-               );
-               console.log(newUser);
-               if (newUser) {
-                    res.status(200).json({ status: "success" });
-               } else {
-                    throw new Error();
-               }
-          } else {
-               const error = new Error("Invalid OTP");
-               error.statusCode = 400;
-               throw error;
-          }
+     const newUser = await User.findByIdAndUpdate(
+          res.locals.userData._id,
+          req.body,
+          { new: true }
+     );
+     console.log(newUser);
+     if (newUser) {
+          res.status(200).json({ status: "success" });
+     } else {
+          throw new Error();
      }
 });
 
@@ -276,45 +263,45 @@ const addReviewRaing = asyncHandler(async (req, res) => {
 
 
 //request for all reviews&rating of user
-const getMyReviews=asyncHandler(async(req,res)=>{
-     const review_ratings=await ReviewRate.aggregate([
+const getMyReviews = asyncHandler(async (req, res) => {
+     const review_ratings = await ReviewRate.aggregate([
           {
-               $match:{
-                    user:res.locals.userData._id
+               $match: {
+                    user: res.locals.userData._id
                }
           },
           {
-               $lookup:{
-                    from:'products',
-                    localField:'product',
-                    foreignField:'_id',
-                    as:'product'
+               $lookup: {
+                    from: 'products',
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'product'
                }
           },
           {
-               $unwind:{
-                    path:'$product'
+               $unwind: {
+                    path: '$product'
                }
-          },{
-               $match:{
-                    'product.is_delete':false
+          }, {
+               $match: {
+                    'product.is_delete': false
                }
           }
      ])
      console.log(review_ratings)
-     res.render('user/myReviews',{account:true,review_ratings})
+     res.render('user/myReviews', { account: true, review_ratings })
 })
 
-const deleteReview=asyncHandler(async(req,res)=>{
+const deleteReview = asyncHandler(async (req, res) => {
      await ReviewRate.findByIdAndDelete(req.params.id)
      res.json({
-          status:'success'
+          status: 'success'
      })
 })
-const getNotifications=asyncHandler(async(req,res)=>{
-     const alert=await Alert.find({user:res.locals.userData._id}).sort({createdAt:-1})
+const getNotifications = asyncHandler(async (req, res) => {
+     const alert = await Alert.find({ user: res.locals.userData._id }).sort({ createdAt: -1 })
      console.log(alert)
-     res.render('user/myNotification',{account:true,alert})
+     res.render('user/myNotification', { account: true, alert })
 })
 
 module.exports = {

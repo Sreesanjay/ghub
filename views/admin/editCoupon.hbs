@@ -1,57 +1,58 @@
 <div class="container py-5 w mb-5 new-category">
-    
-        <h3 class="mb-3">Edit Coupon</h3>
-          <form class="p-md-5 border rounded-3 bg-body-tertiary" id="edit-coupon">
 
-            <!-- Name input -->
-            <div class="err mb-3 text-danger"></div>
-            <div class="row mb-3">
-                <input type="hidden" value="{{coupon._id}}" id="cp-id">
-                <div class="form-group col-6">
-                    <label for="">Cupon Code</label>
-                    <input type="text" class="form-control" value="{{coupon.coupon_code}}" name="coupon_code">
-                </div>
-                <div class="form-group col-6">
-                    <label for="">Discount</label>
-                    <input type="number" class="form-control" value="{{coupon.discount}}" name="discount">
-                </div>
-                 <div class="form-group col-6">
-                    <label for="">starting date</label>
-                    <input type="date" class="form-control" id="start_date" value="{{coupon.start_date}}" name="start_date">
-                </div>
-                <div class="form-group col-6">
-                    <label for="">exp. date</label>
-                    <input type="date" class="form-control" id="exp_date" value="{{coupon.exp_date}}" name="exp_date">
-                </div>
-                 <div class="form-group col-6">
-                    <label for="">Maximum count</label>
-                    <input type="number" class="form-control " value="{{coupon.max_count}}" name="max_count">
-                </div>
+    <h3 class="mb-3">Edit Coupon</h3>
+    <form class="p-md-5 border rounded-3 bg-body-tertiary" id="edit-coupon">
+
+        <!-- Name input -->
+        <div class="err mb-3 text-danger"></div>
+        <div class="row mb-3">
+            <input type="hidden" value="{{coupon._id}}" id="cp-id">
+            <div class="form-group col-6">
+                <label for="">Cupon Code</label>
+                <input type="text" class="form-control" value="{{coupon.coupon_code}}" name="coupon_code">
             </div>
-
-
-            <!-- discription input -->
-
-            <div class="form-floating mb-3">
-
-              <textarea class="form-control text-area" id="exampleFormControlTextarea1" name="discription" rows="3">{{coupon.discription}}</textarea>
-
-              <label class="form-label" for="form4Example3">Discription</label>
-
+            <div class="form-group col-6">
+                <label for="">Discount</label>
+                <input type="number" class="form-control" value="{{coupon.discount}}" name="discount">
             </div>
+            <div class="form-group col-6">
+                <label for="">starting date</label>
+                <input type="date" class="form-control" id="start_date" value="{{coupon.start_date}}" name="start_date">
+            </div>
+            <div class="form-group col-6">
+                <label for="">exp. date</label>
+                <input type="date" class="form-control" id="exp_date" value="{{coupon.exp_date}}" name="exp_date">
+            </div>
+            <div class="form-group col-6">
+                <label for="">Maximum count</label>
+                <input type="number" class="form-control " value="{{coupon.max_count}}" name="max_count">
+            </div>
+        </div>
 
-            <!-- Submit button -->
-             <button type="reset" class="btn btn-lg btn-danger px-5">Clear</button>
-             <button type="submit" class="btn btn-lg btn-primary px-5">Submit</button>
 
-          </form>
+        <!-- discription input -->
+
+        <div class="form-floating mb-3">
+
+            <textarea class="form-control text-area" id="exampleFormControlTextarea1" name="discription"
+                rows="3">{{coupon.discription}}</textarea>
+
+            <label class="form-label" for="form4Example3">Discription</label>
+
+        </div>
+
+        <!-- Submit button -->
+        <button type="reset" class="btn btn-lg btn-danger px-5">Clear</button>
+        <button type="submit" class="btn btn-lg btn-primary px-5">Submit</button>
+
+    </form>
 </div>
 <script>
     // Get the current date in "YYYY-MM-DD" format
     /*const currentDate = new Date().toISOString().split('T')[0];*/
     // Set the minimum date for the input element to the current date
-   /* document.getElementById('exp_date').setAttribute('min', currentDate);
-    document.getElementById('start_date').setAttribute('min', currentDate);*/
+    /* document.getElementById('exp_date').setAttribute('min', currentDate);
+     document.getElementById('start_date').setAttribute('min', currentDate);*/
 
 
 </script>

@@ -55,13 +55,13 @@ module.exports.isUserLogedIn = (req, res, next) => {
           );
      } else {
 
-          if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept && req.headers.accept.includes('application/json') ) {
+          if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept && req.headers.accept.includes('application/json')) {
                const error = new Error('Unauthorized! Please login to continue');
-               error.statusCode=401;
+               error.statusCode = 401;
                throw error;
-             } else {
+          } else {
                res.redirect('/login');
-             }
+          }
      }
 };
 

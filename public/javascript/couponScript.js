@@ -2,17 +2,17 @@ $(function () {
     $.validator.addMethod(
         "positive",
         function (value, element) {
-             return parseFloat(value) >= 0;
+            return parseFloat(value) >= 0;
         },
         "Please enter a positive number"
-   );
-   $.validator.addMethod(
-    "lessThan100",
-    function (value, element) {
-         return parseFloat(value) <= 100;
-    },
-    "Please enter a percentage value."
-);
+    );
+    $.validator.addMethod(
+        "lessThan100",
+        function (value, element) {
+            return parseFloat(value) <= 100;
+        },
+        "Please enter a percentage value."
+    );
     $('#new-coupon').validate({
         rules: {
             coupon_code: {
@@ -20,15 +20,15 @@ $(function () {
             },
             discount: {
                 required: true,
-                digits:true,
-                positive:true,
-                lessThan100:true
+                digits: true,
+                positive: true,
+                lessThan100: true
             },
             max_count: {
                 required: true,
-                min:1
+                min: 1
             },
-            discription:{
+            discription: {
                 required: true
             }
         },
@@ -83,9 +83,9 @@ $(function () {
             },
             discount: {
                 required: true,
-                positive:true,
-                digits:true,
-                lessThan100:true
+                positive: true,
+                digits: true,
+                lessThan100: true
             },
             max_count: {
                 required: true,

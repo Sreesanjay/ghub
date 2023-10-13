@@ -191,16 +191,17 @@
             <div class="card-body">
               <h5 class="card-title">Similar items</h5>
               {{#each rel_product}}
-                <div class="d-flex">
-                  <a href="/view-product/{{this._id}}" class="me-3"><img src="/Images/Products/{{this.primary_img.filename}}"
-                      style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                  </a>
-                  <div class="info">
-                    <a href="/view-product/{{this._id}}" class="nav-link mb-1">{{this.product_name}} <br>
+              <div class="d-flex">
+                <a href="/view-product/{{this._id}}" class="me-3"><img
+                    src="/Images/Products/{{this.primary_img.filename}}" style="min-width: 96px; height: 96px;"
+                    class="img-md img-thumbnail" />
+                </a>
+                <div class="info">
+                  <a href="/view-product/{{this._id}}" class="nav-link mb-1">{{this.product_name}} <br>
                     <strong class="text-dark">₹{{this.sellig_price}}</strong>
-                    </a>
-                  </div>
+                  </a>
                 </div>
+              </div>
               {{/each}}
             </div>
           </div>

@@ -47,9 +47,9 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           ]);
           let prodTotal = 0;
           for (prod of cartList) {
-               if(prod.cart.count>prod.prod_detail.stock){
+               if (prod.cart.count > prod.prod_detail.stock) {
                     console.log("stock limit exceeded")
-                    req.flash('error','stock limit exceeded! remove those products from cart')
+                    req.flash('error', 'stock limit exceeded! remove those products from cart')
                     res.redirect('/my-cart')
                }
                prod.price = prod.prod_detail.sellig_price * prod.cart.count;
@@ -103,7 +103,7 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
      order.products = [];
      if (req.body.product) {
           let prod = await Product.findById(req.body.product);
-          if(prod.stock<1){
+          if (prod.stock < 1) {
                throw new Error('product is out of stock!')
           }
           const products = {
@@ -115,7 +115,7 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
      } else {
           for (let i = 0; i < cart.length; i++) {
                let prod = await Product.findById(cart[i].product_id);
-               if(prod.stock<cart[i].count){
+               if (prod.stock < cart[i].count) {
                     throw new Error('Some products are out of stock!')
                }
                const products = {
@@ -429,6 +429,7 @@ const printInvoice = asyncHandler(async (req, res, next) => {
      //pdf download
 
      const html = fs.readFileSync('./views/pdf/invoice.hbs', "utf8");
+     const timestamp = Date.now();
      const options = {
           format: "A4",
           orientation: "landscape",
@@ -443,21 +444,25 @@ const printInvoice = asyncHandler(async (req, res, next) => {
           data: {
                order: orders[0],
           },
-          path: "./invoice.pdf",
+          path: `./invoice${timestamp}.pdf`,
           type: "",
      };
 
-     pdf.create(document, options).then((data) => {
-          const pdfStream = fs.createReadStream("invoice.pdf");
+     pdf.create(document, options).then(async (data) => {
+          const pdfStream = fs.createReadStream(`invoice${timestamp}.pdf`);
           res.setHeader("Content-Type", "application/pdf");
           res.setHeader("Content-Disposition", `attachment; filename=invoice.pdf`);
           pdfStream.pipe(res);
           console.log("PDF sent as a download");
+          fs.unlink(`invoice${timestamp}.pdf`, (err) => {
+               if (err) {
+                    throw new Error('pdf deletion failed')
+               }
+          });
      }).catch((error) => {
-          console.error(error);
+          // fs.unlinkSync(`./invoice${timestamp}.pdf`)
           res.status(500).send("Error generating the PDF");
      });
-
 
 })
 
@@ -494,23 +499,10 @@ const cancelOrder = asyncHandler(async (req, res) => {
 const returnOrder = asyncHandler(async (req, res) => {
      let order = await Order.findById(req.body.order)
      let product = order.products.find((item) => item.product == req.body.product);
-     console.log(product)
      product.status = 'Return pending';
      product.return_pending_date = new Date();
      product.return_reason = req.body.return_reason
      await order.save();
-     //update user wallet id it is an online payment
-     // if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
-     //      let user = await User.findById(res.locals.userData._id)
-     //      if (user) {
-     //           if (product.discount) {
-     //                user.user_wallet = user.user_wallet + (product.price - product.discount)
-     //           } else {
-     //                user.user_wallet = user.user_wallet + product.price
-     //           }
-     //           await user.save()
-     //      }
-     // }
      res.status(200).json({
           status: 'success'
      })

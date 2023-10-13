@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //admin sidebar
-    $('.sidebar-btn').on('click', ()=>{
+    $('.sidebar-btn').on('click', () => {
         $('.sidebar-list').slideToggle()
     })
 

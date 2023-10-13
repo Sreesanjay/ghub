@@ -34,9 +34,9 @@ var userSchema = new mongoose.Schema(
                required: true,
           },
           referred_by: {
-                type: mongoose.Schema.Types.ObjectId, 
-                ref: 'User' 
-               },
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'User'
+          },
           cart: [
                {
                     product_id: {

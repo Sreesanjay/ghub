@@ -1,15 +1,15 @@
 <hr>
-<section class="vh-100 login-form mt-5">
+<section class="login-form mt-5">
   <div class="container-fluid h-custom ">
     <div class="row d-flex justify-content-center align-items-center h-100 ">
-      <div class="col-md-6 col-lg-6 col-xl-5">
+      <div class="col-md-6 col-lg-6 col-xl-5 d-none d-sm-block">
         <img src="https://t3.ftcdn.net/jpg/03/39/70/90/360_F_339709048_ZITR4wrVsOXCKdjHncdtabSNWpIhiaR7.jpg"
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-6 col-lg-6 col-xl-4 offset-xl-1 p-5 border border-light shadow" style="">
         <div class="h2 text-center mb-4">Log in</div>
         <form name="form" id="user-loginForm">
-          <div class="d-flex flex-column align-items-center justify-content-center justify-content-lg-start px-5">
+          <div class="d-flex flex-column align-items-center justify-content-center justify-content-lg-start px-sm-5">
             {{#if err}}
             <div class="form-control" style="border:none !important">
               <div class="err text-danger">
@@ -40,11 +40,10 @@
 
             <button type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <div class="form-outline my-5 d-flex justify-content-center" style="width: 100%;">
-              <a href="/sign-up" class="sign-up-link txt-decoration-null">Don't have an account, Sign Up?</a>
-            </div>
-
         </form>
+        <div class="form-outline my-5 d-flex justify-content-center" style="width: 100%;">
+          <a href="/sign-up" class="sign-up-link txt-decoration-null">Don't have an account, Sign Up?</a>
+        </div>
       </div>
     </div>
   </div>

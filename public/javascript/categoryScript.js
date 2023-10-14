@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     //new category
     $('#new-category').validate({
         rules: {
@@ -12,8 +12,7 @@ $(document).ready(function () {
             },
 
         },
-        submitHandler: function (form) {
-            e.preventDefault()
+        submitHandler: function () {
             const err = document.querySelector('.err')
             err.textContent = ''
             Swal.fire({
@@ -29,7 +28,7 @@ $(document).ready(function () {
                     const form = document.getElementById('new-category')
                     const formData = new FormData(form)
                     const body = Object.fromEntries(formData);
-
+                    console.log(body)
                     fetch('/admin/category/new-category', {
                         method: 'POST',
                         body: JSON.stringify(body),

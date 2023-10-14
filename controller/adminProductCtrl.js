@@ -105,6 +105,7 @@ const getProducts = asyncHandler(async (req, res, next) => {
                },
           },
      ]);
+     console.log(products)
      res.render("admin/product", {
           admin: true,
           products,

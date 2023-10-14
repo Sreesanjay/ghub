@@ -70,8 +70,8 @@ const getAllOrders = asyncHandler(async (req, res, next) => {
 });
 //filter order
 const filterOrder = asyncHandler(async (req, res) => {
-    console.log(req.body)
     let { from_date, to_date, status } = req.body
+
     let orders = await Order.aggregate([
         {
             $lookup: {
@@ -132,6 +132,9 @@ const filterOrder = asyncHandler(async (req, res) => {
         from_date = new Date(from_date);
         orders = orders.filter((order) => order.orderDate >= from_date)
     }
+    if (to_date == undefined) {
+        return res.render('admin/orderList', { orders })
+    }
     if (req.body.to_date != '') {
         to_date = new Date(to_date);
         orders = orders.filter((order) => order.orderDate <= to_date)
@@ -148,6 +151,7 @@ const filterOrder = asyncHandler(async (req, res) => {
     if (req.body.to_amt != '') {
         orders = orders.filter((order) => order.products.price <= parseInt(req.body.to_amt))
     }
+
     res.render('admin/orderList', { orders })
 
 })
@@ -203,7 +207,7 @@ const ViewOrderDetails = asyncHandler(async (req, res, next) => {
         }
 
     ])
-    console.log(orders)
+    console.log(orders.length)
     if (orders) {
         for (let order of orders) {
             if (order.coupon) {

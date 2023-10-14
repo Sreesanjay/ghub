@@ -8,7 +8,7 @@ const Product = require("../models/productModel");
 
 
 const getDashboard = asyncHandler(async (req, res) => {
-    let orders = await Order.aggregate([
+    let deliveredOrders = await Order.aggregate([
         {
             $unwind: {
                 path: '$products'
@@ -20,14 +20,14 @@ const getDashboard = asyncHandler(async (req, res) => {
             }
         },
     ])
-    let totalSales = orders.reduce((acc, order) => {
+
+    let totalSales = deliveredOrders.reduce((acc, order) => {
         let price;
         if (order.products.discount) {
             price = order.products.price - order.products.discount
         } else {
             price = order.products.price
         }
-        console.log(price)
         return acc + price;
     }, 0)
 
@@ -35,9 +35,72 @@ const getDashboard = asyncHandler(async (req, res) => {
     const userCount = await User.countDocuments({})
     //product count
     const prodCount = await Product.countDocuments({ is_delete: false })
-    res.render('admin/dashboard', { totalSales, userCount, prodCount })
+    //latest sales
+    let latestOrder = await Order.aggregate([
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        {
+            $unwind: {
+                path: '$user'
+            }
+        },
+        {
+            $unwind: { path: '$products' }
+        },
+        {
+            $lookup: {
+                from: 'payments',
+                localField: '_id',
+                foreignField: 'order_id',
+                as: 'payment_details',
+                pipeline: [
+                    {
+                        $project: {
+                            _id: 0,
+                            payment_method: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $unwind: {
+                path: '$payment_details'
+            }
+        },
+        {
+            $lookup: {
+                from: 'products',
+                localField: 'products.product',
+                foreignField: '_id',
+                as: 'prod_details'
+            }
+        },
+        {
+            $unwind: { path: '$prod_details' }
+        },
+        {
+            $sort: {
+                orderDate: -1
+            }
+        }
+    ])
+    //current date
+    const formattedDate = new Date().toISOString().slice(0, 10);
+    //todays order
+    const todaysOrder = latestOrder.filter((order) => order.orderDate.toISOString().slice(0, 10) == formattedDate).length
+    latestOrder = latestOrder.splice(0,20)
+    res.render('admin/dashboard', { totalSales, userCount, prodCount, latestOrder, todaysOrder })
 })
 
+
+//get revenue for graph
 const getRevenue = asyncHandler(async (req, res) => {
     let orders = await Order.aggregate([
         {

@@ -1,14 +1,8 @@
-const Product = require("../models/productModel");
 const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
-const Address = require("../models/addressModel");
 const Coupon = require("../models/couponModel");
 const Category = require("../models/categoryModel");
 const Order = require("../models/orderModel");
-const Payment = require("../models/paymentModel");
-const pdf = require("pdf-creator-node");
-const fs = require("fs");
-const path = require('path');
 
 const getSalesreport = asyncHandler(async (req, res) => {
     let orders = await Order.aggregate([
@@ -62,6 +56,7 @@ const getSalesreport = asyncHandler(async (req, res) => {
         },
 
     ])
+    
     for (let order of orders) {
         if (order.coupon) {
             order.coupon.details = await Coupon.findById(order.coupon.coupon_id)
@@ -69,7 +64,6 @@ const getSalesreport = asyncHandler(async (req, res) => {
         order.prod_details.category = await Category.findById(order.prod_details.category)
     }
     let sales = orders.filter((order) => order.products.status === 'Delivered')
-    console.log(sales[0].payment_details)
     res.render('admin/salesReport', { sales })
 
 

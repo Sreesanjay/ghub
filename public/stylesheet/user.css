@@ -49,13 +49,12 @@
     width: 100%;
 }
 
-/* @media (max-width: 450px) {
-    
-    .user-header .navbar-nav{
-        width: 100%;
-        justify-content: space-around !important;
+@media (max-width: 450px) {
+    .user-header .logo img {
+        width: 40px;
     }
-  } */
+}
+
 .user-header i {
     color: var(--blue-clr);
     font-size: 25px;

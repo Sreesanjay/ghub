@@ -230,7 +230,6 @@ const getMyOrders = asyncHandler(async (req, res) => {
           order.prod_details.reviewRate = order.prod_details.reviewRate[0]
      }
      orders.reverse()
-     console.log(orders[6])
      res.render('user/myOrder', { orders, account: true })
 })
 

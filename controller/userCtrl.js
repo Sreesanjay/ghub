@@ -45,6 +45,19 @@ const getHomePage = asyncHandler(async (req, res) => {
                          {
                               $limit: 8
                          },
+                         {
+                              $lookup: {
+                                   from: 'reviewrates',
+                                   localField: '_id',
+                                   foreignField: 'product',
+                                   as: 'reviews',
+                              }
+                         },
+                         {
+                              $addFields: {
+                                   totalRating: { $sum: "$reviews.rating" }
+                              }
+                         }
                     ],
                },
           },
@@ -65,6 +78,16 @@ const getHomePage = asyncHandler(async (req, res) => {
                }
           },
      ]);
+     //adding review and rating to each products in category
+     for (let cat of category) {
+          for (let prod of cat.products) {
+               if (prod.totalRating) {
+                    prod.totalRating = prod.totalRating / prod.reviews.length
+               }
+          }
+     }
+     console.log(category[0].products)
+
 
      const topOrders = await Order.aggregate([
           {

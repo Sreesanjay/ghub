@@ -68,11 +68,11 @@
                 <i class="fa-regular fa-heart add-to-wish-list-btn mt-2" id="remove-wish-{{this._id}}"
                     onclick="WishlistAdd(event ,'{{this._id}}')" style="display: none;"></i>
 
-                <div class="row">
-                    <div class="img col-12">
+                <div class="row" style="width: 100%;">
+                    <div class="img col-12 col-sm-2">
                         <img src="/Images/Products/{{primary_img.filename}}" style="width: 200px;" alt="">
                     </div>
-                    <div class="details py-2 ms-2 col-12">
+                    <div class="details py-2 ms-2 col-12 col-sm-8">
                         <h4>{{this.product_name}} {{this.prod_highlight}}</h4>
                         <h6>{{this.brand_name}}, {{this.prod_color}}</h6>
                         <span class="bg-success py-1 px-3 rounded text-white">4.4</span>

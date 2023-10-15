@@ -8,7 +8,7 @@ $(function () {
             },
             discription: {
                 required: true,
-                maxlength: 200,
+                maxlength: 400,
             },
 
         },

@@ -373,7 +373,8 @@ $(document).ready(function () {
      let imgcount = 0;
 
      addSecImage = () => {
-          if (imgcount + document.getElementById("sec-img-length").value < 8) {
+          const secImgLength=document.getElementById("sec-img-length").value
+          if (imgcount + parseInt(secImgLength)  < 8) {
                const secImage = document.querySelector(".secondary-img");
 
                const img = document.createElement("img");
@@ -412,8 +413,7 @@ $(document).ready(function () {
                addImgCount++;
                imgcount++;
           } else {
-               document.querySelector(".sec-img-err").innerText =
-                    "Maximum Number of secondary image is 8";
+               document.querySelector(".sec-img-err").innerText = "Maximum Number of secondary image is 8";
           }
      };
 

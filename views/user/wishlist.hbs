@@ -3,7 +3,9 @@
     <div class="wishlist-container">
         {{#if product}}
         {{else}}
-        <h1 class="m-5">No Items in wishlist</h1>
+        <div class="d-flex align-items-center justify-content-center pt-5">
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png?f=webp" alt="">
+        </div>
         {{/if}}
         {{#each product}}
         <div class="card prod-wrapper d-flex p-4 flex-row">

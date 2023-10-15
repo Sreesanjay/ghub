@@ -1,7 +1,7 @@
 <style>
     @media (min-width: 1025px) {
         .h-custom {
-            height: 100vh !important;
+            min-height: 100vh !important;
         }
     }
 
@@ -14,19 +14,17 @@
         outline: none;
     }
 </style>
-<section class="my-cart" style="background-color: #eee;">
-    <div class="container pb-5 pt-4 h-100">
-        <h3>My Cart</h3>
-        <div class="row d-flex justify-content-center mt-4 align-items-center h-100">
+<section class="my-cart" style="">
+    <div class=" h-100">
+        <div class="row d-flex justify-content-center m-0 mt-4 align-items-center h-100">
             <div class="col">
-                <div class="card">
-                    <div class="card-body cart-body p-4">
+                <div class="card p-5">
+                     <h3>My Cart</h3>
+                    <div class="card-body cart-body">
 
                         <div class="row">
 
                             <div class="col-lg-7">
-                                <h5 class="mb-3"><a href="/" class="text-body"><i
-                                            class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
                                 <hr>
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -38,6 +36,7 @@
                                                 class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>
                                     </div>
                                 </div>
+                                {{#if cartList}}
                                 {{#each cartList}}
                                 <div class="card mb-3">
                                     <div class="card-body">
@@ -126,6 +125,11 @@
                                 </div>
 
                             </div>
+                            {{else}}
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png?f=webp" alt="">
+                            </div>
+                            {{/if}}
 
                         </div>
                     </div>

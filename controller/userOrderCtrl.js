@@ -460,6 +460,7 @@ const printInvoice = asyncHandler(async (req, res, next) => {
                }
           });
      }).catch((error) => {
+          console.log(error);
           // fs.unlinkSync(`./invoice${timestamp}.pdf`)
           res.status(500).send("Error generating the PDF");
      });

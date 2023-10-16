@@ -438,6 +438,11 @@ const printInvoice = asyncHandler(async (req, res, next) => {
                height: "5mm",
                contents: '<div style="text-align: center;">INVOICE</div>'
           },
+          childProcessOptions: {
+               env: {
+                 OPENSSL_CONF: '/dev/null',
+               },
+             }
      };
      const document = {
           html: html,

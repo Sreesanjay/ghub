@@ -159,8 +159,11 @@
           <input type="hidden" value="{{ratingPerc}}" id="rating-perc">
           <div class="rating d-flex align-items-center row" style="width:100%;">
             <div class="canvas-wrap col-sm-7">
+              {{#isEqual this.rating '0'}}
+              {{else}}
               <canvas id="canvas" width="200" height="200"></canvas>
               <span id="procent">{{this.rating}}<i class="fa-regular fa-star"></i></span>
+              {{/isEqual}}
             </div>
             <div class="d-flex flex-column align-items-center col-sm-5">
               <h4>Total Rating</h4>

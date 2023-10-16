@@ -453,7 +453,6 @@ const printInvoice = asyncHandler(async (req, res, next) => {
           res.setHeader("Content-Type", "application/pdf");
           res.setHeader("Content-Disposition", `attachment; filename=invoice.pdf`);
           pdfStream.pipe(res);
-          console.log("PDF sent as a download");
           fs.unlink(`invoice${timestamp}.pdf`, (err) => {
                if (err) {
                     throw new Error('pdf deletion failed')

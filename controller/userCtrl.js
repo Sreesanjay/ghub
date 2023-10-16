@@ -86,8 +86,6 @@ const getHomePage = asyncHandler(async (req, res) => {
                }
           }
      }
-     console.log(category[0].products)
-
 
      const topOrders = await Order.aggregate([
           {

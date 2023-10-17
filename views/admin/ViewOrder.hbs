@@ -35,19 +35,38 @@
                 <input type="text" value="{{order.products.status}}" id="status-inp" class="form-control context-menu"
                     readonly>
                 <input type="hidden" value="{{order.products.status}}" id="order-status"
-                    class="form-control context-menu" readonly>
+                    class="form-control context-menu" readonly> <!--current order status for changin status-->
 
                 <form id="edit-status" style="display: none;">
                     <input type="hidden" name="order_id" value="{{order._id}}">
                     <input type="hidden" name="product_id" value="{{order.prod_details._id}}">
                     <select class="form-select" name="status" aria-label="Default select example" id="new-status">
-                        <option value="Payment pending">Payment pending</option>
+                        {{#isEqual order.products.status 'Payment pending'}}
+                        {{/isEqual}}
+                        {{#isEqual order.products.status 'Confirmed'}}
+                         <option value="Shipped">Shipped</option>
+                         <option value="Canceled">Canceled</option>
+                        {{/isEqual}}
+                        {{#isEqual order.products.status 'Shipped'}}
+                         <option value="Out for delivery">Out for delivery</option>
+                         <option value="Canceled">Canceled</option>
+                        {{/isEqual}}
+                        {{#isEqual order.products.status 'Out for delivery'}}
+                         <option value="Delivered">Delivered</option>
+                         <option value="Canceled">Canceled</option>
+                        {{/isEqual}}
+                        {{#isEqual order.products.status 'Return pending'}}
+                         <option value="Delivered">Return Reject</option>
+                         <option value="Returned">Returned</option>
+                        {{/isEqual}}
+                        {{!-- <option value="Payment pending">Payment pending</option>
                         <option value="Confirmed">Confirmed</option>
                         <option value="Shipped">Shipped</option>
                         <option value="Out for delivery">Out for delivery</option>
                         <option value="Delivered">Delivered</option>
                         <option value="Canceled">Canceled</option>
-                        <option value="Returned">Returned</option>
+                        <option value="Delivered">Return Reject</option>
+                        <option value="Returned">Returned</option> --}}
                     </select>
                     <button id="save-btn" class="btn btn-primary mt-3">Save</button>
                     </from>
@@ -148,7 +167,7 @@
             e.preventDefault();
             Swal.fire({
                 title: "Are you sure?",
-                text: "You want to add new product?",
+                text: "You want to Change order status?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",

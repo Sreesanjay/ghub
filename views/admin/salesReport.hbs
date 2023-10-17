@@ -2,7 +2,11 @@
     <div class="order-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">
             <h3 class="mb-4">Sales Report</h3>
-            <button class="btn" id="exportToButton"><i class="fa fa-print text-success fs-3"></i></button>
+            <div class="btn-grp">
+                Download as:
+                <button class="btn" id="exportToButton"><i class="fa-solid text-success fs-1 fa-file-pdf"></i></button>
+                <button class="btn" id="btnExcel"><i class="fa-solid text-success fs-1 fa-file-excel"></i></button>
+            </div>
         </div>
         <div class="d-flex justify-content-between">
             <button id="filter-toggler" class=" btn btn-outline-primary mb-3">Filter <i
@@ -51,7 +55,7 @@
                         <th>PaymentMethod</th>
                         <th>Amount</th>
                         <th>Discount</th>
-                        <th></th>
+                        <th>Invoice</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +82,37 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script>
+<!--table to excel-->
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnExcel").click(function () {
+            let table = document.getElementById("salesTable");
+
+            // Find the column index of the Invoice column.
+            const invoiceColumnIndex = Array.from(table.querySelectorAll("th")).findIndex(th => th.textContent === "Invoice");
+
+            if (invoiceColumnIndex !== -1) {
+                // Remove the Invoice column from the table.
+                let rows = table.getElementsByTagName("tr");
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(invoiceColumnIndex);
+                }
+            }
+
+            // Convert the modified table to Excel.
+            TableToExcel.convert(table, {
+                name: `salesreport.xlsx`,
+                sheet: {
+                    name: 'salesreport'
+                }
+            });
+        });
+
+    });
+</script>
 
 <script>
     $(document).ready(function () {

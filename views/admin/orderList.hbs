@@ -2,9 +2,11 @@
     <div class="order-list p-4" style="width: 100%;">
         <div class="header d-flex justify-content-between">
             <h3 class="mb-4">Orders</h3>
-            <button id="exportToButton" class="btn btn-success clearfix" style="height:50px;"><span
-                    class="fa fa-file-pdf-o"></span> Export
-                to PDF</button>
+            <div class="btn-grp">
+                Download as:
+                <button class="btn" id="exportToButton"><i class="fa-solid text-success fs-1 fa-file-pdf"></i></button>
+                <button class="btn" id="btnExcel"><i class="fa-solid text-success fs-1 fa-file-excel"></i></button>
+            </div>
         </div>
         <h5 id="filter-toggler">Filter <i class="fa-solid fa-chevron-down"></i></h5>
         <form class="mb-3 card p-3" id="filter-from" action="/admin/orders/filter-order" method="post"
@@ -86,6 +88,38 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 <script type="text/javascript" src="https://www.shieldui.com/shared/components/latest/js/jszip.min.js"></script>
+<!--table to excel-->
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnExcel").click(function () {
+            let table = document.getElementById("exportToTable");
+
+            // Find the column index of the Invoice column.
+            const invoiceColumnIndex = Array.from(table.querySelectorAll("th")).findIndex(th => th.textContent === "Manage");
+
+            if (invoiceColumnIndex !== -1) {
+                // Remove the Invoice column from the table.
+                let rows = table.getElementsByTagName("tr");
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(invoiceColumnIndex);
+                }
+            }
+
+            // Convert the modified table to Excel.
+            TableToExcel.convert(table, {
+                name: `OrderReport.xlsx`,
+                sheet: {
+                    name: 'OrderReport'
+                }
+            });
+        });
+
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         new DataTable('#exportToTable', {

@@ -4,11 +4,12 @@
         {{#if product}}
         {{else}}
         <div class="d-flex align-items-center justify-content-center pt-5">
-            <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png?f=webp" alt="">
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png?f=webp"
+                alt="">
         </div>
         {{/if}}
         {{#each product}}
-        <div class="card prod-wrapper d-flex p-4 flex-row">
+        <div class="card prod-wrapper d-flex p-4 flex-row mb-3">
             <i class="fa-solid fa-trash text-danger dlt-wishlist" onclick="deleteWish('{{this._id}}')"></i>
             <div class="left">
                 <img src="/Images/Products/{{this.primary_img.filename}}" alt="" style="max-width:100px;">
@@ -16,11 +17,14 @@
             <div class="right ms-4 ">
                 <a href="/view-product/{{this._id}}" class="txt-decoration-null text-dark">
                     <h4 style="max-width: 900px;">{{this.product_name}}{{this.prod_highlight}}</h4>
-                    <i class="fa-solid fa-star text-warning"></i>
-                    <i class="fa-solid fa-star text-warning"></i>
-                    <i class="fa-solid fa-star text-warning"></i>
-                    <i class="fa-solid fa-star text-warning"></i>
-                    <i class="fa-solid fa-star"></i>
+                    <div class="d-flex">
+                        {{#if this.rating}}
+                        <div class="bg-success p-1 px-2 rounded" style="width:min-content;">
+                            <h5 class="text-white text-nowrap m-0 d-flex align-items-center">{{this.rating}}&nbsp<i
+                                    class="fa-solid fa-star fs-6"></i></h5>
+                        </div>&nbsp<span class="fs-5">({{this.reviews.length}})</span>
+                        {{/if}}
+                    </div>
                     <div class="price d-flex mt-3">
                         <h5 class="text-danger">{{this.sellig_price}}</h5>
                         <h6 class="text-decoration-line-through ms-4 mt-1">{{this.prod_price}}</h6>

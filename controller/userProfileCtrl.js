@@ -159,8 +159,25 @@ const getWishlist = asyncHandler(async (req, res, next) => {
           wishlist.push(x.product_id);
           return x;
      });
-     let product = await Product.find({ _id: { $in: wishlist } });
-
+     let product = await Product.aggregate([
+          {
+               $match: { _id: { $in: wishlist } }
+          },
+          {
+               $lookup: {
+                    from: "reviewrates",
+                    localField: '_id',
+                    foreignField: 'product',
+                    as: 'reviews'
+               }
+          }
+     ]);
+     for (let prod of product) {
+          let totalRating = prod.reviews.reduce((sum, review) => { return sum + review.rating }, 0)
+          if(totalRating!=0) {
+               prod.rating=parseFloat(totalRating/prod.reviews.length)
+          }
+     }
      res.render("user/wishlist", { product, account: true });
 });
 

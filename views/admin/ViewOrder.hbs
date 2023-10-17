@@ -60,6 +60,21 @@
                 <label for="">Payment Method</label>
                 <input type="text" value="{{order.payment_method}}" class="form-control context-menu" readonly>
             </div>
+            {{#isEqual order.products.status 'Canceled' }}
+            <div class="form-group col-12 mt-4">
+                <label for="">Cancel reason</label>
+                <input type="text" value="{{order.products.cancel_reason}}" class="form-control context-menu" readonly>
+            </div>
+            {{/isEqual}}
+            
+            {{#if order.products.return_pending_date }}
+            <div class="form-group col-12 mt-4">
+                <label for="">Return reason</label>
+                <input type="text" value="{{order.products.return_reason}}" class="form-control context-menu" readonly>
+            </div>
+            {{/if}}
+            
+
             <div class="form-group col-12 mt-4">
                 <label for="">Delivery Address</label>
                 <address class="row d-flex p-4">
@@ -156,7 +171,7 @@
                         [OrderStatus.CONFIRMED]: [OrderStatus.SHIPPED, OrderStatus.CANCELED],
                         [OrderStatus.SHIPPED]: [OrderStatus.OUTFORDELIVERY, OrderStatus.CANCELED],
                         [OrderStatus.OUTFORDELIVERY]: [OrderStatus.DELIVERED, OrderStatus.CANCELED],
-                        [OrderStatus.RETURNPENDING]: [OrderStatus.RETURNED]
+                        [OrderStatus.RETURNPENDING]: [OrderStatus.DELIVERED,OrderStatus.RETURNED]
 
                     };
 
@@ -176,8 +191,8 @@
                     const formData = new FormData(form)
                     const body = Object.fromEntries(formData);
                     const newStatus = body.status
-                    if (transitionOrderStatus(status, newStatus)) {
 
+                    if (transitionOrderStatus(status, newStatus)) {
                         fetch('/admin/orders/change-status', {
                             method: 'PUT',
                             body: JSON.stringify(body),

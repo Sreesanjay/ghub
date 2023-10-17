@@ -226,61 +226,84 @@ const ViewOrderDetails = asyncHandler(async (req, res, next) => {
 const changeStatus = asyncHandler(async (req, res) => {
     let order = await Order.findById(req.body.order_id)
     let product = order.products.find((item) => item.product == req.body.product_id);
-    let status;
-    product.status = req.body.status
-    if (req.body.status == 'Confirmed') {
-        product.confirmed_date = new Date()
-    }
-    else if (req.body.status == 'Shipped') {
-        product.shipped_date = new Date()
-    } else if (req.body.status == 'Out for delivery') {
-        product.out_for_delivery_date = new Date()
-    } else if (req.body.status == 'Delivered') {
-        product.delivered_date = new Date()
-        if (order.payment_method == 'COD') {
-
-            let payment = await Payment.findOne({ order_id: order._id })
-            payment.status = 'success';
-            await payment.save();
-        }
-
-    } else if (req.body.status == 'Canceled') {
-        product.cancelled_date = new Date()
-        if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
-            let user = await User.findById(order.user)
-            if (user) {
-                if (product.discount) {
-                    user.user_wallet = user.user_wallet + (product.price - product.discount)
-                } else {
-                    user.user_wallet = user.user_wallet + product.price
-                }
-                await user.save()
+    if (product.status == 'Return pending' && req.body.status == 'Delivered') {
+        await Order.updateOne(
+            {
+              _id: req.body.order_id,
+              'products.product': new mongoose.Types.ObjectId(req.body.product_id)
+            },
+            {
+              $unset: { 'products.$.return_pending_date': '' }
             }
+          );
+        product.status = req.body.status
+        const savedOrder = await order.save()
+        if (savedOrder) {
+            const alert = `Your return request rejected on ` + new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
+            await Alert.create({
+                message: alert,
+                user: savedOrder.user
+            })
+            res.status(200).json({ status: 'success' })
+        } else {
+            throw new Error()
         }
-    } else if (req.body.status == 'Returned') {
-        product.returned_date = new Date()
-        if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
-            let user = await User.findById(order.user)
-            if (user) {
-                if (product.discount) {
-                    user.user_wallet = user.user_wallet + (product.price - product.discount)
-                } else {
-                    user.user_wallet = user.user_wallet + product.price
-                }
-                await user.save()
-            }
-        }
-    }
-    const savedOrder = await order.save()
-    if (savedOrder) {
-        const alert = `Your order has been ${req.body.status} on ` + new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
-        await Alert.create({
-            message: alert,
-            user: savedOrder.user
-        })
-        res.status(200).json({ status: 'success' })
     } else {
-        throw new Error()
+        product.status = req.body.status
+        if (req.body.status == 'Confirmed') {
+            product.confirmed_date = new Date()
+        }
+        else if (req.body.status == 'Shipped') {
+            product.shipped_date = new Date()
+        } else if (req.body.status == 'Out for delivery') {
+            product.out_for_delivery_date = new Date()
+        } else if (req.body.status == 'Delivered') {
+            product.delivered_date = new Date()
+            if (order.payment_method == 'COD') {
+
+                let payment = await Payment.findOne({ order_id: order._id })
+                payment.status = 'success';
+                await payment.save();
+            }
+
+        } else if (req.body.status == 'Canceled') {
+            product.cancelled_date = new Date()
+            if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
+                let user = await User.findById(order.user)
+                if (user) {
+                    if (product.discount) {
+                        user.user_wallet = user.user_wallet + (product.price - product.discount)
+                    } else {
+                        user.user_wallet = user.user_wallet + product.price
+                    }
+                    await user.save()
+                }
+            }
+        } else if (req.body.status == 'Returned') {
+            product.returned_date = new Date()
+            if (order.payment_method === 'ONLINE' || order.payment_method === 'GHUBWALLET') {
+                let user = await User.findById(order.user)
+                if (user) {
+                    if (product.discount) {
+                        user.user_wallet = user.user_wallet + (product.price - product.discount)
+                    } else {
+                        user.user_wallet = user.user_wallet + product.price
+                    }
+                    await user.save()
+                }
+            }
+        }
+        const savedOrder = await order.save()
+        if (savedOrder) {
+            const alert = `Your order has been ${req.body.status} on ` + new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDay();
+            await Alert.create({
+                message: alert,
+                user: savedOrder.user
+            })
+            res.status(200).json({ status: 'success' })
+        } else {
+            throw new Error()
+        }
     }
 })
 

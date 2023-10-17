@@ -64,6 +64,7 @@ $(function () {
             body.product = product.value
         }
 
+        $('.proceed-to-order').toggle()
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(body),
@@ -71,6 +72,7 @@ $(function () {
         }).then((response) => {
             return response.json()
         }).then((data) => {
+            $('.proceed-to-order').toggle()
             if (data.status == 'success') {
                 Swal.fire(
                     "Success!",

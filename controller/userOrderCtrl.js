@@ -19,6 +19,7 @@ let instance = new Razorpay({
 });
 
 const getCheckout = asyncHandler(async (req, res, next) => {
+     let nonCartItem
      let user = res.locals.userData._id;
      let cartList;
      const address = await Address.find({ user_id: user });
@@ -30,7 +31,9 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           ];
           cartList[0].prod_detail = await Product.findById(req.query.product)
           cartList.total = cartList[0].prod_detail.sellig_price
+          nonCartItem=true;
      } else {
+          nonCartItem=false;
           cartList = await User.aggregate([
                { $match: { _id: user } },
                { $project: { cart: 1, _id: 0 } },
@@ -80,7 +83,7 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           };
      })
      console.log(cartList);
-     res.render("user/checkout", { address, cartList, coupon });
+     res.render("user/checkout", { address, cartList, coupon,nonCartItem });
 });
 
 
@@ -183,7 +186,6 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
                          console.log(prod.price)
                          total = total + prod.price
                     }
-                    console.log(total)
                     if (confirmedOrder.coupon?.discount) {
                          total = total - confirmedOrder.coupon.discount
                     }
@@ -313,7 +315,6 @@ const proceedOrder = asyncHandler(async (req, res, next) => {
 
 //verify payment
 const verifyPayment = asyncHandler(async (req, res) => {
-     console.log(req.body)
      const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
      hmac.update(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id);
      let generatedSignature = hmac.digest("hex");

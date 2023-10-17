@@ -311,7 +311,7 @@
                     <label for="">Online Payment</label>
 
                 </div>
-                {{#if cartList}}
+                {{#if nonCartItem}}
                 {{#each cartList}}
                 <input type="hidden" value="{{this.prod_detail._id}}" id="single-product">
                 {{/each}}

@@ -6,18 +6,22 @@
   <h3 class="mb-5">Dashboard</h3>
   <div class="d-flex">
     <div class="">
-      <h4 class="text-muted text-nowrap">Total Sales</h4>
-      <h4 class="mb-5">₹{{totalSales}}</h4>
+
     </div>
-    <div class="stat-wraper px-5 d-flex justify-content-around" style="width: 100%;">
-      <div class="year-slaes card p-3 bg-primary text-white c-pointer"
+    <div class="stat-wraper px-5 d-flex justify-content-around flex-wrap mb-4" style="width: 100%;">
+       <div class="year-slaes card p-3 c-pointer mb-2 mb-sm-0"
+        style="width:fit-content; height:min-content;font-size:15px;">
+        <h4 class="text-muted text-nowrap">Total Sales</h4>
+        <h4 class="m-0" align="center">₹{{totalSales}}</h4>
+      </div>
+      <div class="year-slaes card p-3 bg-primary text-white c-pointer mb-2 mb-sm-0"
         style="width:fit-content; height:min-content;font-size:15px;">
         <p>Total sales in <span class="year"></span></p>
         <p class="total-sales m-0 fw-bold" align="center"></p>
       </div>
 
       {{!-- registered users --}}
-      <div class="year-slaes card p-3 ms-3 bg-success text-white c-pointer"
+      <div class="year-slaes card p-3 ms-3 bg-success text-white c-pointer mb-2 mb-sm-0"
         style="width:fit-content; height:min-content; font-size:15px;">
         <a href="/admin/customers" class="txt-decoration-null text-white">
           <p>Registered Users</p>
@@ -25,7 +29,7 @@
         </a>
       </div>
       {{!-- Total stock --}}
-      <div class="year-slaes card p-3 ms-3 bg-danger text-white c-pointer"
+      <div class="todays-order card p-3 pb-2 ms-3 bg-danger text-white c-pointer mb-2 mb-sm-0"
         style="width:fit-content; height:min-content; font-size:15px;">
         <a href="/admin/products" class="txt-decoration-null text-white">
           <p>Total Products</p>
@@ -33,7 +37,7 @@
         </a>
       </div>
       <!--todays orders-->
-      <div class="todays-order card p-3 pb-2 ms-3 bg-danger text-white c-pointer"
+      <div class="todays-order card p-3 pb-2 ms-3 bg-danger text-white c-pointer mb-2 mb-sm-0"
         style="width:fit-content; height:min-content; font-size:15px;">
         <form action="/admin/orders/filter-order" method="post">
           <input type="date" name="from_date" id="date" style="visibility:hidden; width:1px;">
@@ -52,13 +56,13 @@
     </div>
   </div>
   <div>
-    <canvas id="myChart" width="350" height="130"></canvas>
+    <canvas id="myChart" style="max-width:1200px; max-height:400px;"></canvas>
   </div>
   <!----latest orders -->
   <div class="latest-orderes py-5">
     <h3>Latest Orders</h3>
-    <div class="table-responsive">
-      <table id="exportToTable" class="table table-striped">
+    <div class="table-container table-responsive">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th>ProductName</th>

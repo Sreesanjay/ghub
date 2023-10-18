@@ -83,6 +83,7 @@ $(() => {
                 }).then((result) => {
                     return result.json()
                 }).then((data) => {
+                    console.log("result")
                     if (data.status === 'success') {
                         Swal.fire(
                             'Success!',
@@ -93,6 +94,7 @@ $(() => {
                         throw new Error(data.message)
                     }
                 }).catch((error) => {
+                    console.log(error)
                     Swal.fire(
                         'Error!',
                         error.message,

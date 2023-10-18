@@ -26,8 +26,7 @@ const getAllBanners = asyncHandler(async (req, res, next) => {
 
 //render new banner 
 const newBanner = asyncHandler(async (req, res, next) => {
-     const category = await Category.find({}, { cat_name: 1 });
-
+     const category = await Category.find({is_delete:false}, { cat_name: 1 });
      res.render("admin/newBanner", { category });
 });
 

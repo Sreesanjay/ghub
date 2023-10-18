@@ -139,7 +139,7 @@ $(document).ready(function () {
                          aspectRatio: 9 / 10,
                          viewMode: 0,
                          autoCrop: true,
-                         background: false,
+                         background:false
                     });
 
                     $("#cropImageBtn").on("click", function () {

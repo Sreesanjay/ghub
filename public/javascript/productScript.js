@@ -222,6 +222,7 @@ $(document).ready(function () {
           },
 
           submitHandler: function (form) {
+               $('.new-prod-submit').toggle()
                Swal.fire({
                     title: "Are you sure?",
                     text: "You want to add new product?",
@@ -231,6 +232,7 @@ $(document).ready(function () {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes",
                }).then(async (result) => {
+                    $('.new-prod-submit').toggle()
                     if (result.isConfirmed) {
                          const form = document.getElementById("new-prod-form");
                          try {

@@ -66,6 +66,7 @@ $(() => {
                 const formData = new FormData(form)
 
                 const base64String = document.getElementById('result').value
+                console.log(base64String)
                 const base64Data = base64String.split(',')[1];
                 const binaryData = atob(base64Data);
                 const uint8Array = new Uint8Array(binaryData.length);
@@ -76,7 +77,7 @@ $(() => {
                 const file = new File([blob], 'image.png', { type: 'image/png' });
                 formData.append('image', file)
 
-
+                console.log(formData);
                 fetch('/admin/banner-management/new-banner', {
                     method: "POST",
                     body: formData,

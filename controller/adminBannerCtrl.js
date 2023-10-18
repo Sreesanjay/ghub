@@ -39,6 +39,7 @@ const saveBanner = asyncHandler(async (req, res, next) => {
           originalname: req.file.originalname,
           path: req.file.path,
      };
+     console.log(req.body)
      const banner = new Banner(req.body);
      banner.save();
      res.status(200).json({ status: "success" });

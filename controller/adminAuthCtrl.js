@@ -70,8 +70,8 @@ const adminLoginPage = async (req, res) => {
 
 //post req for admin login
 const adminlogin = async (req, res) => {
-     const { admin_email, admin_password } = req.body;
      try {
+          const { admin_email, admin_password } = req.body;
           const admin = await Admin.login(admin_email, admin_password);
           if (admin) {
                const token = createToken(admin._id);
@@ -79,7 +79,6 @@ const adminlogin = async (req, res) => {
                     httpOnly: true,
                     maxAge: maxAge * 1000,
                });
-               console.log("adminToken created");
                res.status(200).json({
                     success: true,
                     admin: admin._id,

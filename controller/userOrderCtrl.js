@@ -31,9 +31,9 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           ];
           cartList[0].prod_detail = await Product.findById(req.query.product)
           cartList.total = cartList[0].prod_detail.sellig_price
-          nonCartItem=true;
+          nonCartItem = true;
      } else {
-          nonCartItem=false;
+          nonCartItem = false;
           cartList = await User.aggregate([
                { $match: { _id: user } },
                { $project: { cart: 1, _id: 0 } },
@@ -83,7 +83,7 @@ const getCheckout = asyncHandler(async (req, res, next) => {
           };
      })
      console.log(cartList);
-     res.render("user/checkout", { address, cartList, coupon,nonCartItem });
+     res.render("user/checkout", { address, cartList, coupon, nonCartItem });
 });
 
 
@@ -441,9 +441,9 @@ const printInvoice = asyncHandler(async (req, res, next) => {
           },
           childProcessOptions: {
                env: {
-                 OPENSSL_CONF: '/dev/null',
+                    OPENSSL_CONF: '/dev/null',
                },
-             }
+          }
      };
      const document = {
           html: html,

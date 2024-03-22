@@ -2,10 +2,10 @@
   "name": "ghub",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node serve.js",
-    "dev" : "nodemon server.js"
+    "start": "node src/server.js",
+    "dev" : "nodemon src/server.js"
   },
   "repository": {
     "type": "git",

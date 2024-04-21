@@ -41,4 +41,19 @@ This website is deployed on Render Please check it out [here](https://ghub-c6o3.
 ```
 git clone https://github.com/Sreesanjay/ghub.git
 ```
+2. Install dependencies
+```
+cd ghub
+npm install
+```
+3. Add Environment variables
+   create .env file and add the following environment variables
+   ```
+    PORT= PORT
+    DB_URL= YOUR_MONGODB_URI
+    SECRET_KEY= JWT_SECRET
+    RAZORPAY_KEY= YOUR_RAZORPAY_KEY
+    RAZORPAY_SECRET= YOUR_RAZORPAY_SECRET
+    SESSION_SECRET= SESSION SECRET
+   ```
 

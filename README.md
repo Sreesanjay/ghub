@@ -24,6 +24,6 @@ Features:
 - Admin Panel: For seamless management, our platform includes an intuitive admin panel where administrators can manage products, users, categories, coupons, banners, and more.
 
 ## Demo
-This application is deployed on Vercel Please check it out [here](https://ghub-c6o3.onrender.com/) 
+This website is deployed on Render Please check it out [here](https://ghub-c6o3.onrender.com/) 
 
 

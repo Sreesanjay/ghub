@@ -8,8 +8,10 @@
 <img src="https://img.shields.io/badge/Razorpay-black?logo=razorpay"/>
 
 </p>
-An ecommerce platform that provides a seamless shopping experience for electronic gadget enthusiasts
+
 <br><br>
 <img src="screenshorts/Screenshot (144).png"/>
+An ecommerce platform that provides a seamless shopping experience for electronic gadget enthusiasts
+
 <br> <br>
 

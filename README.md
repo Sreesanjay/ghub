@@ -56,4 +56,8 @@ npm install
     RAZORPAY_SECRET= YOUR_RAZORPAY_SECRET
     SESSION_SECRET= SESSION SECRET
    ```
+4. Run this project on your local server by using this command
+   ```
+   npm run dev
+   ```
 

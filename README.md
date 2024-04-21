@@ -30,9 +30,15 @@ Features:
 - Admin: Update Order Status | Delete Order
 - Admin: Add/Update Products
 - Admin: Block user
-- Stock Management
+- Admin: Stock Management
   
 ## Demo
 This website is deployed on Render Please check it out [here](https://ghub-c6o3.onrender.com/) 
 
+## Install
+
+1. Clone the repo using
+```
+git clone https://github.com/Sreesanjay/ghub.git
+```
 

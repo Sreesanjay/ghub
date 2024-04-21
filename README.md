@@ -14,6 +14,13 @@
 
 ## Description
 
-An ecommerce platform that provides a seamless shopping experience for electronic gadget enthusiasts
+An ecommerce platform that provides a seamless shopping experience for electronic gadget enthusiasts.
+Features:
+- Browse Products and Brands: Explore a wide range of products from various brands, all conveniently categorized for easy navigation.
+- Cart and Wishlist: Add your favorite products to your cart for easy checkout, and save items for later in your wishlist.
+- Coupon and Referral Offers: Take advantage of special discounts with coupon offers, and earn rewards through our referral program.
+- Order Tracking: Keep track of your orders every step of the way, from purchase to delivery, with our order tracking feature.
+- Payment Options: Choose from multiple payment methods including Cash on Delivery, Wallet Payments, and secure online payments through Razorpay.
+- Admin Panel: For seamless management, our platform includes an intuitive admin panel where administrators can manage products, users, categories, coupons, banners, and more.
 
 
